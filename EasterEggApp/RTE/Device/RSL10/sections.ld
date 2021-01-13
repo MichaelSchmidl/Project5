@@ -1,17 +1,15 @@
 /* ----------------------------------------------------------------------------
- * Copyright (c) 2015-2017 Semiconductor Components Industries, LLC
- * (d/b/a ON Semiconductor). All Rights Reserved.
+ * Copyright (c) 2019 Semiconductor Components Industries, LLC (d/b/a ON
+ * Semiconductor). All Rights Reserved.
  *
  * This code is the property of ON Semiconductor and may not be redistributed
- * in any form without prior written permission from ON Semiconductor. The
- * terms of use and warranty for this code are covered by contractual
+ * in any form without prior written permission from ON Semiconductor.
+ * The terms of use and warranty for this code are covered by contractual
  * agreements between ON Semiconductor and the licensee.
+
  * ----------------------------------------------------------------------------
- * sections.ld
- * - Simple sections load file
- * ----------------------------------------------------------------------------
- * $Revision: 1.1 $
- * $Date: 2019/07/18 15:49:48 $
+ * fota_sections.ld
+ * - Simple linker script for FOTA applications
  * ------------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------------
@@ -73,7 +71,9 @@ SECTIONS
      * For Cortex-M devices, the beginning of the startup code is stored in
      * the .interrupt_vector section, which goes to FLASH
      */
-    .text :
+    __rom_start = DEFINED(__app_rom_start) ? __app_rom_start : ORIGIN(FLASH);
+    __image_size = __data_init__ + SIZEOF(.data) - __rom_start;
+    .text __rom_start :
     {
         . = ALIGN(4);
         KEEP(*(.interrupt_vector))
@@ -82,7 +82,18 @@ SECTIONS
          * This section is here to store the startup code immediately after
          * the interrupt vectors, as required by the program ROM.
          */
-        KEEP(*(.reset))
+        *(.reset)
+        
+        /*
+         * FOTA BootLoader descriptor
+         */
+        *(.rodata.fota.image-size)
+        KEEP(*(.rodata.fota.build-id))
+        
+        /*
+         * FOTA version descriptor
+         */
+        *(.rodata.boot.version)
 
         /* Pre-initialization Code */
         . = ALIGN(4);
@@ -148,7 +159,8 @@ SECTIONS
      * It is one task of the startup to copy the initial values from
      * FLASH to RAM.
      */
-    .data  : AT ( __data_init__ )
+    __ram_start = DEFINED(__app_ram_start) ? __app_ram_start : .;
+    .data __ram_start : AT ( __data_init__ )
     {
         . = ALIGN(4);
 

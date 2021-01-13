@@ -36,24 +36,19 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_profiles/Release/libbass.a</locationURI>
 		</link>
 		<link>
-			<name>RTE/Device/RSL10/libblelib.a</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_core/Release/libblelib.a</locationURI>
-		</link>
-		<link>
 			<name>RTE/Device/RSL10/libdiss.a</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_profiles/Release/libdiss.a</locationURI>
 		</link>
 		<link>
+			<name>RTE/Device/RSL10/libfota.a</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/Release/libfota.a</locationURI>
+		</link>
+		<link>
 			<name>RTE/Device/RSL10/libhogpd.a</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_profiles/Release/libhogpd.a</locationURI>
-		</link>
-		<link>
-			<name>RTE/Device/RSL10/libkelib.a</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_core/Release/libkelib.a</locationURI>
 		</link>
 		<link>
 			<name>RTE/Device/RSL10/rsl10_flash.c</name>

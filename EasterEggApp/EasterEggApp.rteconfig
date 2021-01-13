@@ -7,15 +7,14 @@
   </device>
   <toolchain Tcompiler="GCC" Toutput="exe"/>
   <components>
-    <component Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Csub="BLE Stack" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
+    <component Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Csub="Fota" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
-      <file category="library" deviceDependent="1" name="lib/ble_core/Release/libblelib.a"/>
-    </component>
-    <component Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Csub="Kernel" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
-      <file category="library" deviceDependent="1" name="lib/ble_core/Release/libkelib.a"/>
+      <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_over_the_air_users_guide.pdf"/>
+      <file category="header" deviceDependent="1" name="include/sys_fota.h"/>
+      <file category="header" deviceDependent="1" name="include/sys_boot.h"/>
+      <file attr="config" category="utility" deviceDependent="1" name="source/firmware/fota/tools/mkfotaimg.py" version="1.0.0"/>
+      <file attr="config" category="utility" deviceDependent="1" name="lib/Release/fota.bin" version="1.0.0"/>
+      <file category="library" deviceDependent="1" name="lib/Release/libfota.a"/>
     </component>
     <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="BASS" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
@@ -85,7 +84,6 @@
       <file category="source" deviceDependent="1" name="source/firmware/syslib/code/rsl10_sys_timers.c"/>
       <file category="source" deviceDependent="1" name="source/firmware/syslib/code/rsl10_sys_uart.c"/>
       <file category="source" deviceDependent="1" name="source/firmware/syslib/code/rsl10_sys_version.c"/>
-      <file attr="config" category="source" condition="Not_FOTA_Condition" deviceDependent="1" name="source/firmware/syslib/code/rsl10_protocol.c" version="3.4.154"/>
     </component>
     <component Cclass="Device" Cgroup="Startup" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>

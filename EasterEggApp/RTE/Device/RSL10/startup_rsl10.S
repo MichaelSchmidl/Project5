@@ -1,17 +1,6 @@
 /* ----------------------------------------------------------------------------
- * Copyright (c) 2015-2017 Semiconductor Components Industries, LLC (d/b/a
- * ON Semiconductor), All Rights Reserved
- *
- * This code is the property of ON Semiconductor and may not be redistributed
- * in any form without prior written permission from ON Semiconductor.
- * The terms of use and warranty for this code are covered by contractual
- * agreements between ON Semiconductor and the licensee.
- *
- * This is Reusable Code.
- *
- * ----------------------------------------------------------------------------
- * startup.s
- * - GCC compatible CMSIS Cortex-M3 Core Device start-up file for the  
+  * startup.S
+ * - GCC compatible CMSIS Cortex-M3 Core Device start-up file for the
  *   ARM Cortex-M3 processor
  *
  * - Assumes the use of CodeSourcery/Mentor Sourcery G++ with its CodeSourcery
@@ -23,46 +12,20 @@
  *   at reset by the Cortex-M3 hardware.  The CS3 _start() function that
  *   Reset_Handler calls will set up the stack pointer again, before calling
  *   __cs3_start_c to initialize the C program's data areas and call main().
- * ----------------------------------------------------------------------------
- * $Revision: 1.3 $
- * $Date: 2017/08/11 10:10:04 $
  * ------------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------------
- * Stack Configuration
+ * Image length field
  * ------------------------------------------------------------------------- */
-    .equ    Stack_Size, 1024  /* Bytes */
-    .section ".stack", "w"
-    .align  3
-    .globl  __stack_mem
-    .globl  __stack_size
-__stack_mem:
-    .if     Stack_Size
-    .space  Stack_Size
-    .endif
-    .size   __stack_mem,  . - __stack_mem
-    .set    __stack_size, . - __stack_mem
 
+    .section ".rodata.fota.image-size"
 
-/* ----------------------------------------------------------------------------
- * Heap Configuration
- * ------------------------------------------------------------------------- */
-    .equ    Heap_Size,  0  /* Bytes - heap is empty by default */
-
-    .section ".heap", "w"
-    .align  3
-    .globl  __heap_start
-    .globl  __heap_end
-__heap_start:
-    .if     Heap_Size
-    .space  Heap_Size
-    .endif
-__heap_end:
-
+image_descriptor:
+    .long   __image_size
+    /* build ID is placed directly after __image_size by the linker */
 
 /* ----------------------------------------------------------------------------
  * Vector Table
- * - Mapped to address 0 at Reset
  * ------------------------------------------------------------------------- */
 
     .section ".interrupt_vector"
@@ -78,8 +41,8 @@ ISR_Vector_Table:
     .long   MemManage_Handler               /*  4 Mem Manage Fault Handler */
     .long   BusFault_Handler                /*  5 Bus Fault Handler */
     .long   UsageFault_Handler              /*  6 Usage Fault Handler */
-    .long   0                               /*  7 Reserved */
-    .long   0                               /*  8 Reserved */
+    .long   Sys_Boot_app_version            /*  7 Pointer to version info */
+    .long   image_descriptor                /*  8 Pointer to image descriptor */
     .long   0                               /*  9 Reserved */
     .long   0                               /* 10 Reserved */
     .long   SVC_Handler                     /* 11 Supervisor Call Handler */
@@ -178,10 +141,9 @@ ISR_Vector_Table:
     .type   Reset_Handler, %function
 Reset_Handler:
     .fnstart
-    MOV R0, SP
-    BFC R0, #2, #1
-    MOV SP, R0
     LDR     R0, =SystemInit
+    BLX     R0
+    LDR     R0, =SystemFotaInit
     BLX     R0
     LDR     R0, =_start
     BX      R0
@@ -255,7 +217,6 @@ SysTick_Handler:
  * Default Interrupt Request Handlers for External Interrupts
  * ------------------------------------------------------------------------- */
 
-    .globl  Default_Handler
     .type   Default_Handler, %function
 Default_Handler:
     B       .

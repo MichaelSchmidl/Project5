@@ -18,12 +18,19 @@
  * ------------------------------------------------------------------------- */
 
 #include "app.h"
+#include "sys_fota.h"
+
+/* ----------------------------------------------------------------------------
+ * Application Version
+ * ------------------------------------------------------------------------- */
+SYS_FOTA_VERSION(VER_ID, VER_MAJOR, VER_MINOR, VER_REVISION);
+
 #include "usb_hid_keys.h"
 static struct on_semi_banner_str on_semi_banner[] =
 {
 	{ KEY_LEFTMETA,  /* WIN */   KEY_MOD_LMETA },
 
-    { KEY_H,         /* h */     KEY_MOD_NONE },
+    { KEY_H,         /* h */     KEY_MOD_LSHIFT },
     { KEY_T,         /* t */     KEY_MOD_NONE },
     { KEY_T,         /* t */     KEY_MOD_NONE },
     { KEY_P,         /* p */     KEY_MOD_NONE },
@@ -224,6 +231,8 @@ int main(void)
 {
     App_Initialize();
 
+//    DFUS_Initialize(); /* Initialize DFU Service Server */
+
     SystemCoreClockUpdate();
 
     /* Main application loop:
@@ -261,6 +270,12 @@ int main(void)
                 Send_Keystroke(on_semi_banner[act_key].key,
                                on_semi_banner[act_key].mod);
             }
+        }
+
+        /* Start Update when button is pressed */
+        if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
+        {
+        	Sys_Fota_StartDfu(1);
         }
 
         /* Refresh the watchdog timer */
