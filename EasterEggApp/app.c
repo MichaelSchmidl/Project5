@@ -20,6 +20,8 @@
 #include "app.h"
 #include "sys_fota.h"
 
+DRIVER_GPIO_t *gpio;
+
 /* ----------------------------------------------------------------------------
  * Application Version
  * ------------------------------------------------------------------------- */
@@ -30,7 +32,7 @@ static struct on_semi_banner_str on_semi_banner[] =
 {
 	{ KEY_LEFTMETA,  /* WIN */   KEY_MOD_LMETA },
 
-    { KEY_H,         /* h */     KEY_MOD_LSHIFT },
+    { KEY_H,         /* h */     KEY_MOD_NONE },
     { KEY_T,         /* t */     KEY_MOD_NONE },
     { KEY_T,         /* t */     KEY_MOD_NONE },
     { KEY_P,         /* p */     KEY_MOD_NONE },
@@ -67,98 +69,34 @@ static uint32_t on_semi_banner_size = \
 static uint32_t act_key = 0;
 
 /* ----------------------------------------------------------------------------
- * Function      : void DIO0_IRQHandler(void)
+ * Function      : void Button_EventCallback(void)
  * ----------------------------------------------------------------------------
- * Description   : Start the transactions
+ * Description   : This function is a callback registered by the function
+ *                 Initialize. Based on event argument different actions are
+ *                 executed.
  * Inputs        : None
  * Outputs       : None
  * Assumptions   : None
  * ------------------------------------------------------------------------- */
-void DIO0_IRQHandler(void)
+void TouchButtons_EventCallback(uint32_t event)
 {
-    static uint8_t ignore_next_dio_int = 0;
+    static bool ignore_next_dio_int = false;
     if (ignore_next_dio_int)
     {
-        ignore_next_dio_int = 0;
+        ignore_next_dio_int = false;
     }
-    else if (DIO_DATA->ALIAS[BUTTON_DIO] == 0)
+    /* Button is pressed: Ignore next interrupt.
+     * This is required to deal with the debounce circuit limitations. */
+    else if (event == GPIO_EVENT_0_IRQ)
     {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
+//braucht man als Callback scheinbar nicht		    ignore_next_dio_int = true;
 
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
-    }
-    else if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
-    {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
-
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
-    }
-    else if (DIO_DATA->ALIAS[BUTTON3_DIO] == 0)
-    {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
-
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
+		    /* Set the key status */
+		    app_env.key_pushed = true;
+		    app_env.key_state = KEY_PUSH;
     }
 }
 
-/* ----------------------------------------------------------------------------
- * Function      : void DIO0_IRQHandler(void)
- * ----------------------------------------------------------------------------
- * Description   : Start the transactions
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void DIO1_IRQHandler(void)
-{
-    static uint8_t ignore_next_dio_int = 0;
-    if (ignore_next_dio_int)
-    {
-        ignore_next_dio_int = 0;
-    }
-    else if (DIO_DATA->ALIAS[BUTTON_DIO] == 0)
-    {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
-
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
-    }
-    else if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
-    {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
-
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
-    }
-    else if (DIO_DATA->ALIAS[BUTTON3_DIO] == 0)
-    {
-        /* Button is pressed: Ignore next interrupt.
-         * This is required to deal with the de-bounce circuit limitations. */
-        ignore_next_dio_int = 1;
-
-        /* Set the key status */
-        app_env.key_pushed = true;
-        app_env.key_state = KEY_PUSH;
-    }
-}
 
 /* ----------------------------------------------------------------------------
  * Function      : void Restart_Keystroke_Env(void)

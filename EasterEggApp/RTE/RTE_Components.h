@@ -13,5 +13,7 @@
 */
 #define CMSIS_device_header "rsl10.h"
 
+/* ONSemiconductor::Device.Libraries.GPIO.source */
+#define RTECFG_GPIO
 
 #endif /* RTE_COMPONENTS_H */

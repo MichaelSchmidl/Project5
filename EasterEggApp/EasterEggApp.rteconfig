@@ -40,6 +40,13 @@
       <file category="header" deviceDependent="1" name="include/rsl10_flash.h"/>
       <file category="source" deviceDependent="1" name="source/firmware/flashlib/code/rsl10_flash.c"/>
     </component>
+    <component Cclass="Device" Cgroup="Libraries" Csub="GPIO" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+      <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
+      <file category="header" deviceDependent="1" name="source/firmware/drivers/gpio_driver/include/Driver_GPIO.h"/>
+      <file category="header" deviceDependent="1" name="source/firmware/drivers/gpio_driver/include/GPIO_RSLxx.h"/>
+      <file category="source" deviceDependent="1" name="source/firmware/drivers/gpio_driver/source/GPIO_RSLxx.c"/>
+    </component>
     <component Cclass="Device" Cgroup="Libraries" Csub="System" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>

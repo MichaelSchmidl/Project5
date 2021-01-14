@@ -54,13 +54,15 @@ extern "C"
 #include "ble_sec.h"
 #include "ble_hogpd.h"
 
+#include <GPIO_RSLxx.h>
+
 /* ----------------------------------------------------------------------------
 * Application Version
 * ------------------------------------------------------------------------- */
 #define VER_ID                  "EEAPP "
 #define VER_MAJOR               0
 #define VER_MINOR               0
-#define VER_REVISION            3
+#define VER_REVISION            4
 
 /* ----------------------------------------------------------------------------
  * Defines
@@ -235,6 +237,9 @@ extern struct app_env_tag app_env;
 /* List of functions used to create the database */
 extern const appm_add_svc_func_t appm_add_svc_func_list[];
 
+extern DRIVER_GPIO_t Driver_GPIO;
+extern DRIVER_GPIO_t *gpio;
+
 /* ---------------------------------------------------------------------------
 * Function prototype definitions
 * --------------------------------------------------------------------------*/
@@ -256,12 +261,11 @@ extern int Msg_Handler(ke_msg_id_t const msgid, void *param,
                        ke_task_id_t const dest_id,
                        ke_task_id_t const src_id);
 
-extern void DIO0_IRQHandler(void);
-extern void DIO1_IRQHandler(void);
-
 extern void Restart_Keystroke_Env(void);
 
 extern void Update_Keystroke_Env(void);
+
+void TouchButtons_EventCallback(uint32_t event);
 
 /* ----------------------------------------------------------------------------
  * Close the 'extern "C"' block
