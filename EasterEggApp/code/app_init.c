@@ -105,28 +105,10 @@ void App_Initialize(void)
 
     /* Configure DIOs */
     Sys_DIO_Config(LED_DIO_NUM, DIO_MODE_GPIO_OUT_0);
-
-    Sys_DIO_Config(BUTTON2_DIO, DIO_MODE_GPIO_IN_0 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
-    Sys_DIO_Config(BUTTON3_DIO, DIO_MODE_GPIO_IN_0 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
-
-#if 0
-    Sys_DIO_Config(BUTTON_DIO, DIO_MODE_GPIO_IN_0 | DIO_WEAK_PULL_UP |
-                   DIO_LPF_DISABLE);
-    Sys_DIO_Config(BUTTON2_DIO, DIO_MODE_GPIO_IN_0 | DIO_WEAK_PULL_UP |
-                   DIO_LPF_DISABLE);
-    Sys_DIO_Config(BUTTON3_DIO, DIO_MODE_GPIO_IN_0 | DIO_WEAK_PULL_UP |
-                   DIO_LPF_DISABLE);
-
-    Sys_DIO_IntConfig(0, DIO_EVENT_TRANSITION | DIO_SRC(BUTTON_DIO) |
-                      DIO_DEBOUNCE_ENABLE,
-                      DIO_DEBOUNCE_SLOWCLK_DIV1024, 49);
-    Sys_DIO_IntConfig(2, DIO_EVENT_TRANSITION | DIO_SRC(BUTTON2_DIO) |
-                      DIO_DEBOUNCE_ENABLE,
-                      DIO_DEBOUNCE_SLOWCLK_DIV1024, 49);
-    Sys_DIO_IntConfig(1, DIO_EVENT_TRANSITION | DIO_SRC(BUTTON3_DIO) |
-                      DIO_DEBOUNCE_ENABLE,
-                      DIO_DEBOUNCE_SLOWCLK_DIV1024, 49);
-#endif
+    Sys_DIO_Config(DEBUG_DIO_NUM, DIO_MODE_GPIO_OUT_0);
+    Sys_DIO_Config(BUTTON2_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
+    Sys_DIO_Config(BUTTON3_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
+    Sys_DIO_Config(RC5_DIO_NUM,  DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
 
 
     /* Initialize the baseband and BLE stack */
@@ -142,16 +124,21 @@ void App_Initialize(void)
     gpio = &Driver_GPIO;
 
     /* Initialize gpio driver */
-    gpio->Initialize(TouchButtons_EventCallback);
+    gpio->Initialize(GPIOirq_EventCallback);
+
+    /* Configure timer[0] in free run mode.
+     * - Force multi-count to 8 in order to show that field is not active */
+    Sys_Timer_Set_Control(0, (TIMER_MULTI_COUNT_8 |
+                              TIMER_FREE_RUN      |
+                              TIMER_SLOWCLK_DIV2  |
+                              TIMER_PRESCALE_1)   | 222); // at little bit slower then 445us
+
+    NVIC_EnableIRQ(TIMER0_IRQn);
+
 
     /* Stop masking interrupts */
     __set_PRIMASK(PRIMASK_ENABLE_INTERRUPTS);
     __set_FAULTMASK(FAULTMASK_ENABLE_INTERRUPTS);
-
-#if 0
-    /* Enable interrupts */
-    NVIC_EnableIRQ(DIO0_IRQn);
-#endif
 }
 
 /* ----------------------------------------------------------------------------

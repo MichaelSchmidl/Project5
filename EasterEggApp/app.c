@@ -68,8 +68,50 @@ static uint32_t on_semi_banner_size = \
     sizeof(struct on_semi_banner_str);
 static uint32_t act_key = 0;
 
+#define MAX_RC5_SAMPLES (3 + (13*4))
+static uint8_t RC5_sampleCounter = 0;
+static uint32_t RC5_val = 0;
+
+static void RC5_sampleFunc( void )
+{
+    if ( 1 == (RC5_sampleCounter % 4) )
+    {
+    	RC5_val <<= 1;
+        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
+        if ( 0 == DIO_DATA->ALIAS[RC5_DIO_NUM] )
+        {
+            RC5_val |= 1;
+        }
+        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
+    }
+    if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
+    {
+		Sys_Timers_Stop( SELECT_TIMER0 );
+		RC5_sampleCounter = 0;
+		RC5_val = 0;
+    }
+    else
+    {
+        RC5_sampleCounter++;
+    }
+}
+
+
 /* ----------------------------------------------------------------------------
- * Function      : void Button_EventCallback(void)
+ * Function      : void TIMER0_IRQHandler(void)
+ * ----------------------------------------------------------------------------
+ * Description   : timer0 interrupt configured in free run mode
+ * Inputs        : None
+ * Outputs       : None
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+void TIMER0_IRQHandler(void)
+{
+	RC5_sampleFunc();
+}
+
+/* ----------------------------------------------------------------------------
+ * Function      : void GPIOirq_EventCallback(void)
  * ----------------------------------------------------------------------------
  * Description   : This function is a callback registered by the function
  *                 Initialize. Based on event argument different actions are
@@ -78,22 +120,30 @@ static uint32_t act_key = 0;
  * Outputs       : None
  * Assumptions   : None
  * ------------------------------------------------------------------------- */
-void TouchButtons_EventCallback(uint32_t event)
+void GPIOirq_EventCallback(uint32_t event)
 {
-    static bool ignore_next_dio_int = false;
-    if (ignore_next_dio_int)
+    switch ( event )
     {
-        ignore_next_dio_int = false;
-    }
-    /* Button is pressed: Ignore next interrupt.
-     * This is required to deal with the debounce circuit limitations. */
-    else if (event == GPIO_EVENT_0_IRQ)
-    {
-//braucht man als Callback scheinbar nicht		    ignore_next_dio_int = true;
-
+    	case GPIO_EVENT_0_IRQ:
 		    /* Set the key status */
 		    app_env.key_pushed = true;
 		    app_env.key_state = KEY_PUSH;
+		    break;
+    	case GPIO_EVENT_1_IRQ:
+#if 1
+    		if ( 0 == RC5_sampleCounter )
+    		{
+        		Sys_Timers_Start( SELECT_TIMER0 );
+        		RC5_sampleFunc();
+    		}
+#else
+    		Sys_Timers_Stop( SELECT_TIMER0 );
+    		RC5_sampleFunc();
+    		Sys_Timers_Start( SELECT_TIMER0 );
+#endif
+		    break;
+    	default:
+    		break;
     }
 }
 

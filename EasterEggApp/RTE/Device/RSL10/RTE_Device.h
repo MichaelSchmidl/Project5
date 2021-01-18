@@ -1216,7 +1216,7 @@
 // <i> Enabled GPIO0 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO0_EN
- #define RTE_GPIO0_EN       0
+ #define RTE_GPIO0_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1276,7 +1276,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO0_IOMODE_DEFAULT
- #define RTE_GPIO0_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO0_IOMODE_DEFAULT   0x001
 #endif
 // </e>
 // <e>GPIO 1 configure
@@ -2385,7 +2385,7 @@
 //   <i> Defines the DIO1 interrupt source
 //   <i> Default: GPIO 1
 #ifndef RTE_GPIO_DIO1_SRC_DEFAULT
- #define RTE_GPIO_DIO1_SRC_DEFAULT   1
+ #define RTE_GPIO_DIO1_SRC_DEFAULT   0
 #endif
 //   <o>Trigger event
 //       <0x0=> none           <0x1=> high level      <0x2=> low level
@@ -2393,7 +2393,7 @@
 //   <i> Defines the interrupt trigger event
 //   <i> Default: rising edge
 #ifndef RTE_GPIO_DIO1_TRG_DEFAULT
- #define RTE_GPIO_DIO1_TRG_DEFAULT   3
+ #define RTE_GPIO_DIO1_TRG_DEFAULT   4
 #endif
 //   <o>Debounce filter
 //       <0x0=> disabled
@@ -3458,7 +3458,7 @@
 //   <i> Defines the timer clock source
 //   <i> Default: SLOWCLOCK DIV32
 #ifndef RTE_TIMER0_CLKSRC_DEFAULT
- #define RTE_TIMER0_CLKSRC_DEFAULT   0
+ #define RTE_TIMER0_CLKSRC_DEFAULT   1
 #endif
 //   <o>prescale
 //       <0x0=> 1

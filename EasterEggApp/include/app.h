@@ -123,15 +123,13 @@ extern "C"
 /* Maximum battery level */
 #define BAT_LVL_MAX                     100
 
-/* DIO number that is connected to LED of EVB */
-#define LED_DIO_NUM                     6
-
-/* DIO number that is connected to push button of EVB */
-#define BUTTON_DIO                      5
+/* DIO numbers we use */
+#define RC5_DIO_NUM                     0
 #define BUTTON2_DIO                     2
 #define BUTTON3_DIO                     3
-
-/* DIO number that is used for easy re-flashing (recovery mode) */
+#define DEBUG_DIO_NUM                   4
+#define BUTTON_DIO                      5
+#define LED_DIO_NUM                     6
 #define RECOVERY_DIO                    12
 
 /* Output power */
@@ -265,7 +263,7 @@ extern void Restart_Keystroke_Env(void);
 
 extern void Update_Keystroke_Env(void);
 
-void TouchButtons_EventCallback(uint32_t event);
+void GPIOirq_EventCallback(uint32_t event);
 
 /* ----------------------------------------------------------------------------
  * Close the 'extern "C"' block
