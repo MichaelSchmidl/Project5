@@ -29,7 +29,7 @@
 //   <i> Defines if DMA driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_DMA
- #define RTE_DMA     0
+ #define RTE_DMA     1
 #endif
 // <e>DMA 0 enabled
 // ===============================
@@ -1699,7 +1699,7 @@
 // <i> Enabled GPIO7 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO7_EN
- #define RTE_GPIO7_EN       0
+ #define RTE_GPIO7_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1759,7 +1759,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO7_IOMODE_DEFAULT
- #define RTE_GPIO7_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO7_IOMODE_DEFAULT   0x00B
 #endif
 // </e>
 // <e>GPIO 8 configure
@@ -1768,7 +1768,7 @@
 // <i> Enabled GPIO8 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO8_EN
- #define RTE_GPIO8_EN       0
+ #define RTE_GPIO8_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1828,7 +1828,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO8_IOMODE_DEFAULT
- #define RTE_GPIO8_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO8_IOMODE_DEFAULT   0x00A
 #endif
 // </e>
 // <e>GPIO 9 configure
@@ -1837,7 +1837,7 @@
 // <i> Enabled GPIO9 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO9_EN
- #define RTE_GPIO9_EN       0
+ #define RTE_GPIO9_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1897,7 +1897,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO9_IOMODE_DEFAULT
- #define RTE_GPIO9_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO9_IOMODE_DEFAULT   0x009
 #endif
 // </e>
 // <e>GPIO 10 configure
@@ -1906,7 +1906,7 @@
 // <i> Enabled GPIO10 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO10_EN
- #define RTE_GPIO10_EN       0
+ #define RTE_GPIO10_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1966,7 +1966,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO10_IOMODE_DEFAULT
- #define RTE_GPIO10_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO10_IOMODE_DEFAULT   0x200
 #endif
 // </e>
 // <e>GPIO 11 configure
@@ -2113,7 +2113,7 @@
 // <i> Enabled GPIO13 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO13_EN
- #define RTE_GPIO13_EN       0
+ #define RTE_GPIO13_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2173,7 +2173,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO13_IOMODE_DEFAULT
- #define RTE_GPIO13_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO13_IOMODE_DEFAULT   0x012
 #endif
 // </e>
 // <e>GPIO 14 configure
@@ -2770,7 +2770,7 @@
 //   <i> Defines if PWM driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_PWM
- #define RTE_PWM     0
+ #define RTE_PWM     1
 #endif
 // <e>PWM0 enable
 // ===============================
@@ -2792,7 +2792,7 @@
 //   <i> Defines the dio pad which should be used for the PWM0
 //   <i> Default: 6
 #ifndef RTE_PWM0_DIO_PIN
- #define RTE_PWM0_DIO_PIN   6
+ #define RTE_PWM0_DIO_PIN   13
 #endif
 //   <o>PWM0 period [cycles] <0-255>
 //   <i> Defines the PWM0 period
@@ -3056,7 +3056,7 @@
 //   <i> Defines if SPI0 driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_SPI0
- #define RTE_SPI0       0
+ #define RTE_SPI0       1
 #endif
 //   <e>SPI0 auto configuration
 // ===============================

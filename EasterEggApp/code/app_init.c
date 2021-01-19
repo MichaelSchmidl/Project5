@@ -18,6 +18,8 @@
  * ------------------------------------------------------------------------- */
 
 #include "app.h"
+#include "RC5receiver.h"
+#include "TLC5955drv.h"
 
 /* Application Environment Structure */
 struct app_env_tag app_env;
@@ -92,6 +94,7 @@ void App_Initialize(void)
     /* Configure clock dividers */
     CLK->DIV_CFG0 = (SLOWCLK_PRESCALE_8 | BBCLK_PRESCALE_1 |
                      USRCLK_PRESCALE_1);
+    CLK->DIV_CFG1 = (PWM0CLK_PRESCALE_2_BYTE);
     CLK->DIV_CFG2 = (CPCLK_PRESCALE_8 | DCCLK_PRESCALE_2);
 
     BBIF->CTRL = (BB_CLK_ENABLE | BBCLK_DIVIDER_8 | BB_WAKEUP);
@@ -126,15 +129,9 @@ void App_Initialize(void)
     /* Initialize gpio driver */
     gpio->Initialize(GPIOirq_EventCallback);
 
-    /* Configure timer[0] in free run mode.
-     * - Force multi-count to 8 in order to show that field is not active */
-    Sys_Timer_Set_Control(0, (TIMER_MULTI_COUNT_8 |
-                              TIMER_FREE_RUN      |
-                              TIMER_SLOWCLK_DIV2  |
-                              TIMER_PRESCALE_1)   | 222); // at little bit slower then 445us
-
-    NVIC_EnableIRQ(TIMER0_IRQn);
-
+    // setup out own hardware components
+    RC5_init();
+    TLC5955drv_init();
 
     /* Stop masking interrupts */
     __set_PRIMASK(PRIMASK_ENABLE_INTERRUPTS);

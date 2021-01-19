@@ -130,7 +130,12 @@ extern "C"
 #define DEBUG_DIO_NUM                   4
 #define BUTTON_DIO                      5
 #define LED_DIO_NUM                     6
+#define SCLK_DIO_NUM                    7
+#define SS_DIO_NUM                      8
+#define MOSI_DIO_NUM                    9
+#define MISO_DIO_NUM                    10
 #define RECOVERY_DIO                    12
+#define PWM_DIO_NUM                     13
 
 /* Output power */
 #define OUTPUT_POWER_DBM                0

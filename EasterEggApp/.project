@@ -26,14 +26,29 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>RTE/CMSIS_Driver/SPI_RSLxx.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/source/SPI_RSLxx.c</locationURI>
+		</link>
+		<link>
 			<name>RTE/Device/stubprf.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/ble_abstraction_layer/ble/source/stubprf.c</locationURI>
 		</link>
 		<link>
+			<name>RTE/Device/RSL10/DMA_RSLxx.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/source/DMA_RSLxx.c</locationURI>
+		</link>
+		<link>
 			<name>RTE/Device/RSL10/GPIO_RSLxx.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/source/GPIO_RSLxx.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/Device/RSL10/PWM_RSLxx.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/source/PWM_RSLxx.c</locationURI>
 		</link>
 		<link>
 			<name>RTE/Device/RSL10/libbass.a</name>

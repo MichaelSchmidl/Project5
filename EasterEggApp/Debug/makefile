@@ -11,6 +11,7 @@ RM := rm -rf
 -include code/subdir.mk
 -include RTE/Device/RSL10/subdir.mk
 -include RTE/Device/subdir.mk
+-include RTE/CMSIS_Driver/subdir.mk
 -include subdir.mk
 -include objects.mk
 

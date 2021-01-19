@@ -48,22 +48,30 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1944888753" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.systempaths.613125931" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.systempaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -72,12 +80,16 @@
 							<tool command="${cross_prefix}${cross_c}${cross_suffix}" commandLinePattern="${COMMAND} ${cross_toolchain_flags} ${FLAGS} -c ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1048313393" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1492019569" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -105,12 +117,16 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.systempaths.1466543834" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.systempaths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -121,22 +137,30 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.954852263" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.systempaths.1800124227" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.systempaths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -294,22 +318,30 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.400911326" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.systempaths.482119075" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.systempaths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -318,12 +350,16 @@
 							<tool command="${cross_prefix}${cross_c}${cross_suffix}" commandLinePattern="${COMMAND} ${cross_toolchain_flags} ${FLAGS} -c ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GCCErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.966970871" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1503588662" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -351,12 +387,16 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.systempaths.1137148190" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.systempaths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
@@ -367,22 +407,30 @@
 									<listOptionValue builtIn="false" value="_RTE_"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.796238599" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.systempaths.1928466259" name="Include system paths (-isystem)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.systempaths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ARM/CMSIS/5.6.0/CMSIS/Driver/Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/bb&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/ble/profiles&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/include/kernel&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}/RTE/Device/RSL10&quot;"/>
 								</option>

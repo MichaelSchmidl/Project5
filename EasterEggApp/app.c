@@ -19,6 +19,7 @@
 
 #include "app.h"
 #include "sys_fota.h"
+#include "code/RC5receiver.h"
 
 DRIVER_GPIO_t *gpio;
 
@@ -68,48 +69,6 @@ static uint32_t on_semi_banner_size = \
     sizeof(struct on_semi_banner_str);
 static uint32_t act_key = 0;
 
-#define MAX_RC5_SAMPLES (3 + (13*4))
-static uint8_t RC5_sampleCounter = 0;
-static uint32_t RC5_val = 0;
-
-static void RC5_sampleFunc( void )
-{
-    if ( 1 == (RC5_sampleCounter % 4) )
-    {
-    	RC5_val <<= 1;
-        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
-        if ( 0 == DIO_DATA->ALIAS[RC5_DIO_NUM] )
-        {
-            RC5_val |= 1;
-        }
-        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
-    }
-    if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
-    {
-		Sys_Timers_Stop( SELECT_TIMER0 );
-		RC5_sampleCounter = 0;
-		RC5_val = 0;
-    }
-    else
-    {
-        RC5_sampleCounter++;
-    }
-}
-
-
-/* ----------------------------------------------------------------------------
- * Function      : void TIMER0_IRQHandler(void)
- * ----------------------------------------------------------------------------
- * Description   : timer0 interrupt configured in free run mode
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void TIMER0_IRQHandler(void)
-{
-	RC5_sampleFunc();
-}
-
 /* ----------------------------------------------------------------------------
  * Function      : void GPIOirq_EventCallback(void)
  * ----------------------------------------------------------------------------
@@ -130,17 +89,7 @@ void GPIOirq_EventCallback(uint32_t event)
 		    app_env.key_state = KEY_PUSH;
 		    break;
     	case GPIO_EVENT_1_IRQ:
-#if 1
-    		if ( 0 == RC5_sampleCounter )
-    		{
-        		Sys_Timers_Start( SELECT_TIMER0 );
-        		RC5_sampleFunc();
-    		}
-#else
-    		Sys_Timers_Stop( SELECT_TIMER0 );
-    		RC5_sampleFunc();
-    		Sys_Timers_Start( SELECT_TIMER0 );
-#endif
+    		RC5_SignalChangeDetected();
 		    break;
     	default:
     		break;

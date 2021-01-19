@@ -17,6 +17,7 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+RTE/CMSIS_Driver \
 RTE/Device/RSL10 \
 RTE/Device \
 . \
