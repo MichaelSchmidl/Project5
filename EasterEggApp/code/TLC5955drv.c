@@ -11,19 +11,16 @@
 #include <GPIO_RSLxx.h>
 #include <SPI_RSLxx.h>
 
-#define GSCLK_PWM_NUM PWM_0
-
-//static DRIVER_PWM_t *pwm;
-//extern DRIVER_PWM_t Driver_PWM;
-
 static ARM_DRIVER_SPI *spi0;
 extern ARM_DRIVER_SPI Driver_SPI0;
 
-uint8_t spi0_tx_buffer[] __attribute__ ((aligned(4))) = "RSL10 SPI TEST";
-uint8_t spi1_tx_buffer[] __attribute__ ((aligned(4))) = "RSL10 SPI TEST";
+uint8_t spi0_tx_buffer[] __attribute__ ((aligned(4))) = "EasterEgg_KBD TEST";
 uint8_t spi0_rx_buffer[sizeof(spi0_tx_buffer)] __attribute__ ((aligned(4)));
-uint8_t spi1_rx_buffer[sizeof(spi0_tx_buffer)] __attribute__ ((aligned(4)));
 size_t buff_size = sizeof(spi0_tx_buffer);
+
+// function prototype
+void SPI0_Master_CallBack(uint32_t event);
+
 
 /* ----------------------------------------------------------------------------
  * Function      : void SPI0_Master_CallBack(uint32_t event)
@@ -81,9 +78,33 @@ static void _initSPI( void )
 }
 
 
-void TLC5955drv_init( void )
+int32_t TLC5955drv_refresh( void )
+{
+	int32_t ret = ARM_DRIVER_ERROR;
+    /* Activate SSEL line and start transfer on SPI0/master */
+    ret = spi0->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE);
+    if ( ARM_DRIVER_OK == ret )
+    {
+        ret = spi0->Transfer(spi0_tx_buffer, spi0_rx_buffer, buff_size);
+    }
+    return ret;
+}
+
+
+void TLC5955drv_start( void )
 {
 	_startGSCLK();
-	_initSPI();
+}
 
+
+void TLC5955drv_stop( void )
+{
+	_stopGSCLK();
+}
+
+
+void TLC5955drv_init( void )
+{
+	_initSPI();
+	_stopGSCLK();
 }

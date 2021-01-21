@@ -17,10 +17,13 @@ extern "C"
 {
 #endif    /* ifdef __cplusplus */
 
+#include <stdint.h>
 #include <rsl10.h>
 
 void TLC5955drv_init( void );
-void SPI0_Master_CallBack(uint32_t event);
+int32_t TLC5955drv_refresh( void );
+void TLC5955drv_start( void );
+void TLC5955drv_stop( void );
 
 /* ----------------------------------------------------------------------------
  * Close the 'extern "C"' block

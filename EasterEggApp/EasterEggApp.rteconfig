@@ -46,12 +46,6 @@
       <file category="header" deviceDependent="1" name="source/firmware/drivers/dma_driver/include/DMA_RSLxx.h"/>
       <file category="source" deviceDependent="1" name="source/firmware/drivers/dma_driver/source/DMA_RSLxx.c"/>
     </component>
-    <component Cclass="Device" Cgroup="Libraries" Csub="Flash" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
-      <file category="header" deviceDependent="1" name="include/rsl10_flash.h"/>
-      <file category="source" deviceDependent="1" name="source/firmware/flashlib/code/rsl10_flash.c"/>
-    </component>
     <component Cclass="Device" Cgroup="Libraries" Csub="GPIO" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
@@ -114,6 +108,19 @@
       <file attr="config" category="source" condition="GCC_Condition" deviceDependent="1" name="source/firmware/cmsis/source/GCC/startup_rsl10.S" version="1.0.0"/>
       <file attr="config" category="linkerScript" condition="GCC_Condition" deviceDependent="1" name="source/firmware/cmsis/source/GCC/sections.ld" version="1.0.0"/>
       <file attr="config" category="header" deviceDependent="1" name="source/firmware/drivers/RTE_config/RTE_Device.h" version="1.0.0"/>
+    </component>
+    <component Cclass="Utility" Cgroup="IO" Csub="Printf wrapper" Cvendor="ONSemiconductor" Cversion="3.4.154">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+      <file category="header" name="source/firmware/printf/printf.h"/>
+      <file category="source" name="source/firmware/printf/printf.c"/>
+    </component>
+    <component Cclass="Utility" Cgroup="IO" Csub="SEGGER RTT" Cvendor="ONSemiconductor" Cversion="3.4.154">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+      <file category="header" name="source/firmware/rtt/SEGGER_RTT.h"/>
+      <file attr="config" category="header" name="source/firmware/rtt/SEGGER_RTT_Conf.h" version="1.0.0"/>
+      <file category="source" name="source/firmware/rtt/SEGGER_RTT.c"/>
+      <file category="source" name="source/firmware/rtt/SEGGER_RTT_printf.c"/>
+      <file category="source" condition="GCC_ARM_IAR_Condition" name="source/firmware/rtt/SEGGER_RTT_ASM_ARMv7M.S"/>
     </component>
   </components>
   <apis>

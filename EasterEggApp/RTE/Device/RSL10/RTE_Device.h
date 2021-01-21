@@ -3062,7 +3062,7 @@
 // ===============================
 //
 #ifndef RTE_SPI0_CFG_EN_DEFAULT
- #define RTE_SPI0_CFG_EN_DEFAULT   0
+ #define RTE_SPI0_CFG_EN_DEFAULT   1
 #endif
 //   <o>Mode selection
 //       <0x0=> inactive
@@ -3153,7 +3153,7 @@
 //   <i> Defines gpio pad number to be used as the sclk line.
 //   <i> Default: 0
 #ifndef RTE_SPI0_SCLK_PIN_DEFAULT
- #define RTE_SPI0_SCLK_PIN_DEFAULT  9
+ #define RTE_SPI0_SCLK_PIN_DEFAULT  7
 #endif
 //   <o>SSEL pin
 //       <0x0=> 0
@@ -3175,7 +3175,7 @@
 //   <i> Defines gpio pad number to be used as the ssel line.
 //   <i> Default: 1
 #ifndef RTE_SPI0_SSEL_PIN_DEFAULT
- #define RTE_SPI0_SSEL_PIN_DEFAULT  10
+ #define RTE_SPI0_SSEL_PIN_DEFAULT  8
 #endif
 //   <o>MISO pin
 //       <0x0=> 0
@@ -3197,7 +3197,7 @@
 //   <i> Defines gpio pad number to be used as the miso line.
 //   <i> Default: 2
 #ifndef RTE_SPI0_MISO_PIN_DEFAULT
- #define RTE_SPI0_MISO_PIN_DEFAULT  0
+ #define RTE_SPI0_MISO_PIN_DEFAULT  9
 #endif
 //   <o>MOSI pin
 //       <0x0=> 0
@@ -3219,7 +3219,7 @@
 //   <i> Defines gpio pad number to be used as the mosi line.
 //   <i> Default: 3
 #ifndef RTE_SPI0_MOSI_PIN_DEFAULT
- #define RTE_SPI0_MOSI_PIN_DEFAULT  12
+ #define RTE_SPI0_MOSI_PIN_DEFAULT  10
 #endif
 // </h>
 // <h>SPI0 Interrupt priority configuration

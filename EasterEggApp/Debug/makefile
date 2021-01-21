@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include code/subdir.mk
+-include RTE/Utility/subdir.mk
 -include RTE/Device/RSL10/subdir.mk
 -include RTE/Device/subdir.mk
 -include RTE/CMSIS_Driver/subdir.mk

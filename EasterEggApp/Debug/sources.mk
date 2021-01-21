@@ -20,6 +20,7 @@ SUBDIRS := \
 RTE/CMSIS_Driver \
 RTE/Device/RSL10 \
 RTE/Device \
+RTE/Utility \
 . \
 code \
 

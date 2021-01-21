@@ -19,7 +19,8 @@
 
 #include "app.h"
 #include "sys_fota.h"
-#include "code/RC5receiver.h"
+#include "RC5receiver.h"
+#include "TLC5955drv.h"
 
 DRIVER_GPIO_t *gpio;
 
@@ -168,8 +169,6 @@ int main(void)
 {
     App_Initialize();
 
-//    DFUS_Initialize(); /* Initialize DFU Service Server */
-
     SystemCoreClockUpdate();
 
     /* Main application loop:
@@ -178,6 +177,7 @@ int main(void)
      * - Refresh the watchdog and wait for an event before continuing
      * - Check for the custom services
      */
+    TLC5955drv_start();
     while (1)
     {
         Kernel_Schedule();
