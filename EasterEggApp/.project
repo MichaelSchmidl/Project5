@@ -46,11 +46,6 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/gpio_driver/source/GPIO_RSLxx.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Device/RSL10/PWM_RSLxx.c</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/pwm_driver/source/PWM_RSLxx.c</locationURI>
-		</link>
-		<link>
 			<name>RTE/Device/RSL10/libbass.a</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/lib/ble_profiles/Release/libbass.a</locationURI>

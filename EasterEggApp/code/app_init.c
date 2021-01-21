@@ -106,13 +106,16 @@ void App_Initialize(void)
                               (ADC_NEG_INPUT_GND |
                                ADC_POS_INPUT_VBAT_DIV2));
 
+    // enable DIO13/DIO14/DIO15 as GPIOs
+    DIO_JTAG_SW_PAD_CFG->CM3_JTAG_TRST_EN_ALIAS = CM3_JTAG_TRST_DISABLED_BITBAND;
+    DIO_JTAG_SW_PAD_CFG->CM3_JTAG_DATA_EN_ALIAS = CM3_JTAG_DATA_DISABLED_BITBAND;
+
     /* Configure DIOs */
     Sys_DIO_Config(LED_DIO_NUM, DIO_MODE_GPIO_OUT_0);
     Sys_DIO_Config(DEBUG_DIO_NUM, DIO_MODE_GPIO_OUT_0);
     Sys_DIO_Config(BUTTON2_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
     Sys_DIO_Config(BUTTON3_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
     Sys_DIO_Config(RC5_DIO_NUM,  DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
-
 
     /* Initialize the baseband and BLE stack */
     BLE_Initialize();

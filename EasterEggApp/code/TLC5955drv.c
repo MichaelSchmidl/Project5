@@ -8,14 +8,13 @@
 #include "TLC5955drv.h"
 #include "app.h"
 #include <RTE_Device.h>
-#include <PWM_RSLxx.h>
 #include <GPIO_RSLxx.h>
 #include <SPI_RSLxx.h>
 
 #define GSCLK_PWM_NUM PWM_0
 
-static DRIVER_PWM_t *pwm;
-extern DRIVER_PWM_t Driver_PWM;
+//static DRIVER_PWM_t *pwm;
+//extern DRIVER_PWM_t Driver_PWM;
 
 static ARM_DRIVER_SPI *spi0;
 extern ARM_DRIVER_SPI Driver_SPI0;
@@ -60,11 +59,15 @@ void SPI0_Master_CallBack(uint32_t event)
 }
 
 
-static void _initGSCLK( void )
+static void _startGSCLK( void )
 {
-    pwm = &Driver_PWM;
-    pwm->Initialize();
-    pwm->SetDutyCycle(GSCLK_PWM_NUM, 50);
+    Sys_DIO_Config(GSCLK_DIO_NUM, DIO_MODE_SYSCLK | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
+}
+
+
+static void _stopGSCLK( void )
+{
+    Sys_DIO_Config(GSCLK_DIO_NUM, DIO_MODE_GPIO_OUT_0 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
 }
 
 
@@ -80,8 +83,7 @@ static void _initSPI( void )
 
 void TLC5955drv_init( void )
 {
-	_initGSCLK();
+	_startGSCLK();
 	_initSPI();
 
-	pwm->Start(GSCLK_PWM_NUM);
 }

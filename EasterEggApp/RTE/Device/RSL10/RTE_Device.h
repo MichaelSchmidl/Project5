@@ -1285,7 +1285,7 @@
 // <i> Enabled GPIO1 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO1_EN
- #define RTE_GPIO1_EN       0
+ #define RTE_GPIO1_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1345,7 +1345,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO1_IOMODE_DEFAULT
- #define RTE_GPIO1_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO1_IOMODE_DEFAULT   0x012
 #endif
 // </e>
 // <e>GPIO 2 configure
@@ -2113,7 +2113,7 @@
 // <i> Enabled GPIO13 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO13_EN
- #define RTE_GPIO13_EN       1
+ #define RTE_GPIO13_EN       0
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2182,7 +2182,7 @@
 // <i> Enabled GPIO14 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO14_EN
- #define RTE_GPIO14_EN       0
+ #define RTE_GPIO14_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2242,7 +2242,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO14_IOMODE_DEFAULT
- #define RTE_GPIO14_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO14_IOMODE_DEFAULT   0x002
 #endif
 // </e>
 // <e>GPIO 15 configure
@@ -2578,7 +2578,7 @@
 // <i> Enables JTAG SW PAD configuration.
 // <i> Default: 0
 #ifndef RTE_GPIO_JTAG_EN
- #define RTE_GPIO_JTAG_EN       0
+ #define RTE_GPIO_JTAG_EN       1
 #endif
 //   <o>JTCK low pass filter
 //       <0x0=> disable
@@ -2602,7 +2602,7 @@
 //   <i> Defines if data (TDI and TDO) should be available on DIO[14:15]
 //   <i> Default: enable
 #ifndef RTE_GPIO_JTAG_DATA_DEFAULT
- #define RTE_GPIO_JTAG_DATA_DEFAULT   1
+ #define RTE_GPIO_JTAG_DATA_DEFAULT   0
 #endif
 //   <o>TRST enable
 //       <0x0=> disable
@@ -2610,7 +2610,7 @@
 //   <i> Defines if data (TRST) should be available on DIO13
 //   <i> Default: enable
 #ifndef RTE_GPIO_JTAG_TRST_DEFAULT
- #define RTE_GPIO_JTAG_TRST_DEFAULT   1
+ #define RTE_GPIO_JTAG_TRST_DEFAULT   0
 #endif
 //   <o>JTCK pull control
 //       <0x0=> no pull
@@ -2770,7 +2770,7 @@
 //   <i> Defines if PWM driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_PWM
- #define RTE_PWM     1
+ #define RTE_PWM     0
 #endif
 // <e>PWM0 enable
 // ===============================
@@ -2778,7 +2778,7 @@
 // <i> Enables PWM0 module.
 // <i> Default: 1
 #ifndef RTE_PWM0_EN
- #define RTE_PWM0_EN       1
+ #define RTE_PWM0_EN       0
 #endif
 //   <o>PWM0 dio pad
 //       <0=> 0 <1=> 1
@@ -2792,7 +2792,7 @@
 //   <i> Defines the dio pad which should be used for the PWM0
 //   <i> Default: 6
 #ifndef RTE_PWM0_DIO_PIN
- #define RTE_PWM0_DIO_PIN   13
+ #define RTE_PWM0_DIO_PIN   14
 #endif
 //   <o>PWM0 period [cycles] <0-255>
 //   <i> Defines the PWM0 period

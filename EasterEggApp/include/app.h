@@ -135,7 +135,7 @@ extern "C"
 #define MOSI_DIO_NUM                    9
 #define MISO_DIO_NUM                    10
 #define RECOVERY_DIO                    12
-#define PWM_DIO_NUM                     13
+#define GSCLK_DIO_NUM                   13
 
 /* Output power */
 #define OUTPUT_POWER_DBM                0
