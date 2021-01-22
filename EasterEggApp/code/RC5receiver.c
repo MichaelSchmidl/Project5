@@ -7,6 +7,7 @@
 
 #include "RC5receiver.h"
 #include "app.h"
+#include "TLC5955drv.h"
 
 #define MAX_RC5_SAMPLES (3 + (13*4))
 static uint8_t RC5_sampleCounter = 0;
@@ -28,6 +29,7 @@ static void RC5_sampleFunc( void )
     }
     if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
     {
+TLC5955drv_refresh();
 		Sys_Timers_Stop( SELECT_TIMER0 );
 		RC5_sampleCounter = 0;
 		RC5_val = 0;

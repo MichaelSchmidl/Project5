@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../code/CompLEDs.c \
 ../code/RC5receiver.c \
 ../code/TLC5955drv.c \
 ../code/app_init.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 ../code/ble_std.c 
 
 OBJS += \
+./code/CompLEDs.o \
 ./code/RC5receiver.o \
 ./code/TLC5955drv.o \
 ./code/app_init.o \
@@ -26,6 +28,7 @@ OBJS += \
 ./code/ble_std.o 
 
 C_DEPS += \
+./code/CompLEDs.d \
 ./code/RC5receiver.d \
 ./code/TLC5955drv.d \
 ./code/app_init.d \
