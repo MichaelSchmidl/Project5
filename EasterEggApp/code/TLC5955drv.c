@@ -21,10 +21,11 @@ extern ARM_DRIVER_SPI Driver_SPI0;
 #define TLC5955_DATA_SHIFT_REG_FIRST_LOD_BIT    720     // LED open detection bit offset position
 #define BITS_PER_BYTE                             8
 #define GS_PWM_BITS                              16
-static uint8_t  m_u8DataShiftStreamIn[TLC5955_SHIFT_REGISTER_STREAM_LEN];
-static uint8_t  m_u8DataShiftStreamOut[TLC5955_SHIFT_REGISTER_STREAM_LEN];
+static uint8_t  m_u8DataShiftStreamMOSI[TLC5955_SHIFT_REGISTER_STREAM_LEN];
+static uint8_t  m_u8DataShiftStreamMOSI_DMA[TLC5955_SHIFT_REGISTER_STREAM_LEN];
+static uint8_t  m_u8DataShiftStreamMISO[TLC5955_SHIFT_REGISTER_STREAM_LEN];
 
-static uint8_t SPItransferDone = 1;
+static uint8_t SPItransferDone = 1; //!TODO auf EVENT umbauen wenn FreeRTOS eingebaut ist
 
 #define STREAM_LATCH_WAIT_MS  ( 2 )
 
@@ -95,13 +96,13 @@ static uint8_t SPItransferDone = 1;
 void SPI0_Master_CallBack(uint32_t event);
 static int32_t _writeSetup( void );
 static void _fillTlcControlDataLatch( void );
-static void _writeStreamBits( uint8_t *      pu8DataShiftStreamIn,
-                                     const uint32_t u32BitPos,
-                                     const uint32_t u32Value,
-                                     const uint8_t  u8BitLen );
-static void _writeStreamBit( uint8_t *      pu8DataShiftStreamIn,
-                                    const uint32_t u32BitPos,
-                                    const uint8_t  u8BitValue );
+static void _writeStreamBits( uint8_t * pu8DataShiftStream,
+                              const uint32_t u32BitPos,
+                              const uint32_t u32Value,
+                              const uint8_t  u8BitLen );
+static void _writeStreamBit( uint8_t * pu8DataShiftStream,
+                             const uint32_t u32BitPos,
+                             const uint8_t  u8BitValue );
 
 
 /*!************************************************************************************************************************************************************
@@ -111,18 +112,13 @@ static void _writeStreamBit( uint8_t *      pu8DataShiftStreamIn,
 static int32_t _writeSetup( void )
 {
 	int32_t ret = -1;
-    memset( m_u8DataShiftStreamIn, 0x0, TLC5955_SHIFT_REGISTER_STREAM_LEN );
+    memset( m_u8DataShiftStreamMOSI, 0x0, TLC5955_SHIFT_REGISTER_STREAM_LEN );
 
     _fillTlcControlDataLatch();
 
     // transmit setup data twice
     ret = TLC5955drv_refresh();
-
-//!TODO wait for transfer done    vTaskDelay( pdMS_TO_TICKS( STREAM_LATCH_WAIT_MS ) );
-
     ret = TLC5955drv_refresh();
-
-//!TODO wait for transfer done    vTaskDelay( pdMS_TO_TICKS( STREAM_LATCH_WAIT_MS ) );
 
     return ret;
 }
@@ -133,21 +129,21 @@ static int32_t _writeSetup( void )
 
 static void _fillTlcControlDataLatch( void )
 {
-    _writeStreamBits( m_u8DataShiftStreamIn,
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
                      TLC_LATCH_SELECT_BIT_POS, 0x1UL, TLC_LATCH_SELECT_BIT_LEN );
     // the DECODER bytes must be set to 0x96 for setup data
-    _writeStreamBits( m_u8DataShiftStreamIn,
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
                      TLC_DECODER_BIT_POS, 0x96UL, TLC_DECODER_BIT_LEN );
     // set the FC bits (all functions enabled)
-    _writeStreamBits( m_u8DataShiftStreamIn,
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
                      TLC_FC_BIT_POS, 0x1FUL, TLC_FC_BIT_LEN );
     // set the BC bits - full brightness
-    _writeStreamBits( m_u8DataShiftStreamIn,
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
                      TLC_BC_BIT_POS, 0x1FFFFFUL, TLC_BC_BIT_LEN );
     // set the MC bits -  3mA which is binary 000. Therefore the value is binary 0 0000 0000 = 0x000
     // set the MC bits - 19mA which is binary 100. Therefore the value is binary 1 0010 0100 = 0x124
     // set the MC bits - 24mA which is binary 101. Therefore the value is binary 1 0110 1101 = 0x16D
-    _writeStreamBits( m_u8DataShiftStreamIn,
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
                      TLC_MC_BIT_POS, 0x124L, TLC_MC_BIT_LEN );
 
     // set DC bits - dot correction - for all channels of the given TLC5955
@@ -155,22 +151,22 @@ static void _fillTlcControlDataLatch( void )
     for ( int i = 0; i < tlcPortNum; i++, nBitPos -= TLC_DC_BIT_LEN )
     {
         // full brightness
-        _writeStreamBits( m_u8DataShiftStreamIn,
+        _writeStreamBits( m_u8DataShiftStreamMOSI,
                          nBitPos, 0x7FUL, TLC_DC_BIT_LEN );
     }
 }
 
 
-static void _writeStreamBits( uint8_t *      pu8DataShiftStreamIn,
-                                     const uint32_t u32BitPos,
-                                     const uint32_t u32Value,
-                                     const uint8_t  u8BitLen )
+static void _writeStreamBits( uint8_t * pu8DataShiftStream,
+                              const uint32_t u32BitPos,
+                              const uint32_t u32Value,
+                              const uint8_t  u8BitLen )
 {
     uint32_t u32ShiftValue = u32Value;
 
     for ( int i = 0; i < u8BitLen; i++ )
     {
-        _writeStreamBit( pu8DataShiftStreamIn,
+        _writeStreamBit( pu8DataShiftStream,
                         u32BitPos - u8BitLen + i + 1,
                         u32ShiftValue & 0x1 );
         u32ShiftValue >>= 1;
@@ -180,7 +176,7 @@ static void _writeStreamBits( uint8_t *      pu8DataShiftStreamIn,
 /*!************************************************************************************************************************************************************
  *
  *************************************************************************************************************************************************************/
-static void _writeStreamBit( uint8_t *      pu8DataShiftStreamIn,
+static void _writeStreamBit( uint8_t *      pu8DataShiftStream,
                                     const uint32_t u32BitPos,
                                     const uint8_t  u8BitValue )
 {
@@ -190,8 +186,8 @@ static void _writeStreamBit( uint8_t *      pu8DataShiftStreamIn,
     uint8_t  u8StreamValue    = ( u8BitValue << u32ByteBitPos );
     uint8_t  u8BitMask        = ( 1 << u32ByteBitPos );
 
-    pu8DataShiftStreamIn[u32BytePos] &= ~u8BitMask;
-    pu8DataShiftStreamIn[u32BytePos] |= u8StreamValue;
+    pu8DataShiftStream[u32BytePos] &= ~u8BitMask;
+    pu8DataShiftStream[u32BytePos] |= u8StreamValue;
 }
 
 
@@ -255,14 +251,25 @@ static void _initSPI( void )
 
 int32_t TLC5955drv_refresh( void )
 {
-	while ( !SPItransferDone );
+	while ( !SPItransferDone )
+	{
+	    Sys_Delay_ProgramROM( 1000UL ); // 1000 Cycles @20MHz -> 125us
+	}
 	SPItransferDone = 0;
+
+	// copy working MOSI buffer into shadow for DMA transfer
+	memcpy( m_u8DataShiftStreamMOSI_DMA,
+			m_u8DataShiftStreamMOSI,
+			TLC5955_SHIFT_REGISTER_STREAM_LEN );
+
 	int32_t ret = ARM_DRIVER_ERROR;
     /* Activate SSEL line and start transfer on SPI0/master */
     ret = spi0->Control(ARM_SPI_CONTROL_SS, ARM_SPI_SS_ACTIVE);
     if ( ARM_DRIVER_OK == ret )
     {
-        ret = spi0->Transfer(m_u8DataShiftStreamOut, m_u8DataShiftStreamIn, TLC5955_SHIFT_REGISTER_STREAM_LEN);
+        ret = spi0->Transfer(m_u8DataShiftStreamMOSI_DMA,
+        		             m_u8DataShiftStreamMISO,
+							 TLC5955_SHIFT_REGISTER_STREAM_LEN);
     }
     return ret;
 }
@@ -272,6 +279,9 @@ void TLC5955drv_start( void )
 {
 	_startGSCLK();
 	_writeSetup();
+	// set all LEDs OFF
+    memset( m_u8DataShiftStreamMOSI, 0x0, TLC5955_SHIFT_REGISTER_STREAM_LEN );
+	TLC5955drv_refresh();
 }
 
 
