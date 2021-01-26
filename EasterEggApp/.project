@@ -26,6 +26,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>RTE/CMSIS/cmsis_os2.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/CMSIS/RTOS2/FreeRTOS/Source/cmsis_os2.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/CMSIS/os_systick.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/CMSIS/RTOS2/FreeRTOS/Source/os_systick.c</locationURI>
+		</link>
+		<link>
 			<name>RTE/CMSIS_Driver/SPI_RSLxx.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/spi_driver/source/SPI_RSLxx.c</locationURI>
@@ -36,24 +46,44 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/ble_abstraction_layer/ble/source/stubprf.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Utility/SEGGER_RTT.c</name>
+			<name>RTE/RTOS/event_groups.c</name>
 			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT.c</locationURI>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/event_groups.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Utility/SEGGER_RTT_ASM_ARMv7M.S</name>
+			<name>RTE/RTOS/freertos_evr.c</name>
 			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT_ASM_ARMv7M.S</locationURI>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/CMSIS/RTOS2/FreeRTOS/Source/freertos_evr.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Utility/SEGGER_RTT_printf.c</name>
+			<name>RTE/RTOS/heap_4.c</name>
 			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT_printf.c</locationURI>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/portable/MemMang/heap_4.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Utility/printf.c</name>
+			<name>RTE/RTOS/list.c</name>
 			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/printf/printf.c</locationURI>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/list.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/RTOS/port.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/portable/GCC/ARM_CM3/port.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/RTOS/queue.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/queue.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/RTOS/tasks.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/tasks.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/RTOS/timers.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/timers.c</locationURI>
 		</link>
 		<link>
 			<name>RTE/Device/RSL10/DMA_RSLxx.c</name>

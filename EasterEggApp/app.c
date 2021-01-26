@@ -24,51 +24,21 @@
 
 DRIVER_GPIO_t *gpio;
 
+/* attribute structure for BLE thread */
+const osThreadAttr_t thread_ble_attr =
+{
+    .name = "thBLE",
+    .priority = osPriorityNormal,
+    .stack_size = 2048
+};
+
+volatile uint32_t malloc_failed_count = 0;
+
 /* ----------------------------------------------------------------------------
  * Application Version
  * ------------------------------------------------------------------------- */
 SYS_FOTA_VERSION(VER_ID, VER_MAJOR, VER_MINOR, VER_REVISION);
 
-#include "usb_hid_keys.h"
-static struct on_semi_banner_str on_semi_banner[] =
-{
-	{ KEY_LEFTMETA,  /* WIN */   KEY_MOD_LMETA },
-
-    { KEY_H,         /* h */     KEY_MOD_NONE },
-    { KEY_T,         /* t */     KEY_MOD_NONE },
-    { KEY_T,         /* t */     KEY_MOD_NONE },
-    { KEY_P,         /* p */     KEY_MOD_NONE },
-    { KEY_DOT,       /* : */     KEY_MOD_LSHIFT },
-    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_K,         /* k */     KEY_MOD_NONE },
-    { KEY_A,         /* a */     KEY_MOD_NONE },
-    { KEY_I,         /* i */     KEY_MOD_NONE },
-    { KEY_L,         /* l */     KEY_MOD_NONE },
-    { KEY_DOT,       /* . */     KEY_MOD_NONE },
-    { KEY_D,         /* d */     KEY_MOD_NONE },
-    { KEY_E,         /* e */     KEY_MOD_NONE },
-    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_O,         /* O */     KEY_MOD_LSHIFT },
-    { KEY_L,         /* l */     KEY_MOD_NONE },
-    { KEY_L,         /* l */     KEY_MOD_NONE },
-    { KEY_I,         /* i */     KEY_MOD_NONE },
-    { KEY_DOT,       /* . */     KEY_MOD_NONE },
-    { KEY_H,         /* h */     KEY_MOD_NONE },
-    { KEY_T,         /* t */     KEY_MOD_NONE },
-    { KEY_M,         /* m */     KEY_MOD_NONE },
-    { KEY_L,         /* l */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */   KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */   KEY_MOD_NONE },
-
-    { KEY_ESC,  /*    */   KEY_MOD_NONE },
-//	{ KEY_ENTER,     /* ENTER */ KEY_MOD_NONE }
-};
-static uint32_t on_semi_banner_size = \
-    sizeof(on_semi_banner) / \
-    sizeof(struct on_semi_banner_str);
-static uint32_t act_key = 0;
 
 /* ----------------------------------------------------------------------------
  * Function      : void GPIOirq_EventCallback(void)
@@ -98,86 +68,49 @@ void GPIOirq_EventCallback(uint32_t event)
 }
 
 
-/* ----------------------------------------------------------------------------
- * Function      : void Restart_Keystroke_Env(void)
- * ----------------------------------------------------------------------------
- * Description   : Initialize keyboard environment
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void Restart_Keystroke_Env(void)
-{
-    app_env.key_pushed = false;
-    app_env.key_state = KEY_IDLE;
-}
-
-/* ----------------------------------------------------------------------------
- * Function      : void Update_Keystroke_Env(void)
- * ----------------------------------------------------------------------------
- * Description   : Initialize keyboard environment
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void Update_Keystroke_Env(void)
-{
-    app_env.key_state = KEY_UPDATE;
-}
-
-/* ----------------------------------------------------------------------------
- * Function      : Send_Keystroke(void)
- * ----------------------------------------------------------------------------
- * Description   : Send keystroke to the host
- * Inputs        : key, mod_id
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-static void Send_Keystroke(const uint8_t key, const uint8_t mod_id)
-{
-    switch (app_env.key_state)
-    {
-        case KEY_PUSH:
-        {
-            app_env.key_state = KEY_REL;
-            Hogpd_ReportUpdReq(ble_env[0].conidx,
-                               key,
-                               mod_id);
-        }
-        break;
-
-        case KEY_UPDATE:
-        {
-            /* Restart Keyboard Environment */
-            Restart_Keystroke_Env();
-
-            /* Prepare next banner's key */
-            act_key++;
-            act_key = act_key % on_semi_banner_size;
-        }
-        break;
-
-        case KEY_REL:
-        default:
-        {
-        }
-        break;
-    }
-}
-
 int main(void)
 {
+    /* Ensure all priority bits are assigned as preemption priority bits.
+     * Should not be changed! */
+    NVIC_SetPriorityGrouping(0);
+
     App_Initialize();
 
     SystemCoreClockUpdate();
 
+    TLC5955drv_start();
+#if 0
+    /* Debug/trace initialization. In order to enable UART or RTT trace,
+     *  configure the 'RSL10_DEBUG' macro in app_trace.h */
+//    TRACE_INIT();
+//    PRINTF("RTOS + ble_peripheral_server_bond started (build date:%s,%s)\r\n", \
+           __DATE__, __TIME__);
+//    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
+
+    /* RTOS  initialization */
+    osKernelInitialize();
+//    PRINTF("RTOS kernel tick frequency = %ldHz\r\n", osKernelGetTickFreq());
+//    PRINTF("RTOS kernel system timer frequency = %ldHz\r\n", osKernelGetSysTimerFreq());
+
+    /* Ensure that Priority Grouping was not changed during device initialization.
+     * Call it after logs are initialized. */
+    configASSERT(NVIC_GetPriorityGrouping() == 0);
+
+    /* Create application main thread for BLE Stack */
+    osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
+
+    /* Start RTOS scheduler */
+    if (osKernelGetState() == osKernelReady)
+    {
+        osKernelStart();
+    }
+#endif
     /* Main application loop:
      * - Run the kernel scheduler
      * - Update the battery voltage
      * - Refresh the watchdog and wait for an event before continuing
      * - Check for the custom services
      */
-    TLC5955drv_start();
     while (1)
     {
         Kernel_Schedule();
@@ -198,16 +131,6 @@ int main(void)
             }
         }
 
-        /* Send keystrokes to client if DIO5 is pushed */
-        if (ble_env[0].state == APPM_CONNECTED &&
-            VALID_BOND_INFO(ble_env[0].bond_info.STATE))
-        {
-            if (hogpd_support_env.enable == true && app_env.key_pushed == true)
-            {
-                Send_Keystroke(on_semi_banner[act_key].key,
-                               on_semi_banner[act_key].mod);
-            }
-        }
 
         /* Start Update when button is pressed */
         if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
@@ -219,6 +142,61 @@ int main(void)
         Sys_Watchdog_Refresh();
 
         /* Wait for an event before executing the scheduler again */
+        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
         SYS_WAIT_FOR_EVENT;
+        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
     }
 }
+
+
+/* ----------------------------------------------------------------------------
+ * Function      : void vThread_BLE(void *argument)
+ * ----------------------------------------------------------------------------
+ * Description   : Main BLE Thread function.
+ * Inputs        : - argument       - pointer to Thread arguments
+ * Outputs       : None
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+__NO_RETURN void vThread_BLE(void *argument)
+{
+#if 0
+    /* Run the following command when erasing flash/bond_list is desirable */
+    /* BondList_RemoveAll(); */
+
+    /* Configure application-specific advertising data and scan response  data*/
+    APP_SetAdvScanData();
+
+    /* Configure Battery Service Server */
+    BASS_Initialize(APP_BAS_NB, APP_BASS_ReadBatteryLevel);
+    BASS_NotifyOnBattLevelChange(TIMER_SETTING_S(1));     /* Periodically monitor the battery level. Only notify changes */
+    BASS_NotifyOnTimeout(TIMER_SETTING_S(6));             /* Periodically notify the battery level to connected peers */
+    APP_BASS_SetBatMonAlarm(BATMON_SUPPLY_THRESHOLD_CFG); /* BATMON alarm configuration */
+
+    /* Configure Custom Service Server */
+    CUSTOMSS_Initialize();
+    CUSTOMSS_NotifyOnTimeout(TIMER_SETTING_S(6)); /* Notify client and fire CUSTOMSS_NTF_TIMEOUT periodically */
+
+    /* Add application message handlers */
+    MsgHandler_Add(TASK_ID_GAPM, APP_GAPM_GATTM_Handler);
+    MsgHandler_Add(GATTM_ADD_SVC_RSP, APP_GAPM_GATTM_Handler);
+    MsgHandler_Add(TASK_ID_GAPC, APP_GAPC_Handler);
+    MsgHandler_Add(APP_LED_TIMEOUT, APP_LED_Timeout_Handler);
+    MsgHandler_Add(APP_BATT_LEVEL_LOW, APP_BASS_BattLevelLow_Handler);
+
+    /* Reset the GAP manager. Trigger GAPM_CMP_EVT / GAPM_RESET when finished. See APP_GAPM_GATTM_Handler */
+    GAPM_ResetCmd();
+#endif
+    /* Event Kernel Scheduler runing in thread */
+    while(true)
+    {
+        /* Dispatch all events in Kernel queue */
+        Kernel_Schedule();
+
+        /* Refresh the watchdog timer */
+        Sys_Watchdog_Refresh();
+
+        /* OS delay */
+        osDelay(APP_BLE_DELAY_TICKS);
+    }
+}
+

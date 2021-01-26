@@ -1492,7 +1492,7 @@
 // <i> Enabled GPIO4 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO4_EN
- #define RTE_GPIO4_EN       0
+ #define RTE_GPIO4_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1966,7 +1966,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO10_IOMODE_DEFAULT
- #define RTE_GPIO10_IOMODE_DEFAULT   0x200
+ #define RTE_GPIO10_IOMODE_DEFAULT   0x002
 #endif
 // </e>
 // <e>GPIO 11 configure
@@ -3197,7 +3197,7 @@
 //   <i> Defines gpio pad number to be used as the miso line.
 //   <i> Default: 2
 #ifndef RTE_SPI0_MISO_PIN_DEFAULT
- #define RTE_SPI0_MISO_PIN_DEFAULT  9
+ #define RTE_SPI0_MISO_PIN_DEFAULT  4
 #endif
 //   <o>MOSI pin
 //       <0x0=> 0
@@ -3219,7 +3219,7 @@
 //   <i> Defines gpio pad number to be used as the mosi line.
 //   <i> Default: 3
 #ifndef RTE_SPI0_MOSI_PIN_DEFAULT
- #define RTE_SPI0_MOSI_PIN_DEFAULT  10
+ #define RTE_SPI0_MOSI_PIN_DEFAULT  9
 #endif
 // </h>
 // <h>SPI0 Interrupt priority configuration

@@ -13,17 +13,23 @@
 static uint8_t RC5_sampleCounter = 0;
 static uint32_t RC5_val = 0;
 
+#undef RC5_VERBOSE_DEBUG_SIGNAL
+
 static void RC5_sampleFunc( void )
 {
     if ( 1 == (RC5_sampleCounter % 4) )
     {
     	RC5_val <<= 1;
+#ifdef RC5_VERBOSE_DEBUG_SIGNAL
         Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
         Sys_GPIO_Set_High(DEBUG_DIO_NUM);
         Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
+#endif
         if ( 0 == DIO_DATA->ALIAS[RC5_DIO_NUM] )
         {
+#ifdef RC5_VERBOSE_DEBUG_SIGNAL
             Sys_GPIO_Set_High(DEBUG_DIO_NUM);
+#endif
             RC5_val |= 1;
         }
     }
@@ -33,9 +39,11 @@ TLC5955drv_refresh();
 		Sys_Timers_Stop( SELECT_TIMER0 );
 		RC5_sampleCounter = 0;
 		RC5_val = 0;
+#ifdef RC5_VERBOSE_DEBUG_SIGNAL
         Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
         Sys_GPIO_Set_High(DEBUG_DIO_NUM);
         Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
+#endif
     }
     else
     {

@@ -39,6 +39,12 @@ extern "C"
 /* ----------------------------------------------------------------------------
  * Include files
  * --------------------------------------------------------------------------*/
+#include "RTE_Components.h"
+#include CMSIS_device_header
+#include <FreeRTOS.h>
+#include <task.h>
+#include <cmsis_os2.h>
+
 #include <rsl10.h>
 #include <rsl10_ke.h>
 #include <rsl10_ble.h>
@@ -56,6 +62,8 @@ extern "C"
 
 #include <GPIO_RSLxx.h>
 
+
+
 /* ----------------------------------------------------------------------------
 * Application Version
 * ------------------------------------------------------------------------- */
@@ -67,6 +75,25 @@ extern "C"
 /* ----------------------------------------------------------------------------
  * Defines
  * --------------------------------------------------------------------------*/
+/* Delay cycle for BLE Thread in ms */
+#define APP_BLE_DELAY_MS                10
+
+/* Delay cycle for Debug Thread in ms */
+#define APP_DEBUG_DELAY_MS              3000
+
+/* Macros */
+/* Rounding Macro relaying on integer division of positive integer numbers
+ * N and S. It rounds up N to the next interval S. For N=0 result is 0.
+ * e.g. ROUND_UP(12,10) => 20  */
+#define ROUND_UP(N, S) ((((N) + (S)-1) / (S)) * (S))
+
+/* BLE Thread delay conversion from ms to os ticks with round up to the  portTICK_PERIOD_MS */
+#define APP_BLE_DELAY_TICKS             ((uint32_t) \
+                                         ((ROUND_UP((APP_BLE_DELAY_MS), portTICK_PERIOD_MS)) / portTICK_PERIOD_MS))
+
+/* Debug Thread delay conversion from ms to os ticks with round up to the  portTICK_PERIOD_MS */
+#define APP_DEBUG_DELAY_TICKS           ((uint32_t) \
+                                         ((ROUND_UP((APP_DEBUG_DELAY_MS), portTICK_PERIOD_MS)) / portTICK_PERIOD_MS))
 
 /* --------------------------------------------------------------------------
  *  Device Information used for Device Information Server Service (DISS)
@@ -127,13 +154,13 @@ extern "C"
 #define RC5_DIO_NUM                     0
 #define BUTTON2_DIO                     2
 #define BUTTON3_DIO                     3
-#define DEBUG_DIO_NUM                   4
+#define MISO_DIO_NUM                    4
 #define BUTTON_DIO                      5
 #define LED_DIO_NUM                     6
 #define SCLK_DIO_NUM                    7
 #define SS_DIO_NUM                      8
 #define MOSI_DIO_NUM                    9
-#define MISO_DIO_NUM                    10
+#define DEBUG_DIO_NUM                   10
 #define RECOVERY_DIO                    12
 #define GSCLK_DIO_NUM                   13
 
@@ -215,6 +242,13 @@ enum key_state
     KEY_UPDATE
 };
 
+typedef enum
+{
+    EGG_WAIT4_BLE_CONNECT = 0,
+	EGG_SEND_URL_PART1,
+	EGG_DONE
+}eggLogic_state_t;
+
 struct app_env_tag
 {
     /* Battery service */
@@ -226,6 +260,9 @@ struct app_env_tag
     /* HID service */
     uint8_t key_state;
     bool key_pushed;
+
+    /* business logic */
+    eggLogic_state_t eggState;
 };
 
 struct on_semi_banner_str
@@ -250,6 +287,8 @@ extern void App_Initialize(void);
 
 extern void App_Env_Initialize(void);
 
+extern void APP_eggLogicStateMachine( void );
+
 extern int APP_Timer(ke_msg_id_t const msg_id, void const *param,
                      ke_task_id_t const dest_id,
                      ke_task_id_t const src_id);
@@ -269,6 +308,9 @@ extern void Restart_Keystroke_Env(void);
 extern void Update_Keystroke_Env(void);
 
 void GPIOirq_EventCallback(uint32_t event);
+
+__NO_RETURN void vThread_BLE(void *argument);
+
 
 /* ----------------------------------------------------------------------------
  * Close the 'extern "C"' block
