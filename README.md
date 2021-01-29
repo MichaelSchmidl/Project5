@@ -8,3 +8,5 @@ Installation der nötigen Toolchain wird hier beschrieben: https://www.onsemi.co
 Google Document: https://docs.google.com/document/d/1JKzkXg6ti9WWn0LwGXhklhcn5QAyDSN7pkyqg-pgIvA/edit?usp=sharing
 
 <img src="images/BB.png">
+<p>
+<img src="images/Floorplan.png">
