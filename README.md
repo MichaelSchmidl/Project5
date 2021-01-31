@@ -10,3 +10,5 @@ Google Document: https://docs.google.com/document/d/1JKzkXg6ti9WWn0LwGXhklhcn5QA
 <img src="images/BB.png">
 <p>
 <img src="images/Floorplan.png">
+<p>
+<img src="images/Projektplan.png">
