@@ -246,6 +246,8 @@ typedef enum
 {
     EGG_WAIT4_BLE_CONNECT = 0,
 	EGG_SEND_URL_PART1,
+	EGG_WAIT4_RC5,
+	EGG_SEND_BRAILLE,
 	EGG_DONE
 }eggLogic_state_t;
 

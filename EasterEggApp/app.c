@@ -21,6 +21,7 @@
 #include "sys_fota.h"
 #include "RC5receiver.h"
 #include "TLC5955drv.h"
+#include "EggLogic.h"
 
 DRIVER_GPIO_t *gpio;
 
@@ -32,7 +33,6 @@ const osThreadAttr_t thread_ble_attr =
     .stack_size = 2048
 };
 
-osThreadId_t thread_ble_id = NULL;
 volatile uint32_t malloc_failed_count = 0;
 
 /* ----------------------------------------------------------------------------
@@ -56,9 +56,7 @@ void GPIOirq_EventCallback(uint32_t event)
     switch ( event )
     {
     	case GPIO_EVENT_0_IRQ:
-		    /* Set the key status */
-		    app_env.key_pushed = true;
-		    app_env.key_state = KEY_PUSH;
+    		EGG_sendMessage( 'T', 0UL ); // timeout=0 because IRQ context
 		    break;
     	case GPIO_EVENT_1_IRQ:
     		RC5_SignalChangeDetected();
@@ -79,14 +77,16 @@ int main(void)
 
     SystemCoreClockUpdate();
 
-    /* Start Update when button is pressed */
+    /* Start Update when button is pressed at startup */
     if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
     {
     	Sys_Fota_StartDfu(1);
     }
 
     TLC5955drv_start();
-#if 1
+
+    EGG_initThread();
+
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
 //    TRACE_INIT();
@@ -104,56 +104,16 @@ int main(void)
     configASSERT(NVIC_GetPriorityGrouping() == 0);
 
     /* Create application main thread for BLE Stack */
-    thread_ble_id = osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
+    osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
+
+    /* start thread for egg logic */
+    EGG_startThread();
 
     /* Start RTOS scheduler */
     if (osKernelGetState() == osKernelReady)
     {
         osKernelStart();
     }
-#else
-    /* Main application loop:
-     * - Run the kernel scheduler
-     * - Update the battery voltage
-     * - Refresh the watchdog and wait for an event before continuing
-     * - Check for the custom services
-     */
-    while (1)
-    {
-        Kernel_Schedule();
-
-        /* Send battery level to all connected clients if battery service is
-         * enabled */
-        for (unsigned int i = 0; i < NUM_MASTERS; i++)
-        {
-            if (ble_env[i].state == APPM_CONNECTED &&
-                VALID_BOND_INFO(ble_env[i].bond_info.STATE))
-            {
-                if (app_env.send_batt_ntf[i] && bass_support_env[i].enable)
-                {
-                    app_env.send_batt_ntf[i] = 0;
-                    Batt_LevelUpdateSend(ble_env[i].conidx,
-                                         app_env.batt_lvl, 0);
-                }
-            }
-        }
-
-
-        /* Start Update when button is pressed */
-        if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
-        {
-        	Sys_Fota_StartDfu(1);
-        }
-
-        /* Refresh the watchdog timer */
-        Sys_Watchdog_Refresh();
-
-        /* Wait for an event before executing the scheduler again */
-        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
-        SYS_WAIT_FOR_EVENT;
-        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
-    }
-#endif
 }
 
 
@@ -167,33 +127,6 @@ int main(void)
  * ------------------------------------------------------------------------- */
 __NO_RETURN void vThread_BLE(void *argument)
 {
-#if 0
-    /* Run the following command when erasing flash/bond_list is desirable */
-    /* BondList_RemoveAll(); */
-
-    /* Configure application-specific advertising data and scan response  data*/
-    APP_SetAdvScanData();
-
-    /* Configure Battery Service Server */
-    BASS_Initialize(APP_BAS_NB, APP_BASS_ReadBatteryLevel);
-    BASS_NotifyOnBattLevelChange(TIMER_SETTING_S(1));     /* Periodically monitor the battery level. Only notify changes */
-    BASS_NotifyOnTimeout(TIMER_SETTING_S(6));             /* Periodically notify the battery level to connected peers */
-    APP_BASS_SetBatMonAlarm(BATMON_SUPPLY_THRESHOLD_CFG); /* BATMON alarm configuration */
-
-    /* Configure Custom Service Server */
-    CUSTOMSS_Initialize();
-    CUSTOMSS_NotifyOnTimeout(TIMER_SETTING_S(6)); /* Notify client and fire CUSTOMSS_NTF_TIMEOUT periodically */
-
-    /* Add application message handlers */
-    MsgHandler_Add(TASK_ID_GAPM, APP_GAPM_GATTM_Handler);
-    MsgHandler_Add(GATTM_ADD_SVC_RSP, APP_GAPM_GATTM_Handler);
-    MsgHandler_Add(TASK_ID_GAPC, APP_GAPC_Handler);
-    MsgHandler_Add(APP_LED_TIMEOUT, APP_LED_Timeout_Handler);
-    MsgHandler_Add(APP_BATT_LEVEL_LOW, APP_BASS_BattLevelLow_Handler);
-
-    /* Reset the GAP manager. Trigger GAPM_CMP_EVT / GAPM_RESET when finished. See APP_GAPM_GATTM_Handler */
-    GAPM_ResetCmd();
-#endif
     /* Event Kernel Scheduler running in thread */
     while(true)
     {
@@ -219,8 +152,15 @@ __NO_RETURN void vThread_BLE(void *argument)
         /* Refresh the watchdog timer */
         Sys_Watchdog_Refresh();
 
+#if 1
+        /* Wait for an event before executing the scheduler again */
+        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
+        SYS_WAIT_FOR_EVENT;
+        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
+#else
         /* OS delay */
         osDelay(APP_BLE_DELAY_TICKS);
+#endif
     }
 }
 

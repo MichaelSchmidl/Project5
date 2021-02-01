@@ -7,7 +7,11 @@
 
 #include "RC5receiver.h"
 #include "app.h"
-#include "TLC5955drv.h"
+#include "EggLogic.h"
+
+#warning RC5_EXPECTED_CODE is for LOEWE PLAY so far
+#define RC5_EXPECTED_CODE 0x31B5 //!< TBD
+#define RC5_MASK          0xF7FF
 
 #define MAX_RC5_SAMPLES (3 + (13*4))
 static uint8_t RC5_sampleCounter = 0;
@@ -35,7 +39,13 @@ static void RC5_sampleFunc( void )
     }
     if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
     {
-TLC5955drv_refresh();
+    	// we have now our RC5 data
+    	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
+    	{
+        	EGG_sendMessage( '5', 0 ); // we are done with RC5, timeout=0 because IRQ context
+    	}
+
+    	// restart sampling
 		Sys_Timers_Stop( SELECT_TIMER0 );
 		RC5_sampleCounter = 0;
 		RC5_val = 0;

@@ -25,7 +25,6 @@
  * ------------------------------------------------------------------------- */
 
 #include "app.h"
-#include "EggLogic.h"
 
 const struct ke_task_desc TASK_DESC_APP = {
     NULL,       &appm_default_handler,
@@ -104,10 +103,6 @@ int APP_Timer(ke_msg_id_t const msg_id,
         app_env.num_batt_read = 0;
         app_env.sum_batt_lvl = 0;
     }
-
-    // do other stuff
-    EGG_stateMachine();
-
     return (KE_MSG_CONSUMED);
 }
 
