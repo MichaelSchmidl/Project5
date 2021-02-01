@@ -21,3 +21,5 @@
 *.pdb
 
 /EasterEggBootloader/Debug/EasterErrBootloader.bin
+*.log
+*.raw
