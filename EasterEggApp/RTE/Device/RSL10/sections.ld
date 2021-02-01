@@ -21,8 +21,8 @@ MEMORY
   FLASH (xrw) : ORIGIN = 0x00100000, LENGTH = 380K
   PRAM (xrw) : ORIGIN = 0x00200000, LENGTH = 32K
 
-  DRAM (xrw) : ORIGIN = 0x20000000, LENGTH = 24K
-  DRAM_DSP (xrw) : ORIGIN = 0x20006000, LENGTH = 48K
+  DRAM (xrw) : ORIGIN = 0x20000000, LENGTH = 72K /* minus 13,3KByte lost because of __app_ram_start=0x2000352C */
+/*  DRAM_DSP (xrw) : ORIGIN = 0x20008000, LENGTH = 40K*/ /* seems to be unused, so we use it in the app as DRAM */
   DRAM_BB (xrw) : ORIGIN = 0x20012000, LENGTH = 16K
 }
 

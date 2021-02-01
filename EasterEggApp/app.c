@@ -32,6 +32,7 @@ const osThreadAttr_t thread_ble_attr =
     .stack_size = 2048
 };
 
+osThreadId_t thread_ble_id = NULL;
 volatile uint32_t malloc_failed_count = 0;
 
 /* ----------------------------------------------------------------------------
@@ -78,8 +79,14 @@ int main(void)
 
     SystemCoreClockUpdate();
 
+    /* Start Update when button is pressed */
+    if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
+    {
+    	Sys_Fota_StartDfu(1);
+    }
+
     TLC5955drv_start();
-#if 0
+#if 1
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
 //    TRACE_INIT();
@@ -97,14 +104,14 @@ int main(void)
     configASSERT(NVIC_GetPriorityGrouping() == 0);
 
     /* Create application main thread for BLE Stack */
-    osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
+    thread_ble_id = osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
 
     /* Start RTOS scheduler */
     if (osKernelGetState() == osKernelReady)
     {
         osKernelStart();
     }
-#endif
+#else
     /* Main application loop:
      * - Run the kernel scheduler
      * - Update the battery voltage
@@ -146,6 +153,7 @@ int main(void)
         SYS_WAIT_FOR_EVENT;
         Sys_GPIO_Set_High(DEBUG_DIO_NUM);
     }
+#endif
 }
 
 
@@ -186,11 +194,27 @@ __NO_RETURN void vThread_BLE(void *argument)
     /* Reset the GAP manager. Trigger GAPM_CMP_EVT / GAPM_RESET when finished. See APP_GAPM_GATTM_Handler */
     GAPM_ResetCmd();
 #endif
-    /* Event Kernel Scheduler runing in thread */
+    /* Event Kernel Scheduler running in thread */
     while(true)
     {
         /* Dispatch all events in Kernel queue */
         Kernel_Schedule();
+
+        /* Send battery level to all connected clients if battery service is
+         * enabled */
+        for (unsigned int i = 0; i < NUM_MASTERS; i++)
+        {
+            if (ble_env[i].state == APPM_CONNECTED &&
+                VALID_BOND_INFO(ble_env[i].bond_info.STATE))
+            {
+                if (app_env.send_batt_ntf[i] && bass_support_env[i].enable)
+                {
+                    app_env.send_batt_ntf[i] = 0;
+                    Batt_LevelUpdateSend(ble_env[i].conidx,
+                                         app_env.batt_lvl, 0);
+                }
+            }
+        }
 
         /* Refresh the watchdog timer */
         Sys_Watchdog_Refresh();
