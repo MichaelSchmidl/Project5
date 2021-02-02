@@ -11,6 +11,7 @@
 
 #warning RC5_EXPECTED_CODE is for LOEWE PLAY so far
 #define RC5_EXPECTED_CODE 0x31B5 //!< TBD
+
 #define RC5_MASK          0xF7FF
 
 #define MAX_RC5_SAMPLES (3 + (13*4))
@@ -42,7 +43,8 @@ static void RC5_sampleFunc( void )
     	// we have now our RC5 data
     	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
     	{
-        	EGG_sendMessage( '5', 0 ); // we are done with RC5, timeout=0 because IRQ context
+        	EGG_sendMessage( EGG_RC5_MATCH, // we are done with RC5
+        			         0 );           // timeout=0 because IRQ context
     	}
 
     	// restart sampling

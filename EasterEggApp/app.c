@@ -56,7 +56,8 @@ void GPIOirq_EventCallback(uint32_t event)
     switch ( event )
     {
     	case GPIO_EVENT_0_IRQ:
-    		EGG_sendMessage( 'T', 0UL ); // timeout=0 because IRQ context
+    		EGG_sendMessage( EGG_TOUCH_IRQ,
+    				         0UL ); // timeout=0 because IRQ context
 		    break;
     	case GPIO_EVENT_1_IRQ:
     		RC5_SignalChangeDetected();

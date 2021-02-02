@@ -109,7 +109,8 @@ void Update_Keystroke_Env(void)
 
     if ( 0 == act_key )
     {
-    	EGG_sendMessage( 't', DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
+    	EGG_sendMessage( EGG_DONE_WITH_URL,
+    			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
     }
 }
 
@@ -155,12 +156,12 @@ static void Send_Keystroke(const uint8_t key, const uint8_t mod_id)
 }
 
 
-void EGG_sendMessage( char c, uint32_t timeout )
+void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout )
 {
-	osMessageQueuePut( hEggLogicQueue,
-	                   &c,
-	                   0,
-	                   timeout );
+	osMessageQueuePut( hEggLogicQueue, // Queue Handle
+	                   &msg,           // Message to send
+	                   0,              // prio - unused
+	                   timeout );      // timeout for posting the message - must be ZERO for IRQ context
 }
 
 
@@ -176,7 +177,7 @@ static void _showStateMachineOnDebugPin( uint32_t state )
 }
 
 
-static void _stateMachine( char msg )
+static void _stateMachine( eggLogicMessage_t msg )
 {
     switch ( app_env.eggState )
 	{
@@ -190,7 +191,7 @@ static void _stateMachine( char msg )
 		} break;
 
 		case EGG_SEND_URL_PART1: {
-   	        if (( 'T' == msg ) && (hogpd_support_env.enable == true))
+   	        if (( EGG_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
             {
 				/* Set the key status */
 				app_env.key_pushed = true;
@@ -228,12 +229,12 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     /* Event Kernel Scheduler running in thread */
     while(true)
     {
-    	char msg = '?';
+    	eggLogicMessage_t msg = EGG_NOP;
     	if ( osOK == osMessageQueueGet( hEggLogicQueue, &msg, NULL, -1 ))
     	{
     		switch (msg)
     		{
-    			case '!': // timer tick
+    			case EGG_TIMER_TICK:
     				// if not connected, restart the EGG logic
     			    if (ble_env[0].state != APPM_CONNECTED )
     			    {
@@ -250,7 +251,8 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 
 void eggLogicTimer_CB( void *argument )
 {
-	EGG_sendMessage('!', DEFAULT_QUEUE_POST_TIMEOUT);
+	EGG_sendMessage( EGG_TIMER_TICK,
+			         DEFAULT_QUEUE_POST_TIMEOUT );
 }
 
 
@@ -258,7 +260,7 @@ void EGG_initThread( void )
 {
 	// create queues a.s.o
 	hEggLogicQueue = osMessageQueueNew( EGGLOGIC_QUEUE_DEPTH,
-			                            sizeof(char),
+			                            sizeof(eggLogicMessage_t),
 										&queue_egglogic_attr );
 	hEggLogicTimer = osTimerNew( eggLogicTimer_CB,
 			                     osTimerPeriodic,
