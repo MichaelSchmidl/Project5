@@ -1690,7 +1690,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO6_IOMODE_DEFAULT
- #define RTE_GPIO6_IOMODE_DEFAULT   0x002
+ #define RTE_GPIO6_IOMODE_DEFAULT   0x003
 #endif
 // </e>
 // <e>GPIO 7 configure

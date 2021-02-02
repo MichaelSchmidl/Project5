@@ -19,6 +19,7 @@ static uint8_t RC5_sampleCounter = 0;
 static uint32_t RC5_val = 0;
 
 #undef RC5_VERBOSE_DEBUG_SIGNAL
+#define DEBUG_DIO_NUM RECOVERY_FOTA_DEBUG_DIO
 
 static void RC5_sampleFunc( void )
 {

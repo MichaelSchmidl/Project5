@@ -79,7 +79,10 @@ void GPIOirq_EventCallback(uint32_t event)
 
 int main(void)
 {
-	/* Ensure all priority bits are assigned as preemption priority bits.
+	// drive the POWER_ON signal as soon as possible, so the REED contact can open again
+    DIO->CFG[POWER_ON_DIO] = DIO_MODE_GPIO_OUT_1;
+
+    /* Ensure all priority bits are assigned as preemption priority bits.
      * Should not be changed! */
     NVIC_SetPriorityGrouping(0);
 
@@ -95,11 +98,10 @@ int main(void)
     }
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_GPIO_OUT_0;
 
-    EGG_initThread();
-
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();
+    PRINTF("**********************************************************\n");
     PRINTF("EasterEggApp started (build date: %s %s)\n", __DATE__, __TIME__);
     PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
 
@@ -111,6 +113,9 @@ int main(void)
     /* Ensure that Priority Grouping was not changed during device initialization.
      * Call it after logs are initialized. */
     configASSERT(NVIC_GetPriorityGrouping() == 0);
+
+    // initialize threads but do not start them so far...
+    EGG_initThread();
 
     /* Create application main thread for BLE Stack */
     osThreadNew(vThread_BLE, NULL, &thread_ble_attr);

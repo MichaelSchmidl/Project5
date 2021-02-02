@@ -289,7 +289,7 @@ int Hogpd_EnableRsp(ke_msg_id_t const msg_id,
     if (param->status == GAP_ERR_NO_ERROR)
     {
         hogpd_support_env.enable = true;
-        Restart_Keystroke_Env();
+//        Restart_Keystroke_Env();
     }
 
     return (KE_MSG_CONSUMED);
@@ -557,7 +557,7 @@ int Hogpd_ReportUpdRsp(ke_msg_id_t const msgid,
     {
         Hogpd_ReportUpdReq(ble_env[device_indx].conidx, HOGPD_KEY_NONE,
                            HOGPD_KEY_NONE);
-        Update_Keystroke_Env();
+        EGG_doneWithSendingKeyStroke();
     }
 
     return (KE_MSG_CONSUMED);

@@ -9,8 +9,6 @@
 #include "EggLogic.h"
 #include "TLC5955drv.h"
 
-#define SHOW_STATE_ON_RECOVERY_FOTA_DEBUG_DIO
-
 /* attribute structure for EGG LOGIC thread */
 const osThreadAttr_t thread_egglogic_attr =
 {
@@ -35,9 +33,23 @@ const osTimerAttr_t timer_egglogic_attr =
 osTimerId_t hEggLogicTimer = NULL;
 void eggLogicTimer_CB( void *argument );
 
+const osTimerAttr_t timer_systemOFF_attr =
+{
+	.name = "OffTimer"
+};
+osTimerId_t hSystemOFFimer = NULL;
+void systemOffTimer_CB( void *argument );
+
 
 #include "usb_hid_keys.h"
-static const struct on_semi_banner_str on_semi_banner[] =
+
+struct usb_hid_keystroke
+{
+    uint8_t key;
+    uint8_t mod;
+};
+
+static const struct usb_hid_keystroke URL1_keystrokes[] =
 {
 	{ KEY_LEFTMETA,  /* WIN */   KEY_MOD_LMETA },
 
@@ -66,95 +78,114 @@ static const struct on_semi_banner_str on_semi_banner[] =
     { KEY_M,         /* m */     KEY_MOD_NONE },
     { KEY_L,         /* l */     KEY_MOD_NONE },
 
-	{ KEY_CAPSLOCK,  /*    */   KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */   KEY_MOD_NONE },
+	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
+	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
 
-    { KEY_ESC,  /*    */   KEY_MOD_NONE },
+    { KEY_ESC,       /*    */    KEY_MOD_NONE },
 //	{ KEY_ENTER,     /* ENTER */ KEY_MOD_NONE }
 };
-static uint32_t on_semi_banner_size = \
-    sizeof(on_semi_banner) / \
-    sizeof(struct on_semi_banner_str);
-static uint32_t act_key = 0;
 
-/* ----------------------------------------------------------------------------
- * Function      : void Restart_Keystroke_Env(void)
- * ----------------------------------------------------------------------------
- * Description   : Initialize keyboard environment
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void Restart_Keystroke_Env(void)
+static const struct usb_hid_keystroke GREETINGS_keystrokes[] =
 {
-    app_env.key_pushed = false;
+	{ KEY_LEFTMETA,  /* WIN */   KEY_MOD_LMETA },
+
+	// toggle keyboard LED
+	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
+	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
+
+    { KEY_D,         /* d */     KEY_MOD_NONE },
+    { KEY_O,         /* o */     KEY_MOD_NONE },
+    { KEY_N,         /* n */     KEY_MOD_NONE },
+    { KEY_T,         /* t */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_T,         /* t */     KEY_MOD_NONE },
+    { KEY_O,         /* o */     KEY_MOD_NONE },
+    { KEY_U,         /* u */     KEY_MOD_NONE },
+    { KEY_C,         /* c */     KEY_MOD_NONE },
+    { KEY_H,         /* h */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_T,         /* t */     KEY_MOD_NONE },
+    { KEY_H,         /* h */     KEY_MOD_NONE },
+    { KEY_E,         /* e */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_F,         /* f */     KEY_MOD_NONE },
+    { KEY_A,         /* a */     KEY_MOD_NONE },
+    { KEY_C,         /* c */     KEY_MOD_NONE },
+    { KEY_E,         /* e */     KEY_MOD_NONE },
+    { KEY_S,         /* s */     KEY_MOD_NONE },
+
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_ESC,       /*    */    KEY_MOD_NONE }
+};
+
+
+struct keystroke_definition
+{
+	const struct usb_hid_keystroke *pKeystrokes;
+    uint32_t numberOfKeystrokes;
+    eggLogicMessage_t moreKeysToSendMessage;
+    eggLogicMessage_t lastKeySentMessage;
+};
+
+#define GREETINGS_INDEX 0
+#define URL1_INDEX      1
+static const struct keystroke_definition keystrokeSet[] =
+{
+	{
+		GREETINGS_keystrokes,
+		sizeof(GREETINGS_keystrokes) / sizeof(struct usb_hid_keystroke),
+		EGGLOGIC_MESSAGE_SEND_NEXT_GREETING_KEY,
+		EGGLOGIC_MESSAGE_LAST_GREETING_KEY_SENT
+	},
+	{
+		URL1_keystrokes,
+		sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke),
+		EGGLOGIC_MESSAGE_NOP,
+		EGGLOGIC_MESSAGE_DONE_WITH_URL
+	}
+};
+
+static uint32_t actualKeyIndex = 0;
+static uint32_t actualStringIndex = 0;
+
+
+void EGG_doneWithSendingKeyStroke(void)
+{
+	// set key state back, because we have send keypress and keyrelease now
+//    app_env.key_pushed = false;
     app_env.key_state = KEY_IDLE;
-}
 
-/* ----------------------------------------------------------------------------
- * Function      : void Update_Keystroke_Env(void)
- * ----------------------------------------------------------------------------
- * Description   : Initialize keyboard environment
- * Inputs        : None
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-void Update_Keystroke_Env(void)
-{
-    app_env.key_state = KEY_UPDATE;
-
-    // versteh nicht, warum man das hier braucht, damit es mit dem String weitergeht. Vorher war das auch nicht so!!!
-    Restart_Keystroke_Env();
     /* Prepare next banner's key */
-    act_key++;
-    act_key = act_key % on_semi_banner_size;
-
-    if ( 0 == act_key )
+    if ( actualKeyIndex < keystrokeSet[ actualStringIndex ].numberOfKeystrokes )
     {
-    	EGG_sendMessage( EGGLOGIC_MESSAGE_DONE_WITH_URL,
+        actualKeyIndex++;
+    	EGG_sendMessage( keystrokeSet[actualStringIndex].moreKeysToSendMessage,
+    			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
+    }
+    else
+    {
+    	EGG_sendMessage( keystrokeSet[actualStringIndex].lastKeySentMessage,
     			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
     }
 }
 
-/* ----------------------------------------------------------------------------
- * Function      : Send_Keystroke(void)
- * ----------------------------------------------------------------------------
- * Description   : Send keystroke to the host
- * Inputs        : key, mod_id
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-static void Send_Keystroke(const uint8_t key, const uint8_t mod_id)
+
+static void _sendKeystroke(const uint8_t key, const uint8_t mod_id)
 {
-    switch (app_env.key_state)
-    {
-        case KEY_PUSH:
-        {
-            app_env.key_state = KEY_REL;
-            Hogpd_ReportUpdReq(ble_env[0].conidx,
-                               key,
-                               mod_id);
-        }
-        break;
+//	app_env.key_pushed = true;
+	app_env.key_state = KEY_REL; // next we have to send KEY RELEASE - done in ble_hogd.c function Hogpd_ReportUpdRsp()
+	Hogpd_ReportUpdReq( ble_env[0].conidx,
+					    key,
+					    mod_id);
+}
 
-        // da kommen wir eh nicht mehr vorbei - warum auch immer
-        case KEY_UPDATE:
-        {
-            /* Restart Keyboard Environment */
-            Restart_Keystroke_Env();
 
-            /* Prepare next banner's key */
-            act_key++;
-            act_key = act_key % on_semi_banner_size;
-        }
-        break;
-
-        case KEY_REL:
-        default:
-        {
-        }
-        break;
-    }
+static void _restartAutoOFFtimer( void )
+{
+	osTimerStop( hSystemOFFimer );
+	osTimerStart( hSystemOFFimer, pdMS_TO_TICKS( 15UL * 60UL * 1000UL ) ); // 15min
 }
 
 
@@ -169,7 +200,6 @@ void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout )
 
 static void _showStateMachineDebugInfo( uint32_t state )
 {
-#ifdef SHOW_STATE_ON_RECOVERY_FOTA_DEBUG_DIO
 	Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 	while (state--)
 	{
@@ -177,7 +207,7 @@ static void _showStateMachineDebugInfo( uint32_t state )
 	    Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 	}
     Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
-#endif
+
     static eggLogic_state_t last_state = EGG_UNKNOWN_STATE;
 	if ( last_state != app_env.eggState )
 	{
@@ -189,33 +219,48 @@ static void _showStateMachineDebugInfo( uint32_t state )
 
 static void _stateMachine( eggLogicMessage_t msg )
 {
-	switch ( app_env.eggState )
+    static eggLogic_state_t last_state = EGG_UNKNOWN_STATE;
+
+    switch ( app_env.eggState )
 	{
 		case EGG_WAIT4_BLE_CONNECT: {
 		    if (ble_env[0].state == APPM_CONNECTED &&
 		        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
 		    {
-				app_env.eggState = EGG_SEND_URL_PART1;
-				act_key = 0;
+				app_env.eggState = EGG_SEND_GREETING;
+				actualKeyIndex = 0;
+		    	EGG_sendMessage( EGGLOGIC_MESSAGE_SEND_NEXT_GREETING_KEY,
+		    			         DEFAULT_QUEUE_POST_TIMEOUT );
 		    }
 		} break;
-
+		case EGG_SEND_GREETING: {
+			actualStringIndex = GREETINGS_INDEX; // GREETINGS
+   	        if (( EGGLOGIC_MESSAGE_TIMER_TICK == msg ) && (hogpd_support_env.enable == true))
+            {
+				_sendKeystroke( keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].key,
+								keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].mod );
+            }
+   	        else if ( EGGLOGIC_MESSAGE_LAST_GREETING_KEY_SENT == msg )
+   	        {
+				app_env.eggState = EGG_SEND_URL_PART1;
+				actualKeyIndex = 0;
+   	        }
+		} break;
 		case EGG_SEND_URL_PART1: {
    	        if (( EGGLOGIC_MESSAGE_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
             {
+   				_restartAutoOFFtimer();
 				/* Set the key status */
-				app_env.key_pushed = true;
-				app_env.key_state = KEY_PUSH;
-				Send_Keystroke(on_semi_banner[act_key].key,
-							   on_semi_banner[act_key].mod);
+				_sendKeystroke( keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].key,
+		                        keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].mod );
    	        }
-   	        else if ( 't' == msg )
+   	        else if ( EGGLOGIC_MESSAGE_DONE_WITH_URL == msg )
    	        {
 				app_env.eggState = EGG_WAIT4_RC5;
    	        }
 		} break;
 		case EGG_WAIT4_RC5: {
-			if ( '5' == msg )
+			if ( EGGLOGIC_MESSAGE_RC5_MATCH == msg )
 			{
 				TLC5955drv_refresh();
 				app_env.eggState = EGG_SEND_BRAILLE;
@@ -229,12 +274,21 @@ static void _stateMachine( eggLogicMessage_t msg )
 		} break;
 	}
 
+    // restart the AUTO OFF timer with every state change
+	if ( last_state != app_env.eggState )
+	{
+		_restartAutoOFFtimer();
+	    last_state = app_env.eggState;
+	}
+
+	// show debug information about state machine on RTT and DEBUG pin
     _showStateMachineDebugInfo((uint32_t) app_env.eggState);
 }
 
 
 __NO_RETURN void vThread_EggLogic(void *argument)
 {
+    PRINTF("%s entered\n", __func__);
 	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS(100) );
     /* Event Kernel Scheduler running in thread */
     while(true)
@@ -249,7 +303,7 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     			    if (ble_env[0].state != APPM_CONNECTED )
     			    {
     					app_env.eggState = EGG_WAIT4_BLE_CONNECT;
-    					act_key = 0;
+    					actualKeyIndex = 0;
     			    }
     				break;
     			case EGGLOGIC_MESSAGE_TOUCH_IRQ:{
@@ -266,6 +320,12 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 }
 
 
+void systemOffTimer_CB( void *argument )
+{
+    Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
+}
+
+
 void eggLogicTimer_CB( void *argument )
 {
 	EGG_sendMessage( EGGLOGIC_MESSAGE_TIMER_TICK,
@@ -275,6 +335,7 @@ void eggLogicTimer_CB( void *argument )
 
 void EGG_initThread( void )
 {
+    PRINTF("%s entered\n", __func__);
 	// create queues a.s.o
 	hEggLogicQueue = osMessageQueueNew( EGGLOGIC_QUEUE_DEPTH,
 			                            sizeof(eggLogicMessage_t),
@@ -283,6 +344,10 @@ void EGG_initThread( void )
 			                     osTimerPeriodic,
 								 NULL,
 								 &timer_egglogic_attr);
+	hSystemOFFimer = osTimerNew( systemOffTimer_CB,
+			                     osTimerOnce,
+								 NULL,
+								 &timer_systemOFF_attr);
 
 	// initialize hardware drivers we want to use
 	TLC5955drv_start();
@@ -291,6 +356,7 @@ void EGG_initThread( void )
 
 void EGG_startThread( void )
 {
+    PRINTF("%s entered\n", __func__);
     osThreadNew(vThread_EggLogic, NULL, &thread_egglogic_attr);
 }
 

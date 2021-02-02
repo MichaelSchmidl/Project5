@@ -156,6 +156,7 @@ extern "C"
 
 #define RC5_DIO_NUM                     0  //!< RC5 receiver data input
 #define BUTTON_DIO                      5  //!< Touch IRQ
+#define POWER_ON_DIO                    6  //!< turn on or off power
 
 #define SCLK_DIO_NUM                    7  //!< TLC5955
 #define SS_DIO_NUM                      8  //!< TLC5955
@@ -245,6 +246,7 @@ typedef enum
 {
 	EGG_UNKNOWN_STATE = 0,
     EGG_WAIT4_BLE_CONNECT,
+	EGG_SEND_GREETING,
 	EGG_SEND_URL_PART1,
 	EGG_WAIT4_RC5,
 	EGG_SEND_BRAILLE,
@@ -267,11 +269,6 @@ struct app_env_tag
     eggLogic_state_t eggState;
 };
 
-struct on_semi_banner_str
-{
-    uint8_t key;
-    uint8_t mod;
-};
 
 /* Support for the application manager and the application environment */
 extern struct app_env_tag app_env;
@@ -307,7 +304,7 @@ extern int Msg_Handler(ke_msg_id_t const msgid, void *param,
 
 extern void Restart_Keystroke_Env(void);
 
-extern void Update_Keystroke_Env(void);
+extern void EGG_doneWithSendingKeyStroke(void);
 
 void GPIOirq_EventCallback(uint32_t event);
 
