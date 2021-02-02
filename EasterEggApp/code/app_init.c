@@ -41,18 +41,6 @@ void App_Initialize(void)
     Sys_NVIC_DisableAllInt();
     Sys_NVIC_ClearAllPendingInt();
 
-    /* Test DIO12 to pause the program to make it easy to re-flash */
-    DIO->CFG[RECOVERY_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP |
-                             DIO_LPF_DISABLE | DIO_6X_DRIVE;
-
-    if(DIO_DATA->ALIAS[RECOVERY_DIO] == 0)
-    {
-        /* Erase the bond list from NVR2 flash */
-        BondList_RemoveAll();
-    }
-
-    while (DIO_DATA->ALIAS[RECOVERY_DIO] == 0);
-
     /* Configure the current trim settings for VCC, VDDA */
     ACS_VCC_CTRL->ICH_TRIM_BYTE = VCC_ICHTRIM_16MA_BYTE;
     ACS_VDDA_CP_CTRL->PTRIM_BYTE = VDDA_PTRIM_16MA_BYTE;
@@ -111,10 +99,7 @@ void App_Initialize(void)
     DIO_JTAG_SW_PAD_CFG->CM3_JTAG_DATA_EN_ALIAS = CM3_JTAG_DATA_DISABLED_BITBAND;
 
     /* Configure DIOs */
-    Sys_DIO_Config(LED_DIO_NUM, DIO_MODE_GPIO_OUT_0);
-    Sys_DIO_Config(DEBUG_DIO_NUM, DIO_MODE_GPIO_OUT_0);
-    Sys_DIO_Config(BUTTON2_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
-    Sys_DIO_Config(BUTTON3_DIO, DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
+    Sys_DIO_Config(RECOVERY_FOTA_DEBUG_DIO, DIO_MODE_GPIO_OUT_0);
     Sys_DIO_Config(RC5_DIO_NUM,  DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
 
     /* Initialize the baseband and BLE stack */

@@ -143,7 +143,7 @@ int LED_Timer(ke_msg_id_t const msg_id,
 
     if (ble_env[0].state < APPM_ADVERTISING)
     {
-        Sys_GPIO_Set_Low(LED_DIO_NUM);
+        Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 
         /* Reschedule timer */
         ke_timer_set(LED_TIMER, TASK_APP, TIMER_200MS_SETTING);
@@ -160,7 +160,7 @@ int LED_Timer(ke_msg_id_t const msg_id,
             ke_timer_set(LED_TIMER, TASK_APP, TIMER_200MS_SETTING);
 
             /* Toggle LED_DIO_NUM every 200ms */
-            Sys_GPIO_Toggle(LED_DIO_NUM);
+            Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO);
 
             toggle_cnt = 0;
         }
@@ -172,7 +172,7 @@ int LED_Timer(ke_msg_id_t const msg_id,
             ke_timer_set(LED_TIMER, TASK_APP, TIMER_200MS_SETTING);
 
             /* LED_DIO_NUM steady high */
-            Sys_GPIO_Set_High(LED_DIO_NUM);
+            Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
 
             toggle_cnt = 0;
         }
@@ -189,14 +189,14 @@ int LED_Timer(ke_msg_id_t const msg_id,
                 ke_timer_set(LED_TIMER, TASK_APP, TIMER_2S_SETTING);
 
                 /* LED_DIO_NUM steady high until next 2s blinking period */
-                Sys_GPIO_Set_High(LED_DIO_NUM);
+                Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
             }
             else
             {
                 toggle_cnt++;
 
                 /* Toggle LED_DIO_NUM */
-                Sys_GPIO_Toggle(LED_DIO_NUM);
+                Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO);
 
                 /* Schedule timer for 200ms later*/
                 ke_timer_set(LED_TIMER, TASK_APP, TIMER_200MS_SETTING);

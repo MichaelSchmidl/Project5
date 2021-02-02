@@ -44,6 +44,7 @@ extern "C"
 #include <FreeRTOS.h>
 #include <task.h>
 #include <cmsis_os2.h>
+#include "app_trace.h"
 
 #include <rsl10.h>
 #include <rsl10_ke.h>
@@ -151,18 +152,16 @@ extern "C"
 #define BAT_LVL_MAX                     100
 
 /* DIO numbers we use */
-#define RC5_DIO_NUM                     0
-#define BUTTON2_DIO                     2
-#define BUTTON3_DIO                     3
-#define MISO_DIO_NUM                    4
-#define BUTTON_DIO                      5
-#define LED_DIO_NUM                     6
-#define SCLK_DIO_NUM                    7
-#define SS_DIO_NUM                      8
-#define MOSI_DIO_NUM                    9
-#define DEBUG_DIO_NUM                   10
-#define RECOVERY_DIO                    12
-#define GSCLK_DIO_NUM                   13
+#define RECOVERY_FOTA_DEBUG_DIO         12 //!< recovery, FOTA and debug pin
+
+#define RC5_DIO_NUM                     0  //!< RC5 receiver data input
+#define BUTTON_DIO                      5  //!< Touch IRQ
+
+#define SCLK_DIO_NUM                    7  //!< TLC5955
+#define SS_DIO_NUM                      8  //!< TLC5955
+#define MOSI_DIO_NUM                    9  //!< TLC5955
+#define MISO_DIO_NUM                    4  //!< TLC5955
+#define GSCLK_DIO_NUM                   13 //!< TLC5955
 
 /* Output power */
 #define OUTPUT_POWER_DBM                0
@@ -244,7 +243,8 @@ enum key_state
 
 typedef enum
 {
-    EGG_WAIT4_BLE_CONNECT = 0,
+	EGG_UNKNOWN_STATE = 0,
+    EGG_WAIT4_BLE_CONNECT,
 	EGG_SEND_URL_PART1,
 	EGG_WAIT4_RC5,
 	EGG_SEND_BRAILLE,
@@ -310,8 +310,6 @@ extern void Restart_Keystroke_Env(void);
 extern void Update_Keystroke_Env(void);
 
 void GPIOirq_EventCallback(uint32_t event);
-
-__NO_RETURN void vThread_BLE(void *argument);
 
 
 /* ----------------------------------------------------------------------------

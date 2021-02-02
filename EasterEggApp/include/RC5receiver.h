@@ -20,7 +20,7 @@ extern "C"
 #include <rsl10.h>
 
 void RC5_init( void);
-void RC5_SignalChangeDetected( void );
+void RC5_HandleSignalChange( void );
 void TIMER0_IRQHandler(void);
 
 

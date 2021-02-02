@@ -43,7 +43,7 @@ static void RC5_sampleFunc( void )
     	// we have now our RC5 data
     	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
     	{
-        	EGG_sendMessage( EGG_RC5_MATCH, // we are done with RC5
+        	EGG_sendMessage( EGGLOGIC_MESSAGE_RC5_MATCH, // we are done with RC5
         			         0 );           // timeout=0 because IRQ context
     	}
 
@@ -64,7 +64,7 @@ static void RC5_sampleFunc( void )
 }
 
 
-void RC5_SignalChangeDetected( void )
+void RC5_HandleSignalChange( void )
 {
 #if 1
 	if ( 0 == RC5_sampleCounter )

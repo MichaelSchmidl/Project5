@@ -20,7 +20,6 @@
 #include "app.h"
 #include "sys_fota.h"
 #include "RC5receiver.h"
-#include "TLC5955drv.h"
 #include "EggLogic.h"
 
 DRIVER_GPIO_t *gpio;
@@ -32,6 +31,16 @@ const osThreadAttr_t thread_ble_attr =
     .priority = osPriorityNormal,
     .stack_size = 2048
 };
+__NO_RETURN void vThread_Debug(void *argument);
+
+/* attribute structure for Debug thread */
+const osThreadAttr_t thread_debug_attr =
+{
+    .name = "thDbg",
+    .priority = osPriorityLow,
+    .stack_size = 640
+};
+__NO_RETURN void vThread_BLE(void *argument);
 
 volatile uint32_t malloc_failed_count = 0;
 
@@ -56,11 +65,11 @@ void GPIOirq_EventCallback(uint32_t event)
     switch ( event )
     {
     	case GPIO_EVENT_0_IRQ:
-    		EGG_sendMessage( EGG_TOUCH_IRQ,
+    		EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH_IRQ,
     				         0UL ); // timeout=0 because IRQ context
 		    break;
     	case GPIO_EVENT_1_IRQ:
-    		RC5_SignalChangeDetected();
+    		RC5_HandleSignalChange();
 		    break;
     	default:
     		break;
@@ -70,7 +79,7 @@ void GPIOirq_EventCallback(uint32_t event)
 
 int main(void)
 {
-    /* Ensure all priority bits are assigned as preemption priority bits.
+	/* Ensure all priority bits are assigned as preemption priority bits.
      * Should not be changed! */
     NVIC_SetPriorityGrouping(0);
 
@@ -79,26 +88,25 @@ int main(void)
     SystemCoreClockUpdate();
 
     /* Start Update when button is pressed at startup */
-    if (DIO_DATA->ALIAS[BUTTON2_DIO] == 0)
+    DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;
+    if (DIO_DATA->ALIAS[RECOVERY_FOTA_DEBUG_DIO] == 0)
     {
     	Sys_Fota_StartDfu(1);
     }
-
-    TLC5955drv_start();
+    DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_GPIO_OUT_0;
 
     EGG_initThread();
 
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
-//    TRACE_INIT();
-//    PRINTF("RTOS + ble_peripheral_server_bond started (build date:%s,%s)\r\n", \
-           __DATE__, __TIME__);
-//    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
+    TRACE_INIT();
+    PRINTF("EasterEggApp started (build date: %s %s)\n", __DATE__, __TIME__);
+    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
 
     /* RTOS  initialization */
     osKernelInitialize();
-//    PRINTF("RTOS kernel tick frequency = %ldHz\r\n", osKernelGetTickFreq());
-//    PRINTF("RTOS kernel system timer frequency = %ldHz\r\n", osKernelGetSysTimerFreq());
+    PRINTF("RTOS kernel tick frequency = %ldHz\n", osKernelGetTickFreq());
+    PRINTF("RTOS kernel system timer frequency = %ldHz\n", osKernelGetSysTimerFreq());
 
     /* Ensure that Priority Grouping was not changed during device initialization.
      * Call it after logs are initialized. */
@@ -107,13 +115,45 @@ int main(void)
     /* Create application main thread for BLE Stack */
     osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
 
+    /* Create debug task */
+//    osThreadNew(vThread_Debug, NULL, &thread_debug_attr);
+
     /* start thread for egg logic */
     EGG_startThread();
 
     /* Start RTOS scheduler */
+    PRINTF("starting kernel...\n");
     if (osKernelGetState() == osKernelReady)
     {
         osKernelStart();
+    }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * Function      : void vThread_Debug(void *argument)
+ * ----------------------------------------------------------------------------
+ * Description   : Debug Thread function.
+ * Inputs        : - argument       - pointer to Thread arguments
+ * Outputs       : None
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+__NO_RETURN void vThread_Debug(void *argument)
+{
+    uint32_t runtime_s;
+    uint32_t runtime_ms;
+
+    while(true)
+    {
+        runtime_s = (uint32_t)osKernelGetTickCount() / osKernelGetTickFreq();
+        runtime_ms = (uint32_t)osKernelGetTickCount() % osKernelGetTickFreq();
+        PRINTF("[%ld.%03ld] ", runtime_s, runtime_ms);
+
+        PRINTF(" heap: %ld (minimum %ld)\r\n",
+               xPortGetFreeHeapSize(),
+               xPortGetMinimumEverFreeHeapSize());
+
+        osDelay( APP_DEBUG_DELAY_TICKS );
     }
 }
 
@@ -153,7 +193,7 @@ __NO_RETURN void vThread_BLE(void *argument)
         /* Refresh the watchdog timer */
         Sys_Watchdog_Refresh();
 
-#if 1
+#if 0
         /* Wait for an event before executing the scheduler again */
         Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
         SYS_WAIT_FOR_EVENT;

@@ -9,6 +9,8 @@
 #include "EggLogic.h"
 #include "TLC5955drv.h"
 
+#define SHOW_STATE_ON_RECOVERY_FOTA_DEBUG_DIO
+
 /* attribute structure for EGG LOGIC thread */
 const osThreadAttr_t thread_egglogic_attr =
 {
@@ -109,7 +111,7 @@ void Update_Keystroke_Env(void)
 
     if ( 0 == act_key )
     {
-    	EGG_sendMessage( EGG_DONE_WITH_URL,
+    	EGG_sendMessage( EGGLOGIC_MESSAGE_DONE_WITH_URL,
     			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
     }
 }
@@ -165,21 +167,29 @@ void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout )
 }
 
 
-static void _showStateMachineOnDebugPin( uint32_t state )
+static void _showStateMachineDebugInfo( uint32_t state )
 {
-    Sys_GPIO_Set_Low(LED_DIO_NUM);
+#ifdef SHOW_STATE_ON_RECOVERY_FOTA_DEBUG_DIO
+	Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 	while (state--)
 	{
-	    Sys_GPIO_Set_High(LED_DIO_NUM);
-	    Sys_GPIO_Set_Low(LED_DIO_NUM);
+	    Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
+	    Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 	}
-    Sys_GPIO_Set_High(LED_DIO_NUM);
+    Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
+#endif
+    static eggLogic_state_t last_state = EGG_UNKNOWN_STATE;
+	if ( last_state != app_env.eggState )
+	{
+	    PRINTF("%s %d->%d\n", __func__, last_state, app_env.eggState);
+	    last_state = app_env.eggState;
+	}
 }
 
 
 static void _stateMachine( eggLogicMessage_t msg )
 {
-    switch ( app_env.eggState )
+	switch ( app_env.eggState )
 	{
 		case EGG_WAIT4_BLE_CONNECT: {
 		    if (ble_env[0].state == APPM_CONNECTED &&
@@ -191,7 +201,7 @@ static void _stateMachine( eggLogicMessage_t msg )
 		} break;
 
 		case EGG_SEND_URL_PART1: {
-   	        if (( EGG_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
+   	        if (( EGGLOGIC_MESSAGE_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
             {
 				/* Set the key status */
 				app_env.key_pushed = true;
@@ -219,7 +229,7 @@ static void _stateMachine( eggLogicMessage_t msg )
 		} break;
 	}
 
-    _showStateMachineOnDebugPin((uint32_t) app_env.eggState);
+    _showStateMachineDebugInfo((uint32_t) app_env.eggState);
 }
 
 
@@ -229,18 +239,25 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     /* Event Kernel Scheduler running in thread */
     while(true)
     {
-    	eggLogicMessage_t msg = EGG_NOP;
+    	eggLogicMessage_t msg = EGGLOGIC_MESSAGE_NOP;
     	if ( osOK == osMessageQueueGet( hEggLogicQueue, &msg, NULL, -1 ))
     	{
     		switch (msg)
     		{
-    			case EGG_TIMER_TICK:
+    			case EGGLOGIC_MESSAGE_TIMER_TICK:
     				// if not connected, restart the EGG logic
     			    if (ble_env[0].state != APPM_CONNECTED )
     			    {
     					app_env.eggState = EGG_WAIT4_BLE_CONNECT;
     					act_key = 0;
     			    }
+    				break;
+    			case EGGLOGIC_MESSAGE_TOUCH_IRQ:{
+    				//! TODO: nachsehen welcher der drei Touches den IRQ ausgelöst hat
+    				EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH1_EVENT, // for now, we assume TOUCH1
+    						         DEFAULT_QUEUE_POST_TIMEOUT );
+    			} break;
+    			default:
     				break;
     		}
         	_stateMachine( msg );
@@ -251,7 +268,7 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 
 void eggLogicTimer_CB( void *argument )
 {
-	EGG_sendMessage( EGG_TIMER_TICK,
+	EGG_sendMessage( EGGLOGIC_MESSAGE_TIMER_TICK,
 			         DEFAULT_QUEUE_POST_TIMEOUT );
 }
 
@@ -266,6 +283,9 @@ void EGG_initThread( void )
 			                     osTimerPeriodic,
 								 NULL,
 								 &timer_egglogic_attr);
+
+	// initialize hardware drivers we want to use
+	TLC5955drv_start();
 }
 
 

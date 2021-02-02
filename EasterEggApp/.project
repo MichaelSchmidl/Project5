@@ -86,6 +86,16 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/timers.c</locationURI>
 		</link>
 		<link>
+			<name>RTE/Utility/SEGGER_RTT_Syscalls_GCC.c</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/BDK/1.12.1/Utility/SEGGER/RTT/src/SEGGER_RTT_Syscalls_GCC.c</locationURI>
+		</link>
+		<link>
+			<name>RTE/Utility/libRTT.a</name>
+			<type>1</type>
+			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/BDK/1.12.1/lib/libRTT.a</locationURI>
+		</link>
+		<link>
 			<name>RTE/Device/RSL10/DMA_RSLxx.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/source/DMA_RSLxx.c</locationURI>
