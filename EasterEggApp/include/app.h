@@ -63,7 +63,7 @@ extern "C"
 
 #include <GPIO_RSLxx.h>
 
-
+#include "EggLogic.h"
 
 /* ----------------------------------------------------------------------------
 * Application Version
@@ -241,17 +241,6 @@ enum key_state
     KEY_REL,
     KEY_UPDATE
 };
-
-typedef enum
-{
-	EGG_UNKNOWN_STATE = 0,
-    EGG_WAIT4_BLE_CONNECT,
-	EGG_SEND_GREETING,
-	EGG_SEND_URL_PART1,
-	EGG_WAIT4_RC5,
-	EGG_SEND_BRAILLE,
-	EGG_DONE
-}eggLogic_state_t;
 
 struct app_env_tag
 {

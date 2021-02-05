@@ -9,6 +9,10 @@
 #include "EggLogic.h"
 #include "TLC5955drv.h"
 
+#include "Statechart.h"
+
+struct Statechart eggStatechart;
+
 /* attribute structure for EGG LOGIC thread */
 const osThreadAttr_t thread_egglogic_attr =
 {
@@ -290,7 +294,11 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 {
     PRINTF("%s entered\n", __func__);
 	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS(100) );
-    /* Event Kernel Scheduler running in thread */
+
+	// YAKINDU stuff
+	statechart_init( &eggStatechart );
+	statechart_enter( &eggStatechart);
+
     while(true)
     {
     	eggLogicMessage_t msg = EGGLOGIC_MESSAGE_NOP;
@@ -299,9 +307,16 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     		switch (msg)
     		{
     			case EGGLOGIC_MESSAGE_TIMER_TICK:
+    				// if connected start...
+    			    if (ble_env[0].state == APPM_CONNECTED &&
+    			        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
+    			    {
+    			    	statechart_raise_bLEconnected( &eggStatechart );
+    			    }
     				// if not connected, restart the EGG logic
     			    if (ble_env[0].state != APPM_CONNECTED )
     			    {
+    			    	statechart_raise_bLEdisconnected( &eggStatechart );
     					app_env.eggState = EGG_WAIT4_BLE_CONNECT;
     					actualKeyIndex = 0;
     			    }

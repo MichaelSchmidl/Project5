@@ -1,0 +1,15 @@
+GeneratorModel for yakindu::c {
+
+	const PROJECT : string = "EasterEggApp"
+
+	const FOLDER : string = "code"
+
+	statechart Statechart {
+
+		feature Outlet {
+			targetProject = PROJECT
+			targetFolder = FOLDER
+			libraryTargetFolder = FOLDER
+		}
+	}
+}

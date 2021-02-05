@@ -23,6 +23,30 @@
 //-------- <<< Use Configuration Wizard in Context Menu >>> -----------------
 //
 
+// <e> Michaels onfiguration
+#ifndef xxxRTE_DMA
+ #define xxxRTE_DMA     1
+#endif
+// <e>xxxDMA 0 enabled
+// ===============================
+//
+//   <i> Defines if dma 0 should be enabled.
+//   <i> Default: 1
+#ifndef xxxRTE_DMA0_EN
+ #define xxxRTE_DMA0_EN       0
+#endif
+// <e>DMA 0 auto configuration
+// ===============================
+//
+// <i> Enables dma channel 0 configuration.
+// <i> Default: 1
+#ifndef xxxRTE_DMA0_AUTO_EN
+ #define xxxRTE_DMA0_AUTO_EN       0
+#endif
+// </e>
+// </e>
+// </e>
+
 // <e> DMA Configuration
 // =======================
 //
