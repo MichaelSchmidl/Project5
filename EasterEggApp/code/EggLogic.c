@@ -141,41 +141,13 @@ static const struct keystroke_definition keystrokeSet[] =
 {
 	{
 		GREETINGS_keystrokes,
-		sizeof(GREETINGS_keystrokes) / sizeof(struct usb_hid_keystroke),
-		EGGLOGIC_MESSAGE_SEND_NEXT_GREETING_KEY,
-		EGGLOGIC_MESSAGE_LAST_GREETING_KEY_SENT
+		sizeof(GREETINGS_keystrokes) / sizeof(struct usb_hid_keystroke)
 	},
 	{
 		URL1_keystrokes,
-		sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke),
-		EGGLOGIC_MESSAGE_NOP,
-		EGGLOGIC_MESSAGE_DONE_WITH_URL
+		sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke)
 	}
 };
-
-static uint32_t actualKeyIndex = 0;
-static uint32_t actualStringIndex = 0;
-
-
-void EGG_doneWithSendingKeyStroke(void)
-{
-	// set key state back, because we have send keypress and keyrelease now
-//    app_env.key_pushed = false;
-    app_env.key_state = KEY_IDLE;
-
-    /* Prepare next banner's key */
-    if ( actualKeyIndex < keystrokeSet[ actualStringIndex ].numberOfKeystrokes )
-    {
-        actualKeyIndex++;
-    	EGG_sendMessage( keystrokeSet[actualStringIndex].moreKeysToSendMessage,
-    			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
-    }
-    else
-    {
-    	EGG_sendMessage( keystrokeSet[actualStringIndex].lastKeySentMessage,
-    			         DEFAULT_QUEUE_POST_TIMEOUT ); // we are done with URL typing
-    }
-}
 
 
 static void _sendKeystroke(const uint8_t key, const uint8_t mod_id)
@@ -206,85 +178,28 @@ static void _showStateMachineDebugInfo( uint32_t state )
 	    Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
 	}
     Sys_GPIO_Set_Low(RECOVERY_FOTA_DEBUG_DIO);
-
-    static eggLogic_state_t last_state = EGG_UNKNOWN_STATE;
-	if ( last_state != app_env.eggState )
-	{
-	    PRINTF("%s %d->%d\n", __func__, last_state, app_env.eggState);
-	    last_state = app_env.eggState;
-	}
-}
-
-
-static void _stateMachine( eggLogicMessage_t msg )
-{
-    static eggLogic_state_t last_state = EGG_UNKNOWN_STATE;
-
-    switch ( app_env.eggState )
-	{
-		case EGG_WAIT4_BLE_CONNECT: {
-		    if (ble_env[0].state == APPM_CONNECTED &&
-		        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
-		    {
-				app_env.eggState = EGG_SEND_GREETING;
-				actualKeyIndex = 0;
-		    	EGG_sendMessage( EGGLOGIC_MESSAGE_SEND_NEXT_GREETING_KEY,
-		    			         DEFAULT_QUEUE_POST_TIMEOUT );
-		    }
-		} break;
-		case EGG_SEND_GREETING: {
-			actualStringIndex = GREETINGS_INDEX; // GREETINGS
-   	        if (( EGGLOGIC_MESSAGE_TIMER_TICK == msg ) && (hogpd_support_env.enable == true))
-            {
-				_sendKeystroke( keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].key,
-								keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].mod );
-            }
-   	        else if ( EGGLOGIC_MESSAGE_LAST_GREETING_KEY_SENT == msg )
-   	        {
-				app_env.eggState = EGG_SEND_URL_PART1;
-				actualKeyIndex = 0;
-   	        }
-		} break;
-		case EGG_SEND_URL_PART1: {
-   	        if (( EGGLOGIC_MESSAGE_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
-            {
-				/* Set the key status */
-				_sendKeystroke( keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].key,
-		                        keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].mod );
-   	        }
-   	        else if ( EGGLOGIC_MESSAGE_DONE_WITH_URL == msg )
-   	        {
-				app_env.eggState = EGG_WAIT4_RC5;
-   	        }
-		} break;
-		case EGG_WAIT4_RC5: {
-			if ( EGGLOGIC_MESSAGE_RC5_MATCH == msg )
-			{
-				TLC5955drv_refresh();
-				app_env.eggState = EGG_SEND_BRAILLE;
-			}
-		} break;
-		case EGG_SEND_BRAILLE: {
-
-		} break;
-		default: {
-			app_env.eggState = EGG_WAIT4_BLE_CONNECT;
-		} break;
-	}
-
-    // restart the AUTO OFF timer with every state change
-	if ( last_state != app_env.eggState )
-	{
-	    last_state = app_env.eggState;
-	}
-
-	// show debug information about state machine on RTT and DEBUG pin
-    _showStateMachineDebugInfo((uint32_t) app_env.eggState);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // YAKINDU function implementations
+void statechart_set_timer(Statechart* handle, const sc_eventid evid, const sc_integer time_ms, const sc_boolean periodic){
+	sc_timer_start(&timer_service, (void*) handle, evid, time_ms, periodic);
+}
+
+
+void statechart_unset_timer(Statechart* handle, const sc_eventid evid){
+	sc_timer_cancel(&timer_service, evid);
+	(void) handle;
+}
+
+
+void EGG_doneWithSendingKeyStroke( void )
+{
+	statechart_raise_kBDstrokeSent( &eggStatechart );
+}
+
+
 void statechart_toggleDebugLED(Statechart* handle)
 {
     Sys_GPIO_Toggle(POWER_ON_DIO); // toggle debug LED
@@ -296,14 +211,27 @@ void statechart_shutDownSystem(Statechart* handle)
     Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
 }
 
-void statechart_set_timer(Statechart* handle, const sc_eventid evid, const sc_integer time_ms, const sc_boolean periodic){
-	sc_timer_start(&timer_service, (void*) handle, evid, time_ms, periodic);
+
+void statechart_sendKBDstroke(Statechart* handle, const sc_integer whichString, const sc_integer index)
+{
+	//!TODO: check index end raise STRING_DONE if so
+	if ( index >= keystrokeSet[whichString].numberOfKeystrokes )
+	{
+
+	}
+	else
+	{
+		_sendKeystroke( keystrokeSet[whichString].pKeystrokes[index].key,
+						keystrokeSet[whichString].pKeystrokes[index].mod );
+	}
 }
 
-void statechart_unset_timer(Statechart* handle, const sc_eventid evid){
-	sc_timer_cancel(&timer_service, evid);
-	(void) handle;
+
+sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString)
+{
+	return keystrokeSet[whichString].numberOfKeystrokes;
 }
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -335,8 +263,6 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     			    if (ble_env[0].state != APPM_CONNECTED )
     			    {
     			    	statechart_raise_bLEdisconnected( &eggStatechart );
-    					app_env.eggState = EGG_WAIT4_BLE_CONNECT;
-    					actualKeyIndex = 0;
     			    }
     				break;
     			case EGGLOGIC_MESSAGE_TOUCH_IRQ:{
@@ -347,7 +273,6 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     			default:
     				break;
     		}
-        	_stateMachine( msg );
     	}
     }
 }

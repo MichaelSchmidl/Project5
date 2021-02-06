@@ -253,9 +253,6 @@ struct app_env_tag
     /* HID service */
     uint8_t key_state;
     bool key_pushed;
-
-    /* business logic */
-    eggLogic_state_t eggState;
 };
 
 
@@ -292,8 +289,6 @@ extern int Msg_Handler(ke_msg_id_t const msgid, void *param,
                        ke_task_id_t const src_id);
 
 extern void Restart_Keystroke_Env(void);
-
-extern void EGG_doneWithSendingKeyStroke(void);
 
 void GPIOirq_EventCallback(uint32_t event);
 

@@ -19,6 +19,10 @@ This is a state machine uses time events which require access to a timing servic
 are defined.
 
 This state machine makes use of operations declared in the state machines interface or internal scopes. Thus the function prototypes:
+	- statechart_sendTLCbraille
+	- statechart_sendTLCmorse
+	- statechart_sendKBDstroke
+	- statechart_getKBDstringLength
 	- statechart_shutDownSystem
 	- statechart_toggleDebugLED
 are defined.
@@ -29,6 +33,11 @@ There are some constraints that have to be considered for the implementation of 
 	- make sure that the execution time is as short as possible.
  
 */
+
+extern void statechart_sendTLCbraille( Statechart* handle, const sc_integer index);
+extern void statechart_sendTLCmorse( Statechart* handle, const sc_integer index);
+extern void statechart_sendKBDstroke( Statechart* handle, const sc_integer whichString, const sc_integer index);
+extern sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString);
 extern void statechart_shutDownSystem( Statechart* handle);
 extern void statechart_toggleDebugLED( Statechart* handle);
 
