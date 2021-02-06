@@ -18,12 +18,19 @@ This is a state machine uses time events which require access to a timing servic
 	- statechart_unset_timer
 are defined.
 
+This state machine makes use of operations declared in the state machines interface or internal scopes. Thus the function prototypes:
+	- statechart_shutDownSystem
+	- statechart_toggleDebugLED
+are defined.
+
 These functions will be called during a 'run to completion step' (runCycle) of the statechart. 
 There are some constraints that have to be considered for the implementation of these functions:
 	- never call the statechart API functions from within these functions.
 	- make sure that the execution time is as short as possible.
  
 */
+extern void statechart_shutDownSystem( Statechart* handle);
+extern void statechart_toggleDebugLED( Statechart* handle);
 
 
 /*!

@@ -9,10 +9,19 @@
 #include "EggLogic.h"
 #include "TLC5955drv.h"
 
-#include "Statechart.h"
+///////////////////////////////////////////////////////////////////////////////
+// YAKINDU stuff
+#include "Statechart_required.h"
+#include "sc_timer_service.h"
 
 struct Statechart eggStatechart;
+#define MAX_TIMERS 20
+#define TICK_MS 100
+static sc_timer_t timers[MAX_TIMERS];
+static sc_timer_service_t timer_service;
+///////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////
 /* attribute structure for EGG LOGIC thread */
 const osThreadAttr_t thread_egglogic_attr =
 {
@@ -36,13 +45,6 @@ const osTimerAttr_t timer_egglogic_attr =
 };
 osTimerId_t hEggLogicTimer = NULL;
 void eggLogicTimer_CB( void *argument );
-
-const osTimerAttr_t timer_systemOFF_attr =
-{
-	.name = "OffTimer"
-};
-osTimerId_t hSystemOFFimer = NULL;
-void systemOffTimer_CB( void *argument );
 
 
 #include "usb_hid_keys.h"
@@ -186,13 +188,6 @@ static void _sendKeystroke(const uint8_t key, const uint8_t mod_id)
 }
 
 
-static void _restartAutoOFFtimer( void )
-{
-	osTimerStop( hSystemOFFimer );
-	osTimerStart( hSystemOFFimer, pdMS_TO_TICKS( 15UL * 60UL * 1000UL ) ); // 15min
-}
-
-
 void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout )
 {
 	osMessageQueuePut( hEggLogicQueue, // Queue Handle
@@ -253,7 +248,6 @@ static void _stateMachine( eggLogicMessage_t msg )
 		case EGG_SEND_URL_PART1: {
    	        if (( EGGLOGIC_MESSAGE_TOUCH1_EVENT == msg ) && (hogpd_support_env.enable == true))
             {
-   				_restartAutoOFFtimer();
 				/* Set the key status */
 				_sendKeystroke( keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].key,
 		                        keystrokeSet[actualStringIndex].pKeystrokes[actualKeyIndex].mod );
@@ -281,7 +275,6 @@ static void _stateMachine( eggLogicMessage_t msg )
     // restart the AUTO OFF timer with every state change
 	if ( last_state != app_env.eggState )
 	{
-		_restartAutoOFFtimer();
 	    last_state = app_env.eggState;
 	}
 
@@ -290,12 +283,37 @@ static void _stateMachine( eggLogicMessage_t msg )
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+// YAKINDU function implementations
+void statechart_toggleDebugLED(Statechart* handle)
+{
+    Sys_GPIO_Toggle(POWER_ON_DIO); // toggle debug LED
+}
+
+
+void statechart_shutDownSystem(Statechart* handle)
+{
+    Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
+}
+
+void statechart_set_timer(Statechart* handle, const sc_eventid evid, const sc_integer time_ms, const sc_boolean periodic){
+	sc_timer_start(&timer_service, (void*) handle, evid, time_ms, periodic);
+}
+
+void statechart_unset_timer(Statechart* handle, const sc_eventid evid){
+	sc_timer_cancel(&timer_service, evid);
+	(void) handle;
+}
+///////////////////////////////////////////////////////////////////////////////
+
+
 __NO_RETURN void vThread_EggLogic(void *argument)
 {
     PRINTF("%s entered\n", __func__);
-	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS(100) );
+	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS( TICK_MS ) );
 
 	// YAKINDU stuff
+    sc_timer_service_init(&timer_service, timers, MAX_TIMERS, (sc_raise_time_event_fp) &statechart_raise_time_event);
 	statechart_init( &eggStatechart );
 	statechart_enter( &eggStatechart);
 
@@ -335,14 +353,10 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 }
 
 
-void systemOffTimer_CB( void *argument )
-{
-    Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
-}
-
-
 void eggLogicTimer_CB( void *argument )
 {
+	sc_timer_service_proceed(&timer_service, TICK_MS);
+
 	EGG_sendMessage( EGGLOGIC_MESSAGE_TIMER_TICK,
 			         DEFAULT_QUEUE_POST_TIMEOUT );
 }
@@ -359,11 +373,6 @@ void EGG_initThread( void )
 			                     osTimerPeriodic,
 								 NULL,
 								 &timer_egglogic_attr);
-	hSystemOFFimer = osTimerNew( systemOffTimer_CB,
-			                     osTimerOnce,
-								 NULL,
-								 &timer_systemOFF_attr);
-
 	// initialize hardware drivers we want to use
 	TLC5955drv_start();
 }

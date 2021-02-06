@@ -17,6 +17,11 @@ typedef struct Statechart Statechart;
 */
 typedef struct StatechartIface StatechartIface;
 
+/*!
+* Forward declaration of the data structure for the StatechartTimeEvents interface scope.
+*/
+typedef struct StatechartTimeEvents StatechartTimeEvents;
+
 #ifdef __cplusplus
 }
 #endif
@@ -45,6 +50,8 @@ extern "C" {
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
 #define STATECHART_MAX_ORTHOGONAL_STATES 1
+/*! Define maximum number of time events that can be active at once */
+#define STATECHART_MAX_PARALLEL_TIME_EVENTS 2
 
 /*! Define indices of states in the StateConfVector */
 #define SCVI_STATECHART_MAIN_REGION_WAIT4BLE 0
@@ -64,7 +71,9 @@ typedef enum  {
 	Statechart_Touch3press,
 	Statechart_RC5match,
 	Statechart_GYROtilt,
-	Statechart_KBDstrokeSent
+	Statechart_KBDstrokeSent,
+	Statechart_Statechart_main_region_sendGreeting_time_event_0,
+	Statechart_Statechart_main_region_sendGreeting_time_event_1
 } StatechartEventID;
 
 /*
@@ -106,9 +115,19 @@ struct StatechartIface
 	sc_boolean RC5match_raised;
 	sc_boolean GYROtilt_raised;
 	sc_boolean KBDstrokeSent_raised;
-	sc_observable sendTLCbraille;
-	sc_observable sendTLCmorse;
-	sc_observable sendKBDstroke;
+	sc_observable_sc_integer sendTLCbraille;
+	sc_observable_sc_integer sendTLCmorse;
+	sc_observable_sc_integer sendKBDstroke;
+	sc_observable shutDown;
+};
+
+
+
+/*! Type declaration of the data structure for the StatechartTimeEvents interface scope. */
+struct StatechartTimeEvents
+{
+	sc_boolean statechart_main_region_sendGreeting_tev0_raised;
+	sc_boolean statechart_main_region_sendGreeting_tev1_raised;
 };
 
 
@@ -125,6 +144,7 @@ struct Statechart
 	StatechartStates stateConfVector[STATECHART_MAX_ORTHOGONAL_STATES];
 	sc_ushort stateConfVectorPosition; 
 	StatechartIface iface;
+	StatechartTimeEvents timeEvents;
 	sc_boolean isExecuting;
 	statechart_eventqueue in_event_queue;
 	statechart_event in_buffer[STATECHART_IN_EVENTQUEUE_BUFFERSIZE];
@@ -144,6 +164,8 @@ extern void statechart_exit(Statechart* handle);
 
 
 
+/*! Raises a time event. */
+extern void statechart_raise_time_event(Statechart* handle, sc_eventid evid);
 
 /*! Raises the in event 'BLEconnected' that is defined in the default interface scope. */ 
 extern void statechart_raise_bLEconnected(Statechart* handle);
@@ -162,13 +184,16 @@ extern void statechart_raise_gYROtilt(Statechart* handle);
 /*! Raises the in event 'KBDstrokeSent' that is defined in the default interface scope. */ 
 extern void statechart_raise_kBDstrokeSent(Statechart* handle);
 /*! Returns the observable for the out event 'sendTLCbraille' that is defined in the default interface scope. */ 
-extern sc_observable* statechart_get_sendTLCbraille(Statechart* handle);
+extern sc_observable_sc_integer* statechart_get_sendTLCbraille(Statechart* handle);
 
 /*! Returns the observable for the out event 'sendTLCmorse' that is defined in the default interface scope. */ 
-extern sc_observable* statechart_get_sendTLCmorse(Statechart* handle);
+extern sc_observable_sc_integer* statechart_get_sendTLCmorse(Statechart* handle);
 
 /*! Returns the observable for the out event 'sendKBDstroke' that is defined in the default interface scope. */ 
-extern sc_observable* statechart_get_sendKBDstroke(Statechart* handle);
+extern sc_observable_sc_integer* statechart_get_sendKBDstroke(Statechart* handle);
+
+/*! Returns the observable for the out event 'shutDown' that is defined in the default interface scope. */ 
+extern sc_observable* statechart_get_shutDown(Statechart* handle);
 
 
 /*!
