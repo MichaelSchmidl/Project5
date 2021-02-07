@@ -131,8 +131,6 @@ struct keystroke_definition
 {
 	const struct usb_hid_keystroke *pKeystrokes;
     uint32_t numberOfKeystrokes;
-    eggLogicMessage_t moreKeysToSendMessage;
-    eggLogicMessage_t lastKeySentMessage;
 };
 
 #define GREETINGS_INDEX 0
