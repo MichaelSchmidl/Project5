@@ -1,16 +1,18 @@
-GeneratorModel for yakindu::c {
+GeneratorModel for yakindu::images {
 
 	const PROJECT : string = "EasterEggApp"
 
-	const FOLDER : string = "code"
+	const FOLDER : string = "images"
 
 	statechart Statechart {
 
 		feature Outlet {
 			targetProject = PROJECT
 			targetFolder = FOLDER
-			libraryTargetFolder = FOLDER
 		}
-
+		
+		feature Renderer {
+			format = "png"
+		}
 	}
 }

@@ -11,4 +11,6 @@ Google Document: https://docs.google.com/document/d/1JKzkXg6ti9WWn0LwGXhklhcn5QA
 <p>
 <img src="images/Floorplan.png">
 <p>
+<img src="EasterEggApp/images/Statechart_0.png">
+<p>
 <img src="images/Projektplan.png">
