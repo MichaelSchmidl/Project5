@@ -27,7 +27,7 @@ const osThreadAttr_t thread_egglogic_attr =
 {
     .name = "thEGG",
     .priority = osPriorityNormal,
-    .stack_size = 2048
+    .stack_size = 4096
 };
 __NO_RETURN void vThread_EggLogic(void *argument);
 
@@ -120,10 +120,7 @@ static const struct usb_hid_keystroke GREETINGS_keystrokes[] =
     { KEY_E,         /* e */     KEY_MOD_NONE },
     { KEY_S,         /* s */     KEY_MOD_NONE },
 
-    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
-    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
-    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
-    { KEY_ESC,       /*    */    KEY_MOD_NONE }
+//    { KEY_ESC,       /*    */    KEY_MOD_NONE },
 };
 
 
@@ -206,6 +203,7 @@ void statechart_toggleDebugLED(Statechart* handle)
 
 void statechart_shutDownSystem(Statechart* handle)
 {
+    PRINTF("%s entered\n", __func__);
     Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
 }
 
@@ -251,6 +249,7 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     		switch (msg)
     		{
     			case EGGLOGIC_MESSAGE_TIMER_TICK:
+    				sc_timer_service_proceed(&timer_service, TICK_MS);
     				// if connected start...
     			    if (ble_env[0].state == APPM_CONNECTED &&
     			        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
@@ -278,8 +277,6 @@ __NO_RETURN void vThread_EggLogic(void *argument)
 
 void eggLogicTimer_CB( void *argument )
 {
-	sc_timer_service_proceed(&timer_service, TICK_MS);
-
 	EGG_sendMessage( EGGLOGIC_MESSAGE_TIMER_TICK,
 			         DEFAULT_QUEUE_POST_TIMEOUT );
 }
@@ -287,7 +284,7 @@ void eggLogicTimer_CB( void *argument )
 
 void EGG_initThread( void )
 {
-    PRINTF("%s entered\n", __func__);
+//    PRINTF("%s entered\n", __func__);
 	// create queues a.s.o
 	hEggLogicQueue = osMessageQueueNew( EGGLOGIC_QUEUE_DEPTH,
 			                            sizeof(eggLogicMessage_t),
@@ -303,8 +300,12 @@ void EGG_initThread( void )
 
 void EGG_startThread( void )
 {
-    PRINTF("%s entered\n", __func__);
-    osThreadNew(vThread_EggLogic, NULL, &thread_egglogic_attr);
+	PRINTF("%s entered\n", __func__);
+    if (NULL == osThreadNew(vThread_EggLogic, NULL, &thread_egglogic_attr))
+    {
+    	PRINTF("ERROR: osThreadNew failed\n");
+
+    }
 }
 
 

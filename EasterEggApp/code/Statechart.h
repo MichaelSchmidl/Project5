@@ -50,17 +50,26 @@ extern "C" {
 #define SC_INVALID_EVENT_VALUE 0
 #endif
 /*! Define number of states in the state enum */
-#define STATECHART_STATE_COUNT 3
+#define STATECHART_STATE_COUNT 12
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
 #define STATECHART_MAX_ORTHOGONAL_STATES 1
 /*! Define maximum number of time events that can be active at once */
-#define STATECHART_MAX_PARALLEL_TIME_EVENTS 4
+#define STATECHART_MAX_PARALLEL_TIME_EVENTS 3
 
 /*! Define indices of states in the StateConfVector */
 #define SCVI_STATECHART_MAIN_REGION_WAIT4BLE 0
-#define SCVI_STATECHART_MAIN_REGION_SENDGREETING 0
 #define SCVI_STATECHART_MAIN_REGION_AUTOSHUTDOWN 0
+#define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_SENDGREETINGKEYSTROKE 0
+#define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_WAITFORGREETINGKEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_GRACEPERIOD 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_SENDURL1KEYSTROKE 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_WAIT4URL1KEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT_R1_SENDURL2KEYSTROKE 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT_R1_WAIT4URL2KEYSTROKESENT 0
 
 /*
  * Union of all possible event value types.
@@ -84,10 +93,16 @@ typedef enum  {
 	Statechart_KBDstrokeSent,
 	Statechart_KBDstringDone,
 	Statechart_Statechart_main_region_wait4BLE_time_event_0,
-	Statechart_Statechart_main_region_sendGreeting_time_event_0,
-	Statechart_Statechart_main_region_sendGreeting_time_event_1,
-	Statechart_Statechart_main_region_sendGreeting_time_event_2,
-	Statechart_Statechart_main_region_sendGreeting_time_event_3
+	Statechart_Statechart_main_region_sendGreetingText_time_event_0,
+	Statechart_Statechart_main_region_sendGreetingText_time_event_1,
+	Statechart_Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_time_event_0,
+	Statechart_Statechart_main_region_sendGreetingText_r1_gracePeriod_time_event_0,
+	Statechart_Statechart_main_region_sendURL1Text_time_event_0,
+	Statechart_Statechart_main_region_sendURL1Text_time_event_1,
+	Statechart_Statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke_time_event_0,
+	Statechart_Statechart_main_region_sendURL2Text_time_event_0,
+	Statechart_Statechart_main_region_sendURL2Text_time_event_1,
+	Statechart_Statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke_time_event_0
 } StatechartEventID;
 
 /*
@@ -115,15 +130,27 @@ typedef enum
 {
 	Statechart_last_state,
 	Statechart_main_region_wait4BLE,
-	Statechart_main_region_sendGreeting,
-	Statechart_main_region_autoShutdown
+	Statechart_main_region_autoShutdown,
+	Statechart_main_region_sendGreetingText,
+	Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke,
+	Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent,
+	Statechart_main_region_sendGreetingText_r1_gracePeriod,
+	Statechart_main_region_sendURL1Text,
+	Statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke,
+	Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent,
+	Statechart_main_region_sendURL2Text,
+	Statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke,
+	Statechart_main_region_sendURL2Text_r1_wait4URL2KeyStrokeSent
 } StatechartStates;
 
 
 /*! Type declaration of the data structure for the StatechartInternal interface scope. */
 struct StatechartInternal
 {
+	sc_integer generalTimeout;
 	sc_integer greetingIndex;
+	sc_integer url1Index;
+	sc_integer url2Index;
 };
 
 
@@ -149,10 +176,16 @@ struct StatechartIface
 struct StatechartTimeEvents
 {
 	sc_boolean statechart_main_region_wait4BLE_tev0_raised;
-	sc_boolean statechart_main_region_sendGreeting_tev0_raised;
-	sc_boolean statechart_main_region_sendGreeting_tev1_raised;
-	sc_boolean statechart_main_region_sendGreeting_tev2_raised;
-	sc_boolean statechart_main_region_sendGreeting_tev3_raised;
+	sc_boolean statechart_main_region_sendGreetingText_tev0_raised;
+	sc_boolean statechart_main_region_sendGreetingText_tev1_raised;
+	sc_boolean statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised;
+	sc_boolean statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised;
+	sc_boolean statechart_main_region_sendURL1Text_tev0_raised;
+	sc_boolean statechart_main_region_sendURL1Text_tev1_raised;
+	sc_boolean statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke_tev0_raised;
+	sc_boolean statechart_main_region_sendURL2Text_tev0_raised;
+	sc_boolean statechart_main_region_sendURL2Text_tev1_raised;
+	sc_boolean statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke_tev0_raised;
 };
 
 

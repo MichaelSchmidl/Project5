@@ -102,13 +102,13 @@ int main(void)
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();
     PRINTF("**********************************************************\n");
-    PRINTF("EasterEggApp started (build date: %s %s)\n", __DATE__, __TIME__);
-    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
+    PRINTF("EasterEggApp started (build %s %s)\n", __DATE__, __TIME__);
+//    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
 
     /* RTOS  initialization */
     osKernelInitialize();
-    PRINTF("RTOS kernel tick frequency = %ldHz\n", osKernelGetTickFreq());
-    PRINTF("RTOS kernel system timer frequency = %ldHz\n", osKernelGetSysTimerFreq());
+//    PRINTF("RTOS kernel tick frequency = %ldHz\n", osKernelGetTickFreq());
+//    PRINTF("RTOS kernel system timer frequency = %ldHz\n", osKernelGetSysTimerFreq());
 
     /* Ensure that Priority Grouping was not changed during device initialization.
      * Call it after logs are initialized. */
