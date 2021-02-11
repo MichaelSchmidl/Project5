@@ -50,7 +50,7 @@ extern "C" {
 #define SC_INVALID_EVENT_VALUE 0
 #endif
 /*! Define number of states in the state enum */
-#define STATECHART_STATE_COUNT 12
+#define STATECHART_STATE_COUNT 13
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
 #define STATECHART_MAX_ORTHOGONAL_STATES 1
@@ -67,6 +67,7 @@ extern "C" {
 #define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT 0
 #define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_SENDURL1KEYSTROKE 0
 #define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_WAIT4URL1KEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_WAIT4NEXTURL1TOUCH 0
 #define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT 0
 #define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT_R1_SENDURL2KEYSTROKE 0
 #define SCVI_STATECHART_MAIN_REGION_SENDURL2TEXT_R1_WAIT4URL2KEYSTROKESENT 0
@@ -138,6 +139,7 @@ typedef enum
 	Statechart_main_region_sendURL1Text,
 	Statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke,
 	Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent,
+	Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch,
 	Statechart_main_region_sendURL2Text,
 	Statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke,
 	Statechart_main_region_sendURL2Text_r1_wait4URL2KeyStrokeSent

@@ -29,16 +29,7 @@ const osThreadAttr_t thread_ble_attr =
 {
     .name = "thBLE",
     .priority = osPriorityNormal,
-    .stack_size = 2048
-};
-__NO_RETURN void vThread_Debug(void *argument);
-
-/* attribute structure for Debug thread */
-const osThreadAttr_t thread_debug_attr =
-{
-    .name = "thDbg",
-    .priority = osPriorityLow,
-    .stack_size = 640
+    .stack_size = 3*1024
 };
 __NO_RETURN void vThread_BLE(void *argument);
 
@@ -94,7 +85,10 @@ int main(void)
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;
     if (DIO_DATA->ALIAS[RECOVERY_FOTA_DEBUG_DIO] == 0)
     {
-    	Sys_Fota_StartDfu(1);
+        /* Erase the bond list from NVR2 flash */
+        BondList_RemoveAll();
+        // start software update
+        Sys_Fota_StartDfu(1);
     }
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_GPIO_OUT_0;
 
@@ -120,9 +114,6 @@ int main(void)
     /* Create application main thread for BLE Stack */
     osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
 
-    /* Create debug task */
-//    osThreadNew(vThread_Debug, NULL, &thread_debug_attr);
-
     /* start thread for egg logic */
     EGG_startThread();
 
@@ -131,34 +122,6 @@ int main(void)
     if (osKernelGetState() == osKernelReady)
     {
         osKernelStart();
-    }
-}
-
-
-/* ----------------------------------------------------------------------------
- * Function      : void vThread_Debug(void *argument)
- * ----------------------------------------------------------------------------
- * Description   : Debug Thread function.
- * Inputs        : - argument       - pointer to Thread arguments
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-__NO_RETURN void vThread_Debug(void *argument)
-{
-    uint32_t runtime_s;
-    uint32_t runtime_ms;
-
-    while(true)
-    {
-        runtime_s = (uint32_t)osKernelGetTickCount() / osKernelGetTickFreq();
-        runtime_ms = (uint32_t)osKernelGetTickCount() % osKernelGetTickFreq();
-        PRINTF("[%ld.%03ld] ", runtime_s, runtime_ms);
-
-        PRINTF(" heap: %ld (minimum %ld)\r\n",
-               xPortGetFreeHeapSize(),
-               xPortGetMinimumEverFreeHeapSize());
-
-        osDelay( APP_DEBUG_DELAY_TICKS );
     }
 }
 

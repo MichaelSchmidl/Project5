@@ -40,6 +40,7 @@ static void enseq_main_region_sendGreetingText_r1_gracePeriod_default(Statechart
 static void enseq_main_region_sendURL1Text_default(Statechart* handle);
 static void enseq_main_region_sendURL1Text_r1_sendURL1KeyStroke_default(Statechart* handle);
 static void enseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent_default(Statechart* handle);
+static void enseq_main_region_sendURL1Text_r1_wait4NextURL1touch_default(Statechart* handle);
 static void enseq_main_region_sendURL2Text_default(Statechart* handle);
 static void enseq_main_region_sendURL2Text_r1_sendURL2KeyStroke_default(Statechart* handle);
 static void enseq_main_region_sendURL2Text_r1_wait4URL2KeyStrokeSent_default(Statechart* handle);
@@ -56,6 +57,7 @@ static void exseq_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle
 static void exseq_main_region_sendURL1Text(Statechart* handle);
 static void exseq_main_region_sendURL1Text_r1_sendURL1KeyStroke(Statechart* handle);
 static void exseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent(Statechart* handle);
+static void exseq_main_region_sendURL1Text_r1_wait4NextURL1touch(Statechart* handle);
 static void exseq_main_region_sendURL2Text(Statechart* handle);
 static void exseq_main_region_sendURL2Text_r1_sendURL2KeyStroke(Statechart* handle);
 static void exseq_main_region_sendURL2Text_r1_wait4URL2KeyStrokeSent(Statechart* handle);
@@ -97,6 +99,9 @@ static sc_boolean main_region_sendURL1Text_r1_sendURL1KeyStroke_react(Statechart
 
 /*! The reactions of state wait4URL1KeyStrokeSent. */
 static sc_boolean main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent_react(Statechart* handle, const sc_boolean try_transition);
+
+/*! The reactions of state wait4NextURL1touch. */
+static sc_boolean main_region_sendURL1Text_r1_wait4NextURL1touch_react(Statechart* handle, const sc_boolean try_transition);
 
 /*! The reactions of state sendURL2Text. */
 static sc_boolean main_region_sendURL2Text_react(Statechart* handle, const sc_boolean try_transition);
@@ -244,7 +249,7 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			break;
 		case Statechart_main_region_sendURL1Text :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT] >= Statechart_main_region_sendURL1Text
-				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT] <= Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent);
+				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT] <= Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch);
 			break;
 		case Statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_SENDURL1KEYSTROKE] == Statechart_main_region_sendURL1Text_r1_sendURL1KeyStroke
@@ -252,6 +257,10 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			break;
 		case Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_WAIT4URL1KEYSTROKESENT] == Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent
+			);
+			break;
+		case Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDURL1TEXT_R1_WAIT4NEXTURL1TOUCH] == Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch
 			);
 			break;
 		case Statechart_main_region_sendURL2Text :
@@ -348,6 +357,11 @@ static void run_cycle(Statechart* handle)
 			case Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent:
 			{
 				main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent_react(handle, bool_true);
+				break;
+			}
+			case Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch:
+			{
+				main_region_sendURL1Text_r1_wait4NextURL1touch_react(handle, bool_true);
 				break;
 			}
 			case Statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke:
@@ -639,6 +653,14 @@ static void enseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent_default(Sta
 	handle->stateConfVectorPosition = 0;
 }
 
+/* 'default' enter sequence for state wait4NextURL1touch */
+static void enseq_main_region_sendURL1Text_r1_wait4NextURL1touch_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state wait4NextURL1touch */
+	handle->stateConfVector[0] = Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch;
+	handle->stateConfVectorPosition = 0;
+}
+
 /* 'default' enter sequence for state sendURL2Text */
 static void enseq_main_region_sendURL2Text_default(Statechart* handle)
 {
@@ -768,6 +790,14 @@ static void exseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent(Statechart*
 	handle->stateConfVectorPosition = 0;
 }
 
+/* Default exit sequence for state wait4NextURL1touch */
+static void exseq_main_region_sendURL1Text_r1_wait4NextURL1touch(Statechart* handle)
+{
+	/* Default exit sequence for state wait4NextURL1touch */
+	handle->stateConfVector[0] = Statechart_last_state;
+	handle->stateConfVectorPosition = 0;
+}
+
 /* Default exit sequence for state sendURL2Text */
 static void exseq_main_region_sendURL2Text(Statechart* handle)
 {
@@ -840,6 +870,12 @@ static void exseq_main_region(Statechart* handle)
 			exact_main_region_sendURL1Text(handle);
 			break;
 		}
+		case Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch :
+		{
+			exseq_main_region_sendURL1Text_r1_wait4NextURL1touch(handle);
+			exact_main_region_sendURL1Text(handle);
+			break;
+		}
 		case Statechart_main_region_sendURL2Text_r1_sendURL2KeyStroke :
 		{
 			exseq_main_region_sendURL2Text_r1_sendURL2KeyStroke(handle);
@@ -897,6 +933,11 @@ static void exseq_main_region_sendURL1Text_r1(Statechart* handle)
 		case Statechart_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent :
 		{
 			exseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent(handle);
+			break;
+		}
+		case Statechart_main_region_sendURL1Text_r1_wait4NextURL1touch :
+		{
+			exseq_main_region_sendURL1Text_r1_wait4NextURL1touch(handle);
 			break;
 		}
 		default: break;
@@ -1185,6 +1226,27 @@ static sc_boolean main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent_react(State
 		if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.url1Index) < (statechart_getKBDstringLength(handle, 1))) == bool_true))
 		{ 
 			exseq_main_region_sendURL1Text_r1_wait4URL1KeyStrokeSent(handle);
+			enseq_main_region_sendURL1Text_r1_wait4NextURL1touch_default(handle);
+			main_region_sendURL1Text_react(handle, bool_false);
+		}  else
+		{
+			did_transition = bool_false;
+		}
+	} if ((did_transition) == (bool_false))
+	{ 
+		did_transition = main_region_sendURL1Text_react(handle, try_transition);
+	} return did_transition;
+}
+
+static sc_boolean main_region_sendURL1Text_r1_wait4NextURL1touch_react(Statechart* handle, const sc_boolean try_transition)
+{
+	/* The reactions of state wait4NextURL1touch. */
+ 			sc_boolean did_transition = try_transition;
+	if (try_transition == bool_true)
+	{ 
+		if (((handle->iface.Touch1press_raised) == bool_true) && (((handle->internal.url1Index) < (statechart_getKBDstringLength(handle, 1))) == bool_true))
+		{ 
+			exseq_main_region_sendURL1Text_r1_wait4NextURL1touch(handle);
 			enseq_main_region_sendURL1Text_r1_sendURL1KeyStroke_default(handle);
 			main_region_sendURL1Text_react(handle, bool_false);
 		}  else
