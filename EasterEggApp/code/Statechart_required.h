@@ -23,6 +23,7 @@ This state machine makes use of operations declared in the state machines interf
 	- statechart_sendTLCmorse
 	- statechart_sendKBDstroke
 	- statechart_getKBDstringLength
+	- statechart_sendURLstroke
 	- statechart_shutDownSystem
 	- statechart_toggleDebugLED
 are defined.
@@ -34,10 +35,11 @@ There are some constraints that have to be considered for the implementation of 
  
 */
 
-extern void statechart_sendTLCbraille( Statechart* handle, const sc_integer index);
+extern void statechart_sendTLCbraille( Statechart* handle);
 extern void statechart_sendTLCmorse( Statechart* handle, const sc_integer index);
 extern void statechart_sendKBDstroke( Statechart* handle, const sc_integer whichString, const sc_integer index);
 extern sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString);
+extern void statechart_sendURLstroke( Statechart* handle);
 extern void statechart_shutDownSystem( Statechart* handle);
 extern void statechart_toggleDebugLED( Statechart* handle);
 

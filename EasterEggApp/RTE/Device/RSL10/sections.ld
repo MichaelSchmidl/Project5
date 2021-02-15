@@ -18,7 +18,7 @@
 MEMORY
 {
   ROM  (r) : ORIGIN = 0x00000000, LENGTH = 4K
-  FLASH (xrw) : ORIGIN = 0x00100000, LENGTH = 380K
+  FLASH (xrw) : ORIGIN = 0x00100000, LENGTH = 380K /* netto minus 160KB f. Bootloader(8K) und FOTA-Lib(152K) */
   PRAM (xrw) : ORIGIN = 0x00200000, LENGTH = 32K
 
   DRAM (xrw) : ORIGIN = 0x20000000, LENGTH = 72K /* minus 13,3KByte lost because of __app_ram_start=0x2000352C */

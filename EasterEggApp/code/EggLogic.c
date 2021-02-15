@@ -120,7 +120,19 @@ static const struct usb_hid_keystroke GREETINGS_keystrokes[] =
     { KEY_E,         /* e */     KEY_MOD_NONE },
     { KEY_S,         /* s */     KEY_MOD_NONE },
 
-//    { KEY_ESC,       /*    */    KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+    { KEY_SPACE,     /*   */     KEY_MOD_NONE },
+
+    { KEY_ESC,       /*    */    KEY_MOD_NONE },
 };
 
 
@@ -226,6 +238,24 @@ void statechart_sendKBDstroke(Statechart* handle, const sc_integer whichString, 
 sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString)
 {
 	return keystrokeSet[whichString].numberOfKeystrokes;
+}
+
+
+void statechart_sendTLCbraille( Statechart* handle)
+{
+
+}
+
+
+void statechart_sendTLCmorse( Statechart* handle, const sc_integer index)
+{
+
+}
+
+
+void statechart_sendURLstroke( Statechart* handle)
+{
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
