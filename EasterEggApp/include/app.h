@@ -154,15 +154,15 @@ extern "C"
 /* DIO numbers we use */
 #define RECOVERY_FOTA_DEBUG_DIO         12 //!< recovery, FOTA and debug pin
 
-#define RC5_DIO_NUM                     0  //!< RC5 receiver data input
-#define BUTTON_DIO                      5  //!< Touch IRQ
-#define POWER_ON_DIO                    6  //!< turn on or off power
+#define RC5_DIO_NUM                     10 //!< RC5 receiver data input
+#define BUTTON_DIO                      0  //!< Touch IRQ
+#define POWER_ON_DIO                    1  //!< turn on or off power
 
-#define SCLK_DIO_NUM                    7  //!< TLC5955
-#define SS_DIO_NUM                      8  //!< TLC5955
-#define MOSI_DIO_NUM                    9  //!< TLC5955
-#define MISO_DIO_NUM                    4  //!< TLC5955
-#define GSCLK_DIO_NUM                   13 //!< TLC5955
+#define SCLK_DIO_NUM                    3  //!< TLC5955
+#define SS_DIO_NUM                      6  //!< TLC5955
+#define MOSI_DIO_NUM                    8  //!< TLC5955
+#define MISO_DIO_NUM                    2  //!< TLC5955
+#define GSCLK_DIO_NUM                   5 //!< TLC5955
 
 /* Output power */
 #define OUTPUT_POWER_DBM                0

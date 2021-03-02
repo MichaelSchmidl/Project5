@@ -1337,7 +1337,7 @@
 //   <i> Defines the gpio pull configuration
 //   <i> Default: weak pull up
 #ifndef RTE_GPIO1_PULL_DEFAULT
- #define RTE_GPIO1_PULL_DEFAULT   1
+ #define RTE_GPIO1_PULL_DEFAULT   3
 #endif
 //   <o>IO mode
 //   <0x000=> GPIO_IN_0             <0x001=> GPIO_IN_1             <0x002=> GPIO_OUT_0            <0x003=> GPIO_OUT_1
@@ -1369,7 +1369,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO1_IOMODE_DEFAULT
- #define RTE_GPIO1_IOMODE_DEFAULT   0x012
+ #define RTE_GPIO1_IOMODE_DEFAULT   0x003
 #endif
 // </e>
 // <e>GPIO 2 configure
