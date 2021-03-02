@@ -28,9 +28,9 @@
 #define VER_ID                          "BOOTLD"
 #endif    /* ifdef NDEBUG */
 
-#define VER_MAJOR                       2
-#define VER_MINOR                       0
-#define VER_REVISION                    2
+#define VER_MAJOR                       5
+#define VER_MINOR                       5
+#define VER_REVISION                    5
 
 /* ----------------------------------------------------------------------------
  * Options
@@ -42,12 +42,16 @@
 /* Flags can be used to control if building for development board or dongle */
 #define RSL10_DEV                       0
 #define RSL10_DONGLE                    1
+#define RSL10_P5                        2
 #ifndef RSL10_DEV_OR_DONGLE
-#define RSL10_DEV_OR_DONGLE             RSL10_DEV
+#define RSL10_DEV_OR_DONGLE             RSL10_P5
 #endif
 
 /*** GPIO ***/
-#if (RSL10_DEV_OR_DONGLE == RSL10_DONGLE)
+#if (RSL10_DEV_OR_DONGLE == RSL10_P5)
+#define CFG_nUPDATE_DIO                 11 // N.C.
+#define CFG_LED_RED_DIO                 12
+#elif (RSL10_DEV_OR_DONGLE == RSL10_DONGLE)
 #define CFG_nUPDATE_DIO                 6
 #define CFG_LED_RED_DIO                 8
 #else
@@ -57,7 +61,10 @@
 
 /*** UART ***/
 #define CFG_UART_BAUD_RATE              1000000
-#if (RSL10_DEV_OR_DONGLE == RSL10_DONGLE)
+#if (RSL10_DEV_OR_DONGLE == RSL10_P5)
+#define CFG_UART_RXD_DIO                7 // N.C.
+#define CFG_UART_TXD_DIO                8 // N.C.
+#elif (RSL10_DEV_OR_DONGLE == RSL10_DONGLE)
 #define CFG_UART_RXD_DIO                7
 #define CFG_UART_TXD_DIO                10
 #else

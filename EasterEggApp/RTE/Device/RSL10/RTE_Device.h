@@ -23,30 +23,6 @@
 //-------- <<< Use Configuration Wizard in Context Menu >>> -----------------
 //
 
-// <e> Michaels onfiguration
-#ifndef xxxRTE_DMA
- #define xxxRTE_DMA     1
-#endif
-// <e>xxxDMA 0 enabled
-// ===============================
-//
-//   <i> Defines if dma 0 should be enabled.
-//   <i> Default: 1
-#ifndef xxxRTE_DMA0_EN
- #define xxxRTE_DMA0_EN       0
-#endif
-// <e>DMA 0 auto configuration
-// ===============================
-//
-// <i> Enables dma channel 0 configuration.
-// <i> Default: 1
-#ifndef xxxRTE_DMA0_AUTO_EN
- #define xxxRTE_DMA0_AUTO_EN       0
-#endif
-// </e>
-// </e>
-// </e>
-
 // <e> DMA Configuration
 // =======================
 //
@@ -1378,7 +1354,7 @@
 // <i> Enabled GPIO2 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO2_EN
- #define RTE_GPIO2_EN       0
+ #define RTE_GPIO2_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1438,7 +1414,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO2_IOMODE_DEFAULT
- #define RTE_GPIO2_IOMODE_DEFAULT   0x101
+ #define RTE_GPIO2_IOMODE_DEFAULT   0x03F
 #endif
 // </e>
 // <e>GPIO 3 configure
@@ -1447,7 +1423,7 @@
 // <i> Enabled GPIO3 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO3_EN
- #define RTE_GPIO3_EN       0
+ #define RTE_GPIO3_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1576,7 +1552,7 @@
 //   <i> Defines the gpio0 io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO4_IOMODE_DEFAULT
- #define RTE_GPIO4_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO4_IOMODE_DEFAULT   0x001
 #endif
 // </e>
 // <e>GPIO 5 configure
@@ -1645,7 +1621,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO5_IOMODE_DEFAULT
- #define RTE_GPIO5_IOMODE_DEFAULT   0x000
+ #define RTE_GPIO5_IOMODE_DEFAULT   0x006
 #endif
 // </e>
 // <e>GPIO 6 configure
@@ -1714,7 +1690,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO6_IOMODE_DEFAULT
- #define RTE_GPIO6_IOMODE_DEFAULT   0x003
+ #define RTE_GPIO6_IOMODE_DEFAULT   0x03F
 #endif
 // </e>
 // <e>GPIO 7 configure
@@ -1723,7 +1699,7 @@
 // <i> Enabled GPIO7 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO7_EN
- #define RTE_GPIO7_EN       1
+ #define RTE_GPIO7_EN       0
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1852,7 +1828,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO8_IOMODE_DEFAULT
- #define RTE_GPIO8_IOMODE_DEFAULT   0x00A
+ #define RTE_GPIO8_IOMODE_DEFAULT   0x03F
 #endif
 // </e>
 // <e>GPIO 9 configure
@@ -1861,7 +1837,7 @@
 // <i> Enabled GPIO9 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO9_EN
- #define RTE_GPIO9_EN       1
+ #define RTE_GPIO9_EN       0
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -1990,7 +1966,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO10_IOMODE_DEFAULT
- #define RTE_GPIO10_IOMODE_DEFAULT   0x002
+ #define RTE_GPIO10_IOMODE_DEFAULT   0x001
 #endif
 // </e>
 // <e>GPIO 11 configure
@@ -2096,7 +2072,7 @@
 //   <i> Defines the gpio pull configuration
 //   <i> Default: weak pull up
 #ifndef RTE_GPIO12_PULL_DEFAULT
- #define RTE_GPIO12_PULL_DEFAULT   1
+ #define RTE_GPIO12_PULL_DEFAULT   3
 #endif
 //   <o>IO mode
 //   <0x000=> GPIO_IN_0             <0x001=> GPIO_IN_1             <0x002=> GPIO_OUT_0            <0x003=> GPIO_OUT_1
@@ -2128,7 +2104,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO12_IOMODE_DEFAULT
- #define RTE_GPIO12_IOMODE_DEFAULT   0x000
+ #define RTE_GPIO12_IOMODE_DEFAULT   0x001
 #endif
 // </e>
 // <e>GPIO 13 configure
@@ -2137,7 +2113,7 @@
 // <i> Enabled GPIO13 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO13_EN
- #define RTE_GPIO13_EN       0
+ #define RTE_GPIO13_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2197,7 +2173,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO13_IOMODE_DEFAULT
- #define RTE_GPIO13_IOMODE_DEFAULT   0x012
+ #define RTE_GPIO13_IOMODE_DEFAULT   0x03F
 #endif
 // </e>
 // <e>GPIO 14 configure
@@ -2206,7 +2182,7 @@
 // <i> Enabled GPIO14 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO14_EN
- #define RTE_GPIO14_EN       1
+ #define RTE_GPIO14_EN       0
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2275,7 +2251,7 @@
 // <i> Enabled GPIO15 configuration
 // <i> Default: 0
 #ifndef RTE_GPIO15_EN
- #define RTE_GPIO15_EN       0
+ #define RTE_GPIO15_EN       1
 #endif
 //   <o>Drive strength
 //       <0x0=> 2x drive strength
@@ -2744,7 +2720,7 @@
 //   <i> Defines gpio pad number to be used as a data line.
 //   <i> Default: 0
 #ifndef RTE_I2C0_SDA_PIN_DEFAULT
- #define RTE_I2C0_SDA_PIN_DEFAULT  8
+ #define RTE_I2C0_SDA_PIN_DEFAULT  15
 #endif
 //   <o>SCL gpio pad
 //       <0x0=> 0
@@ -2766,7 +2742,7 @@
 //   <i> Defines gpio pad number to be used as a clock data line.
 //   <i> Default: 0
 #ifndef RTE_I2C0_SCL_PIN_DEFAULT
- #define RTE_I2C0_SCL_PIN_DEFAULT  7
+ #define RTE_I2C0_SCL_PIN_DEFAULT  13
 #endif
 // </h>
 // <h>Interrupt priority configuration
@@ -3177,7 +3153,7 @@
 //   <i> Defines gpio pad number to be used as the sclk line.
 //   <i> Default: 0
 #ifndef RTE_SPI0_SCLK_PIN_DEFAULT
- #define RTE_SPI0_SCLK_PIN_DEFAULT  7
+ #define RTE_SPI0_SCLK_PIN_DEFAULT  3
 #endif
 //   <o>SSEL pin
 //       <0x0=> 0
@@ -3199,7 +3175,7 @@
 //   <i> Defines gpio pad number to be used as the ssel line.
 //   <i> Default: 1
 #ifndef RTE_SPI0_SSEL_PIN_DEFAULT
- #define RTE_SPI0_SSEL_PIN_DEFAULT  8
+ #define RTE_SPI0_SSEL_PIN_DEFAULT  6
 #endif
 //   <o>MISO pin
 //       <0x0=> 0
@@ -3221,7 +3197,7 @@
 //   <i> Defines gpio pad number to be used as the miso line.
 //   <i> Default: 2
 #ifndef RTE_SPI0_MISO_PIN_DEFAULT
- #define RTE_SPI0_MISO_PIN_DEFAULT  4
+ #define RTE_SPI0_MISO_PIN_DEFAULT  2
 #endif
 //   <o>MOSI pin
 //       <0x0=> 0
@@ -3243,7 +3219,7 @@
 //   <i> Defines gpio pad number to be used as the mosi line.
 //   <i> Default: 3
 #ifndef RTE_SPI0_MOSI_PIN_DEFAULT
- #define RTE_SPI0_MOSI_PIN_DEFAULT  9
+ #define RTE_SPI0_MOSI_PIN_DEFAULT  8
 #endif
 // </h>
 // <h>SPI0 Interrupt priority configuration
