@@ -55,7 +55,7 @@ extern "C" {
 /*! Define dimension of the state configuration vector for orthogonal states. */
 #define STATECHART_MAX_ORTHOGONAL_STATES 1
 /*! Define maximum number of time events that can be active at once */
-#define STATECHART_MAX_PARALLEL_TIME_EVENTS 3
+#define STATECHART_MAX_PARALLEL_TIME_EVENTS 2
 
 /*! Define indices of states in the StateConfVector */
 #define SCVI_STATECHART_MAIN_REGION_WAIT4BLE 0
@@ -102,11 +102,9 @@ typedef enum  {
 	Statechart_morseStringDone,
 	Statechart_Statechart_main_region_wait4BLE_time_event_0,
 	Statechart_Statechart_main_region_sendGreetingText_time_event_0,
-	Statechart_Statechart_main_region_sendGreetingText_time_event_1,
 	Statechart_Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_time_event_0,
 	Statechart_Statechart_main_region_sendGreetingText_r1_gracePeriod_time_event_0,
 	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_0,
-	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_1,
 	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_time_event_0,
 	Statechart_Statechart_main_region_wait4RC5match_time_event_0,
 	Statechart_Statechart_main_region_wait4GyroTilt_time_event_0,
@@ -192,11 +190,9 @@ struct StatechartTimeEvents
 {
 	sc_boolean statechart_main_region_wait4BLE_tev0_raised;
 	sc_boolean statechart_main_region_sendGreetingText_tev0_raised;
-	sc_boolean statechart_main_region_sendGreetingText_tev1_raised;
 	sc_boolean statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised;
 	sc_boolean statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised;
 	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_tev0_raised;
-	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_tev1_raised;
 	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised;
 	sc_boolean statechart_main_region_wait4RC5match_tev0_raised;
 	sc_boolean statechart_main_region_wait4GyroTilt_tev0_raised;

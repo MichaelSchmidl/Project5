@@ -209,7 +209,7 @@ void EGG_doneWithSendingKeyStroke( void )
 
 void statechart_toggleDebugLED(Statechart* handle)
 {
-    Sys_GPIO_Toggle(POWER_ON_DIO); // toggle debug LED
+    Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO); // toggle debug LED
 }
 
 
@@ -266,11 +266,6 @@ __NO_RETURN void vThread_EggLogic(void *argument)
     PRINTF("%s entered\n", __func__);
 	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS( TICK_MS ) );
 
-	// YAKINDU stuff
-    sc_timer_service_init(&timer_service, timers, MAX_TIMERS, (sc_raise_time_event_fp) &statechart_raise_time_event);
-	statechart_init( &eggStatechart );
-	statechart_enter( &eggStatechart);
-
     while(true)
     {
     	eggLogicMessage_t msg = EGGLOGIC_MESSAGE_NOP;
@@ -325,6 +320,11 @@ void EGG_initThread( void )
 								 &timer_egglogic_attr);
 	// initialize hardware drivers we want to use
 	TLC5955drv_start();
+
+	// YAKINDU stuff
+    sc_timer_service_init(&timer_service, timers, MAX_TIMERS, (sc_raise_time_event_fp) &statechart_raise_time_event);
+	statechart_init( &eggStatechart );
+	statechart_enter( &eggStatechart);
 }
 
 
@@ -337,5 +337,3 @@ void EGG_startThread( void )
 
     }
 }
-
-
