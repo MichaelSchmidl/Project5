@@ -152,19 +152,6 @@
       <file category="header" name="Source/include/timers.h"/>
       <file category="source" name="Source/timers.c"/>
     </component>
-    <component Cclass="Utility" Cgroup="IO" Csub="Printf wrapper" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="header" name="source/firmware/printf/printf.h"/>
-      <file category="source" name="source/firmware/printf/printf.c"/>
-    </component>
-    <component Cclass="Utility" Cgroup="IO" Csub="SEGGER RTT" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="header" name="source/firmware/rtt/SEGGER_RTT.h"/>
-      <file attr="config" category="header" name="source/firmware/rtt/SEGGER_RTT_Conf.h" version="1.0.0"/>
-      <file category="source" name="source/firmware/rtt/SEGGER_RTT.c"/>
-      <file category="source" name="source/firmware/rtt/SEGGER_RTT_printf.c"/>
-      <file category="source" condition="GCC_ARM_IAR_Condition" name="source/firmware/rtt/SEGGER_RTT_ASM_ARMv7M.S"/>
-    </component>
   </components>
   <apis>
     <api Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Cvendor="ARM" Cversion="2.2.0" exclusive="0">

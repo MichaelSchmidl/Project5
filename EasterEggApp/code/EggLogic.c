@@ -27,7 +27,7 @@ const osThreadAttr_t thread_egglogic_attr =
 {
     .name = "thEGG",
     .priority = osPriorityNormal,
-    .stack_size = 4096
+    .stack_size = 4 * 1024
 };
 __NO_RETURN void vThread_EggLogic(void *argument);
 
@@ -209,19 +209,26 @@ void EGG_doneWithSendingKeyStroke( void )
 
 void statechart_toggleDebugLED(Statechart* handle)
 {
-    Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO); // toggle debug LED
+//    Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO); // toggle debug LED
 }
 
 
 void statechart_shutDownSystem(Statechart* handle)
 {
-    PRINTF("%s entered\n", __func__);
+//    PRINTF("%s entered\n", __func__);
+    Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO); // turn OFF on board LED
+#if 0
     Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
+#else
+	#warning NO AUTOSHUTDOWN
+#endif
+    while(1);
 }
 
 
 void statechart_sendKBDstroke(Statechart* handle, const sc_integer whichString, const sc_integer index)
 {
+//    PRINTF("%s entered with %d/%d\n", __func__, whichString, index);
 	//!TODO: check index end raise STRING_DONE if so
 	if ( index >= keystrokeSet[whichString].numberOfKeystrokes )
 	{
@@ -237,6 +244,7 @@ void statechart_sendKBDstroke(Statechart* handle, const sc_integer whichString, 
 
 sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString)
 {
+//    PRINTF("%s entered\n", __func__);
 	return keystrokeSet[whichString].numberOfKeystrokes;
 }
 
@@ -263,7 +271,7 @@ void statechart_sendURLstroke( Statechart* handle)
 
 __NO_RETURN void vThread_EggLogic(void *argument)
 {
-    PRINTF("%s entered\n", __func__);
+//    PRINTF("%s entered\n", __func__);
 	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS( TICK_MS ) );
 
     while(true)
@@ -314,10 +322,19 @@ void EGG_initThread( void )
 	hEggLogicQueue = osMessageQueueNew( EGGLOGIC_QUEUE_DEPTH,
 			                            sizeof(eggLogicMessage_t),
 										&queue_egglogic_attr );
+	if (NULL == hEggLogicQueue)
+	{
+		while(1);
+	}
+
 	hEggLogicTimer = osTimerNew( eggLogicTimer_CB,
 			                     osTimerPeriodic,
 								 NULL,
 								 &timer_egglogic_attr);
+	if (NULL == hEggLogicTimer)
+	{
+		while(1);
+	}
 	// initialize hardware drivers we want to use
 	TLC5955drv_start();
 
@@ -330,10 +347,9 @@ void EGG_initThread( void )
 
 void EGG_startThread( void )
 {
-	PRINTF("%s entered\n", __func__);
+//	PRINTF("%s entered\n", __func__);
     if (NULL == osThreadNew(vThread_EggLogic, NULL, &thread_egglogic_attr))
     {
-    	PRINTF("ERROR: osThreadNew failed\n");
-
+    	while(1);
     }
 }

@@ -56,11 +56,11 @@ void GPIOirq_EventCallback(uint32_t event)
     switch ( event )
     {
     	case GPIO_EVENT_0_IRQ:
-    		EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH_IRQ,
-    				         0UL ); // timeout=0 because IRQ context
+//    		EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH_IRQ,
+//    				         0UL ); // timeout=0 because IRQ context
 		    break;
     	case GPIO_EVENT_1_IRQ:
-    		RC5_HandleSignalChange();
+//    		RC5_HandleSignalChange();
 		    break;
     	default:
     		break;
@@ -95,8 +95,8 @@ int main(void)
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();
-    PRINTF("**********************************************************\n");
-    PRINTF("EasterEggApp started (build %s %s)\n", __DATE__, __TIME__);
+//    PRINTF("**********************************************************\n");
+//    PRINTF("EasterEggApp started (build %s %s)\n", __DATE__, __TIME__);
 //    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
 
     /* RTOS  initialization */
@@ -118,7 +118,7 @@ int main(void)
     EGG_startThread();
 
     /* Start RTOS scheduler */
-    PRINTF("starting kernel...\n");
+//    PRINTF("starting kernel...\n");
     if (osKernelGetState() == osKernelReady)
     {
         osKernelStart();

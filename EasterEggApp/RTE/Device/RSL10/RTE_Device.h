@@ -2328,7 +2328,7 @@
 // <i> Enables DIO0 interrupt.
 // <i> Default: 1
 #ifndef RTE_GPIO_DIO0_INT_EN
- #define RTE_GPIO_DIO0_INT_EN       1
+ #define RTE_GPIO_DIO0_INT_EN       0
 #endif
 //   <o>Interrupt source
 //       <0x0=> GPIO 0   <0x1=> GPIO 1   <0x2=> GPIO 2   <0x3=> GPIO 3
@@ -2338,7 +2338,7 @@
 //   <i> Defines the DIO0 interrupt source
 //   <i> Default: GPIO 0
 #ifndef RTE_GPIO_DIO0_SRC_DEFAULT
- #define RTE_GPIO_DIO0_SRC_DEFAULT   5
+ #define RTE_GPIO_DIO0_SRC_DEFAULT   0
 #endif
 //   <o>Trigger event
 //       <0x0=> none           <0x1=> high level      <0x2=> low level
@@ -2346,7 +2346,7 @@
 //   <i> Defines the interrupt trigger event
 //   <i> Default: rising edge
 #ifndef RTE_GPIO_DIO0_TRG_DEFAULT
- #define RTE_GPIO_DIO0_TRG_DEFAULT   4
+ #define RTE_GPIO_DIO0_TRG_DEFAULT   3
 #endif
 //   <o>Debounce filter
 //       <0x0=> disabled
@@ -2375,7 +2375,7 @@
 // <i> Enables DIO1 interrupt.
 // <i> Default: 1
 #ifndef RTE_GPIO_DIO1_INT_EN
- #define RTE_GPIO_DIO1_INT_EN       1
+ #define RTE_GPIO_DIO1_INT_EN       0
 #endif
 //   <o>Interrupt source
 //       <0x0=> GPIO 0   <0x1=> GPIO 1   <0x2=> GPIO 2   <0x3=> GPIO 3
@@ -2385,7 +2385,7 @@
 //   <i> Defines the DIO1 interrupt source
 //   <i> Default: GPIO 1
 #ifndef RTE_GPIO_DIO1_SRC_DEFAULT
- #define RTE_GPIO_DIO1_SRC_DEFAULT   0
+ #define RTE_GPIO_DIO1_SRC_DEFAULT   10
 #endif
 //   <o>Trigger event
 //       <0x0=> none           <0x1=> high level      <0x2=> low level
@@ -2422,7 +2422,7 @@
 // <i> Enables DIO1 interrupt.
 // <i> Default: 1
 #ifndef RTE_GPIO_DIO2_INT_EN
- #define RTE_GPIO_DIO2_INT_EN       1
+ #define RTE_GPIO_DIO2_INT_EN       0
 #endif
 //   <o>Interrupt source
 //       <0x0=> GPIO 0   <0x1=> GPIO 1   <0x2=> GPIO 2   <0x3=> GPIO 3

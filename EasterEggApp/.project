@@ -98,26 +98,6 @@
 			<locationURI>$%7Bcmsis_pack_root%7D/ARM/CMSIS-FreeRTOS/10.3.0/Source/timers.c</locationURI>
 		</link>
 		<link>
-			<name>RTE/Utility/SEGGER_RTT.c</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT.c</locationURI>
-		</link>
-		<link>
-			<name>RTE/Utility/SEGGER_RTT_ASM_ARMv7M.S</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT_ASM_ARMv7M.S</locationURI>
-		</link>
-		<link>
-			<name>RTE/Utility/SEGGER_RTT_printf.c</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/rtt/SEGGER_RTT_printf.c</locationURI>
-		</link>
-		<link>
-			<name>RTE/Utility/printf.c</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/printf/printf.c</locationURI>
-		</link>
-		<link>
 			<name>RTE/Device/RSL10/DMA_RSLxx.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.4.154/source/firmware/drivers/dma_driver/source/DMA_RSLxx.c</locationURI>

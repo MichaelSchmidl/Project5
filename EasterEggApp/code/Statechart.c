@@ -188,7 +188,7 @@ void statechart_init(Statechart* handle)
 	
 	
 	/* Default init sequence for statechart Statechart */
-	handle->internal.generalTimeout = (5 * 60);
+	handle->internal.generalTimeout = (1 * 60);
 	handle->internal.greetingIndex = 0;
 	handle->internal.morseIndex = 0;
 	
@@ -564,7 +564,7 @@ static void enact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statecha
 static void enact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle)
 {
 	/* Entry action for state 'gracePeriod'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) , (60 * 1000), bool_false);
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) , (10 * 1000), bool_false);
 }
 
 /* Entry action for state 'sendRC5URLTextWithTouch'. */
