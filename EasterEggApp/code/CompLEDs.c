@@ -7,6 +7,41 @@
 
 #include "CompLEDs.h"
 
+#define _DGB_LED_H3          tlcPortR0
+#define _DGB_LED_H4          tlcPortG0
+#define _DGB_LED_H5          tlcPortB0
+
+#define _DISP4_SEG_A         tlcPortR5
+#define _DISP4_SEG_B         tlcPortB5
+#define _DISP4_SEG_C         tlcPortG0
+#define _DISP4_SEG_D         tlcPortG1
+#define _DISP4_SEG_E         tlcPortB2
+#define _DISP4_SEG_F         tlcPortR1
+#define _DISP4_SEG_G         tlcPortG5
+
+#define _DISP3_SEG_A         tlcPortR6
+#define _DISP3_SEG_B         tlcPortG2
+#define _DISP3_SEG_C         tlcPortB6
+#define _DISP3_SEG_D         tlcPortG3
+#define _DISP3_SEG_E         tlcPortB7
+#define _DISP3_SEG_F         tlcPortR3
+#define _DISP3_SEG_G         tlcPortG6
+
+#define _DISP2_SEG_A         tlcPortB11
+#define _DISP2_SEG_B         tlcPortR11
+#define _DISP2_SEG_C         tlcPortG15
+#define _DISP2_SEG_D         tlcPortB15
+#define _DISP2_SEG_E         tlcPortB10
+#define _DISP2_SEG_F         tlcPortR10
+#define _DISP2_SEG_G         tlcPortR15
+
+#define _DISP1_SEG_A         tlcPortR9
+#define _DISP1_SEG_B         tlcPortG13
+#define _DISP1_SEG_C         tlcPortB14
+#define _DISP1_SEG_D         tlcPortG9
+#define _DISP1_SEG_E         tlcPortR12
+#define _DISP1_SEG_F         tlcPortB9
+#define _DISP1_SEG_G         tlcPortB13
 
 static const tlcPort segmentsPerDisplay[4][7] =
 {
@@ -206,10 +241,30 @@ static void _set7SEGDisplay( uint8_t displayNr,
 }
 
 
-void compLed_showStringOn7SEG( char *szString )
+void LED_setDbgLed( tlcPort which, uint16_t brightness )
 {
-    _set7SEGDisplay ( 0, szString[0], 65535 );
-    _set7SEGDisplay ( 1, szString[1], 65535 );
-    _set7SEGDisplay ( 2, szString[2], 65535 );
-    _set7SEGDisplay ( 3, szString[3], 65535 );
+	switch ( which )
+	{
+	    case 1:
+		   TLC5955drv_setChannelBrightness(_DGB_LED_H3, brightness);
+		   break;
+	    case 2:
+		   TLC5955drv_setChannelBrightness(_DGB_LED_H4, brightness);
+		   break;
+	    case 3:
+		   TLC5955drv_setChannelBrightness(_DGB_LED_H5, brightness);
+		   break;
+	    default:
+	       return;
+		   break;
+	}
+    TLC5955drv_refresh();
 }
+
+
+void LED_setBLEconnectedIndicator( uint8_t On )
+{
+	TLC5955drv_setChannelBrightness( tlcPortR10, On * 25);
+    TLC5955drv_refresh();
+}
+

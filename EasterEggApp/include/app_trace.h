@@ -35,7 +35,7 @@ extern "C"
 #define DBG_NO              0
 #define DBG_UART            1 /* Note: if application uses UART, debugging over UART is not possible */
 #define DBG_RTT             2 /* Note: for RTT debugging, please add SEGGER RTT files into your application */
-#define RSL10_DEBUG         DBG_NO //DBG_RTT
+#define RSL10_DEBUG         DBG_RTT
 
 #if (RSL10_DEBUG == DBG_RTT)
 

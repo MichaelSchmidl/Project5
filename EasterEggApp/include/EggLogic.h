@@ -10,8 +10,8 @@
 
 #include <stdint.h>
 
-void EGG_initThread( void );
-void EGG_startThread( void );
+void EggLogic_init( void );
+void EggLogic_timerTick( uint32_t ms );
 
 typedef enum
 {
@@ -24,7 +24,7 @@ typedef enum
 	EGGLOGIC_MESSAGE_RC5_MATCH
 }eggLogicMessage_t;
 
-void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout );
+//void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout );
 void EGG_doneWithSendingKeyStroke( void );
 
 

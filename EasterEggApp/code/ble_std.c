@@ -433,7 +433,10 @@ int GAPM_CmpEvt(ke_msg_id_t const msg_id,
 
                 /* Start LED timer */
                 ke_timer_set(LED_TIMER, TASK_APP, TIMER_200MS_SETTING);
-            }
+
+            	// start the 100ms YAKINDU timer tick - keine Ahnung warum das nur hier funktioniert
+                ke_timer_set(YAKINDU_TIMER, TASK_APP, TIMER_YAKINDU_SETTING);
+}
         }
         break;
 

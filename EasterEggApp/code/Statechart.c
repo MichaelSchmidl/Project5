@@ -188,7 +188,7 @@ void statechart_init(Statechart* handle)
 	
 	
 	/* Default init sequence for statechart Statechart */
-	handle->internal.generalTimeout = (1 * 60);
+	handle->internal.generalTimeout = (5 * 60);
 	handle->internal.greetingIndex = 0;
 	handle->internal.morseIndex = 0;
 	

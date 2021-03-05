@@ -8,6 +8,7 @@
 #include "app.h"
 #include "EggLogic.h"
 #include "TLC5955drv.h"
+#include "CompLEDs.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // YAKINDU stuff
@@ -20,32 +21,6 @@ struct Statechart eggStatechart;
 static sc_timer_t timers[MAX_TIMERS];
 static sc_timer_service_t timer_service;
 ///////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-/* attribute structure for EGG LOGIC thread */
-const osThreadAttr_t thread_egglogic_attr =
-{
-    .name = "thEGG",
-    .priority = osPriorityNormal,
-    .stack_size = 4 * 1024
-};
-__NO_RETURN void vThread_EggLogic(void *argument);
-
-#define EGGLOGIC_QUEUE_DEPTH 10
-const osMessageQueueAttr_t queue_egglogic_attr =
-{
-   .name = "EggQueue"
-};
-osMessageQueueId_t hEggLogicQueue = NULL;
-#define DEFAULT_QUEUE_POST_TIMEOUT 10000UL
-
-const osTimerAttr_t timer_egglogic_attr =
-{
-	.name = "EggTimer"
-};
-osTimerId_t hEggLogicTimer = NULL;
-void eggLogicTimer_CB( void *argument );
-
 
 #include "usb_hid_keys.h"
 
@@ -167,15 +142,6 @@ static void _sendKeystroke(const uint8_t key, const uint8_t mod_id)
 }
 
 
-void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout )
-{
-	osMessageQueuePut( hEggLogicQueue, // Queue Handle
-	                   &msg,           // Message to send
-	                   0,              // prio - unused
-	                   timeout );      // timeout for posting the message - must be ZERO for IRQ context
-}
-
-
 static void _showStateMachineDebugInfo( uint32_t state )
 {
 	Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO);
@@ -215,9 +181,9 @@ void statechart_toggleDebugLED(Statechart* handle)
 
 void statechart_shutDownSystem(Statechart* handle)
 {
-//    PRINTF("%s entered\n", __func__);
+    PRINTF("%s entered\n", __func__);
     Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO); // turn OFF on board LED
-#if 0
+#if 1
     Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
 #else
 	#warning NO AUTOSHUTDOWN
@@ -228,6 +194,8 @@ void statechart_shutDownSystem(Statechart* handle)
 
 void statechart_sendKBDstroke(Statechart* handle, const sc_integer whichString, const sc_integer index)
 {
+	EGG_doneWithSendingKeyStroke();
+	return;
 //    PRINTF("%s entered with %d/%d\n", __func__, whichString, index);
 	//!TODO: check index end raise STRING_DONE if so
 	if ( index >= keystrokeSet[whichString].numberOfKeystrokes )
@@ -265,77 +233,14 @@ void statechart_sendURLstroke( Statechart* handle)
 {
 
 }
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
-__NO_RETURN void vThread_EggLogic(void *argument)
+void EggLogic_init( void )
 {
 //    PRINTF("%s entered\n", __func__);
-	osTimerStart( hEggLogicTimer, pdMS_TO_TICKS( TICK_MS ) );
 
-    while(true)
-    {
-    	eggLogicMessage_t msg = EGGLOGIC_MESSAGE_NOP;
-    	if ( osOK == osMessageQueueGet( hEggLogicQueue, &msg, NULL, -1 ))
-    	{
-    		switch (msg)
-    		{
-    			case EGGLOGIC_MESSAGE_TIMER_TICK:
-    				sc_timer_service_proceed(&timer_service, TICK_MS);
-    				// if connected start...
-    			    if (ble_env[0].state == APPM_CONNECTED &&
-    			        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
-    			    {
-    			    	statechart_raise_bLEconnected( &eggStatechart );
-    			    }
-    				// if not connected, restart the EGG logic
-    			    if (ble_env[0].state != APPM_CONNECTED )
-    			    {
-    			    	statechart_raise_bLEdisconnected( &eggStatechart );
-    			    }
-    				break;
-    			case EGGLOGIC_MESSAGE_TOUCH_IRQ:{
-    				//! TODO: nachsehen welcher der drei Touches den IRQ ausgelöst hat
-    				EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH1_EVENT, // for now, we assume TOUCH1
-    						         DEFAULT_QUEUE_POST_TIMEOUT );
-    			} break;
-    			default:
-    				break;
-    		}
-    	}
-    }
-}
-
-
-void eggLogicTimer_CB( void *argument )
-{
-	EGG_sendMessage( EGGLOGIC_MESSAGE_TIMER_TICK,
-			         DEFAULT_QUEUE_POST_TIMEOUT );
-}
-
-
-void EGG_initThread( void )
-{
-//    PRINTF("%s entered\n", __func__);
-	// create queues a.s.o
-	hEggLogicQueue = osMessageQueueNew( EGGLOGIC_QUEUE_DEPTH,
-			                            sizeof(eggLogicMessage_t),
-										&queue_egglogic_attr );
-	if (NULL == hEggLogicQueue)
-	{
-		while(1);
-	}
-
-	hEggLogicTimer = osTimerNew( eggLogicTimer_CB,
-			                     osTimerPeriodic,
-								 NULL,
-								 &timer_egglogic_attr);
-	if (NULL == hEggLogicTimer)
-	{
-		while(1);
-	}
-	// initialize hardware drivers we want to use
+    // initialize hardware drivers we want to use
 	TLC5955drv_start();
 
 	// YAKINDU stuff
@@ -345,11 +250,41 @@ void EGG_initThread( void )
 }
 
 
-void EGG_startThread( void )
+void EggLogic_timerTick( uint32_t ms )
 {
-//	PRINTF("%s entered\n", __func__);
-    if (NULL == osThreadNew(vThread_EggLogic, NULL, &thread_egglogic_attr))
+	static uint32_t lastBLEconnected = 0;
+//    PRINTF("%s entered with %dms\n", __func__, ms);
+    sc_timer_service_proceed(&timer_service, ms);
+
+	// if connected start...
+    if (ble_env[0].state == APPM_CONNECTED &&
+        VALID_BOND_INFO(ble_env[0].bond_info.STATE))
     {
-    	while(1);
+    	if ( 0 == lastBLEconnected )
+    	{
+    		LED_setBLEconnectedIndicator(1);
+    		statechart_raise_bLEconnected( &eggStatechart );
+        	lastBLEconnected = 1;
+    	}
     }
+	// if not connected, restart the EGG logic
+    if (ble_env[0].state != APPM_CONNECTED )
+    {
+    	if ( 1 == lastBLEconnected )
+    	{
+    		LED_setBLEconnectedIndicator(0);
+        	statechart_raise_bLEdisconnected( &eggStatechart );
+        	lastBLEconnected = 0;
+    	}
+    }
+
+    static uint16_t brightness1 = 0;
+    static uint16_t brightness2 = 0;
+    brightness1 <<= 1;
+    brightness2 >>= 1;
+    if ( brightness1 == 0 ) brightness1 = 1;
+    if ( brightness2 == 0 ) brightness2 = 0x8000;
+    LED_setDbgLed( 1, brightness1 );
+    LED_setDbgLed( 2, brightness2 );
 }
+

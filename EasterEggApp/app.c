@@ -24,17 +24,6 @@
 
 DRIVER_GPIO_t *gpio;
 
-/* attribute structure for BLE thread */
-const osThreadAttr_t thread_ble_attr =
-{
-    .name = "thBLE",
-    .priority = osPriorityNormal,
-    .stack_size = 3*1024
-};
-__NO_RETURN void vThread_BLE(void *argument);
-
-volatile uint32_t malloc_failed_count = 0;
-
 /* ----------------------------------------------------------------------------
  * Application Version
  * ------------------------------------------------------------------------- */
@@ -60,7 +49,7 @@ void GPIOirq_EventCallback(uint32_t event)
 //    				         0UL ); // timeout=0 because IRQ context
 		    break;
     	case GPIO_EVENT_1_IRQ:
-//    		RC5_HandleSignalChange();
+    		RC5_HandleSignalChange();
 		    break;
     	default:
     		break;
@@ -81,6 +70,8 @@ int main(void)
 
     SystemCoreClockUpdate();
 
+	Sys_Watchdog_Set_Timeout(WATCHDOG_TIMEOUT_4194M3); // expire every 69min
+
     /* Start Update when button is pressed at startup */
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;
     if (DIO_DATA->ALIAS[RECOVERY_FOTA_DEBUG_DIO] == 0)
@@ -95,47 +86,12 @@ int main(void)
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();
-//    PRINTF("**********************************************************\n");
-//    PRINTF("EasterEggApp started (build %s %s)\n", __DATE__, __TIME__);
-//    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
+    PRINTF("**********************************************************\n");
+    PRINTF("EasterEggApp started (build %s %s)\n", __DATE__, __TIME__);
+    PRINTF("SystemCoreClock = %ldHz\r\n", SystemCoreClock);
 
-    /* RTOS  initialization */
-    osKernelInitialize();
-//    PRINTF("RTOS kernel tick frequency = %ldHz\n", osKernelGetTickFreq());
-//    PRINTF("RTOS kernel system timer frequency = %ldHz\n", osKernelGetSysTimerFreq());
+	EggLogic_init();
 
-    /* Ensure that Priority Grouping was not changed during device initialization.
-     * Call it after logs are initialized. */
-    configASSERT(NVIC_GetPriorityGrouping() == 0);
-
-    // initialize threads but do not start them so far...
-    EGG_initThread();
-
-    /* Create application main thread for BLE Stack */
-    osThreadNew(vThread_BLE, NULL, &thread_ble_attr);
-
-    /* start thread for egg logic */
-    EGG_startThread();
-
-    /* Start RTOS scheduler */
-//    PRINTF("starting kernel...\n");
-    if (osKernelGetState() == osKernelReady)
-    {
-        osKernelStart();
-    }
-}
-
-
-/* ----------------------------------------------------------------------------
- * Function      : void vThread_BLE(void *argument)
- * ----------------------------------------------------------------------------
- * Description   : Main BLE Thread function.
- * Inputs        : - argument       - pointer to Thread arguments
- * Outputs       : None
- * Assumptions   : None
- * ------------------------------------------------------------------------- */
-__NO_RETURN void vThread_BLE(void *argument)
-{
     /* Event Kernel Scheduler running in thread */
     while(true)
     {
@@ -161,15 +117,7 @@ __NO_RETURN void vThread_BLE(void *argument)
         /* Refresh the watchdog timer */
         Sys_Watchdog_Refresh();
 
-#if 0
         /* Wait for an event before executing the scheduler again */
-        Sys_GPIO_Set_Low(DEBUG_DIO_NUM);
         SYS_WAIT_FOR_EVENT;
-        Sys_GPIO_Set_High(DEBUG_DIO_NUM);
-#else
-        /* OS delay */
-        osDelay(APP_BLE_DELAY_TICKS);
-#endif
     }
 }
-

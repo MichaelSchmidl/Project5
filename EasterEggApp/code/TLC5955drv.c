@@ -275,12 +275,25 @@ int32_t TLC5955drv_refresh( void )
 }
 
 
+void TLC5955drv_setChannelBrightness( tlcPort channelNumber,
+                                      uint16_t value )
+{
+    int nGsPwmBitPos   = TLC5855_SHIFT_REGISTER_BIT_LEN - 2 - TLC5955_DATA_SHIFT_REG_FIRST_GS_PWM_BIT + ( channelNumber + 1 ) * GS_PWM_BITS - 1;
+
+    _writeStreamBits( m_u8DataShiftStreamMOSI,
+                      nGsPwmBitPos,
+					  value,
+					  16 );
+}
+
+
+
 void TLC5955drv_start( void )
 {
 	_startGSCLK();
 	_writeSetup();
 	// set all LEDs OFF
-    memset( m_u8DataShiftStreamMOSI, 0x0, TLC5955_SHIFT_REGISTER_STREAM_LEN );
+    memset( m_u8DataShiftStreamMOSI, 0, TLC5955_SHIFT_REGISTER_STREAM_LEN );
 	TLC5955drv_refresh();
 }
 

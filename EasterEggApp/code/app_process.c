@@ -207,6 +207,35 @@ int LED_Timer(ke_msg_id_t const msg_id,
 }
 
 /* ----------------------------------------------------------------------------
+ * Function      : int YAKINDU_Timer(ke_msg_idd_t const msg_id,
+ *                                   void const *param,
+ *                                   ke_task_id_t const dest_id,
+ *                                   ke_task_id_t const src_id)
+ * ----------------------------------------------------------------------------
+ * Description   : Handle the application timer event message
+ * Inputs        : - msg_id     - Kernel message ID number
+ *                 - param      - Message parameter (unused)
+ *                 - dest_id    - Destination task ID number
+ *                 - src_id     - Source task ID number
+ * Outputs       : return value - Indicate if the message was consumed;
+ *                                compare with KE_MSG_CONSUMED
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+int YAKINDU_Timer(ke_msg_id_t const msg_id,
+              void const *param,
+              ke_task_id_t const dest_id,
+              ke_task_id_t const src_id)
+{
+    /* Restart timer */
+    ke_timer_set(YAKINDU_TIMER, TASK_APP, TIMER_YAKINDU_SETTING);
+
+    EggLogic_timerTick( TIMER_YAKINDU_SETTING * 10 );
+
+    return (KE_MSG_CONSUMED);
+}
+
+
+/* ----------------------------------------------------------------------------
  * Function      : void Operation_Cancel(void)
  * ----------------------------------------------------------------------------
  * Description   : Sends a operation cancel

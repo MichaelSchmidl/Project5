@@ -41,9 +41,6 @@ extern "C"
  * --------------------------------------------------------------------------*/
 #include "RTE_Components.h"
 #include CMSIS_device_header
-#include <FreeRTOS.h>
-#include <task.h>
-#include <cmsis_os2.h>
 #include "app_trace.h"
 
 #include <rsl10.h>
@@ -167,6 +164,9 @@ extern "C"
 /* Output power */
 #define OUTPUT_POWER_DBM                0
 
+/* Set timer to 100 ms (10 times the 10 ms kernel timer resolution) */
+#define TIMER_YAKINDU_SETTING             10
+
 /* Set timer to 200 ms (20 times the 10 ms kernel timer resolution) */
 #define TIMER_200MS_SETTING             20
 
@@ -187,7 +187,8 @@ typedef void (*appm_add_svc_func_t)(void);
 /* List of message handlers that are used by the different profiles/services */
 #define APP_MESSAGE_HANDLER_LIST                       \
     DEFINE_MESSAGE_HANDLER(APP_TEST_TIMER, APP_Timer), \
-    DEFINE_MESSAGE_HANDLER(LED_TIMER, LED_Timer)
+    DEFINE_MESSAGE_HANDLER(LED_TIMER, LED_Timer), \
+    DEFINE_MESSAGE_HANDLER(YAKINDU_TIMER, YAKINDU_Timer)
 
 /* List of functions used to create the database */
 #define SERVICE_ADD_FUNCTION_LIST                        \
@@ -230,7 +231,8 @@ enum appm_msg
     APP_TEST_TIMER,
     APP_ADV_REDUCED_POWER,
     APP_ADV_WL_FILTERING,
-    LED_TIMER
+    LED_TIMER,
+	YAKINDU_TIMER
 };
 
 /* Key states */
@@ -281,6 +283,10 @@ extern int APP_Timer(ke_msg_id_t const msg_id, void const *param,
 extern int LED_Timer(ke_msg_id_t const msg_id, void const *param,
                      ke_task_id_t const dest_id,
                      ke_task_id_t const src_id);
+
+extern int YAKINDU_Timer(ke_msg_id_t const msg_id, void const *param,
+                         ke_task_id_t const dest_id,
+                         ke_task_id_t const src_id);
 
 extern void Operation_Cancel(void);
 
