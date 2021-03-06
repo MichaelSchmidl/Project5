@@ -188,7 +188,6 @@ void statechart_shutDownSystem(Statechart* handle)
 #else
 	#warning NO AUTOSHUTDOWN
 #endif
-    while(1);
 }
 
 
@@ -247,6 +246,9 @@ void EggLogic_init( void )
     sc_timer_service_init(&timer_service, timers, MAX_TIMERS, (sc_raise_time_event_fp) &statechart_raise_time_event);
 	statechart_init( &eggStatechart );
 	statechart_enter( &eggStatechart);
+
+	// turn on ON inidicator
+	LED_setBLEADVIndicator(1);
 }
 
 
@@ -262,7 +264,8 @@ void EggLogic_timerTick( uint32_t ms )
     {
     	if ( 0 == lastBLEconnected )
     	{
-    		LED_setBLEconnectedIndicator(1);
+//    		LED_setBLEADVIndicator(0);
+//    		LED_setBLEconnectedIndicator(1);
     		statechart_raise_bLEconnected( &eggStatechart );
         	lastBLEconnected = 1;
     	}
@@ -273,18 +276,21 @@ void EggLogic_timerTick( uint32_t ms )
     	if ( 1 == lastBLEconnected )
     	{
     		LED_setBLEconnectedIndicator(0);
+    		LED_setBLEADVIndicator(1);
         	statechart_raise_bLEdisconnected( &eggStatechart );
         	lastBLEconnected = 0;
     	}
     }
 
-    static uint16_t brightness1 = 0;
-    static uint16_t brightness2 = 0;
-    brightness1 <<= 1;
-    brightness2 >>= 1;
-    if ( brightness1 == 0 ) brightness1 = 1;
-    if ( brightness2 == 0 ) brightness2 = 0x8000;
-    LED_setDbgLed( 1, brightness1 );
-    LED_setDbgLed( 2, brightness2 );
+    static int i = 0;
+    const char txt[] = "9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@?*:-/!\\-/!\\-/!\\-/!\\-/!\\-/!\\ ";
+    static int counter = 0;
+    if ( counter++ > 3 )
+    {
+    	counter = 0;
+    	if ( txt[i] != '\0' )
+    	{
+    		LED_renderGlyph(txt[i++]);
+    	}
+    }
 }
-
