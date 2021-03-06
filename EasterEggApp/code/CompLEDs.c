@@ -64,14 +64,14 @@
 
 const uint8_t _glyphColumnLed[FONT_WIDTH][FONT_HEIGHT] =
 {
-   { _LED_H11, _LED_H12, _LED_H13, _LED_H14, _LED_H15, _LED_H16, _LED_H17 }, /* column left */
-   { _LED_H21, _LED_H22, _LED_H23, _LED_H24, _LED_H25, _LED_H26, _LED_H27 },
-   { _LED_H31, _LED_H32, _LED_H33, _LED_H34, _LED_H35, _LED_H36, _LED_H37 },
-   { _LED_H41, _LED_H42, _LED_H43, _LED_H44, _LED_H45, _LED_H46, _LED_H47 },
+   /* starting with left column */
    { _LED_H51, _LED_H52, _LED_H53, _LED_H54, _LED_H55, _LED_H56, _LED_H57 },
+   { _LED_H41, _LED_H42, _LED_H43, _LED_H44, _LED_H45, _LED_H46, _LED_H47 },
+   { _LED_H31, _LED_H32, _LED_H33, _LED_H34, _LED_H35, _LED_H36, _LED_H37 },
+   { _LED_H21, _LED_H22, _LED_H23, _LED_H24, _LED_H25, _LED_H26, _LED_H27 },
+   { _LED_H11, _LED_H12, _LED_H13, _LED_H14, _LED_H15, _LED_H16, _LED_H17 },
 };
 
-/* Font tabled copied from http://sunge.awardspace.com  */
 const uint8_t font5x7[] = {
         0x00, 0x00, 0x00, 0x00, 0x00,// (space)
         0x00, 0x00, 0x5F, 0x00, 0x00,// !
@@ -171,22 +171,66 @@ const uint8_t font5x7[] = {
         0x08, 0x1C, 0x2A, 0x08, 0x08 // <-
 };
 
+static void _renderGlyph( char c, int xPos, int glyphShiftLeft );
+
 
 /*!*************************************************************************************************************************************************************
  *
  **************************************************************************************************************************************************************/
-void LED_renderGlyph( char c )
+#define _CHARACTER_GAP 1
+#define _DELAY_CYCLES 300000UL
+void LED_showLauflichtString( char *szString )
 {
-	int i = ((c - ' ') * FONT_WIDTH) + FONT_WIDTH; // from right to left
-    if ( i > sizeof(font5x7) ) return;
-
-	for ( int x = 0; x < FONT_WIDTH; x++ )
+	uint32_t delay;
+	char c_now;
+	char c_next;
+	while( *szString != '\0' )
 	{
-    	i--;
+		c_now = *szString++;
+		c_next = *szString;
+		if ( c_next == '\0' ) c_next = ' ';
+		for ( int n = 0; n < FONT_WIDTH; n++ )
+		{
+			_renderGlyph( ' ', 0, 0 ); // clear all dots
+			_renderGlyph( c_now, 0, n );
+			if ( n > 0 )
+			{
+				_renderGlyph( ' ', FONT_WIDTH - n , 0 );
+			}
+			if ( n > _CHARACTER_GAP )
+			{
+				_renderGlyph( c_next, FONT_WIDTH - (n - _CHARACTER_GAP) , 0 );
+			}
+			TLC5955drv_refresh();
+			Sys_Delay_ProgramROM( _DELAY_CYCLES );
+			if ( n == 0 ) Sys_Delay_ProgramROM( _DELAY_CYCLES * 10);
+		}
+	}
+}
+
+
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
+static void _renderGlyph( char c, int xPos, int glyphShiftLeft )
+{
+	if ( xPos > FONT_WIDTH ) return;
+	if ( glyphShiftLeft > FONT_WIDTH ) return;
+
+	int font5x7pos = ((c - ' ') * FONT_WIDTH) ;
+    if ( font5x7pos >= sizeof(font5x7) ) return;
+
+    int glyphEndPos = font5x7pos + FONT_WIDTH;
+
+    // set real startpoint based on given glyphShiftLeft
+    font5x7pos += glyphShiftLeft;
+
+	for ( int x = xPos; x < FONT_WIDTH; x++ )
+	{
 		uint8_t mask = 1;
         for ( int y = 0; y < FONT_HEIGHT; y++ )
         {
-        	if ( font5x7[i] & mask )
+        	if ( font5x7[font5x7pos] & mask )
         	{
         		TLC5955drv_setChannelBrightness( _glyphColumnLed[x][y], _DEFAULT_BRIGHTNESS );
         	}
@@ -196,11 +240,25 @@ void LED_renderGlyph( char c )
         	}
         	mask <<= 1;
         }
+        font5x7pos++;
+        if ( font5x7pos >= glyphEndPos ) return;
 	}
+}
+
+
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
+void LED_renderGlyph( char c )
+{
+	_renderGlyph( c, 0, 0 );
     TLC5955drv_refresh();
 }
 
 
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
 void LED_setDbgLed( tlcPort which, uint16_t brightness )
 {
 	switch ( which )
@@ -222,6 +280,9 @@ void LED_setDbgLed( tlcPort which, uint16_t brightness )
 }
 
 
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
 void LED_setBLEconnectedIndicator( uint16_t On )
 {
 	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED1, On * _DEFAULT_BRIGHTNESS );
@@ -232,6 +293,9 @@ void LED_setBLEconnectedIndicator( uint16_t On )
 }
 
 
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
 void LED_setBLEADVIndicator( uint16_t On )
 {
 	TLC5955drv_setChannelBrightness( _BLE_ADV_LED, On * _DEFAULT_BRIGHTNESS );

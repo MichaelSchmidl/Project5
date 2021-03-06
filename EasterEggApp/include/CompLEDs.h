@@ -16,6 +16,7 @@
 void LED_setBLEconnectedIndicator( uint16_t On );
 void LED_setBLEADVIndicator( uint16_t On );
 void LED_renderGlyph( char c );
+void LED_showLauflichtString( char *szString );
 void LED_setDbgLed( tlcPort which, uint16_t brightness );
 
 #endif /* COMP_LEDS_H_ */

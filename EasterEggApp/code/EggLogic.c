@@ -249,6 +249,8 @@ void EggLogic_init( void )
 
 	// turn on ON inidicator
 	LED_setBLEADVIndicator(1);
+
+	LED_showLauflichtString(" * P5 lebt! * ");
 }
 
 
@@ -279,18 +281,6 @@ void EggLogic_timerTick( uint32_t ms )
     		LED_setBLEADVIndicator(1);
         	statechart_raise_bLEdisconnected( &eggStatechart );
         	lastBLEconnected = 0;
-    	}
-    }
-
-    static int i = 0;
-    const char txt[] = "9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@?*:-/!\\-/!\\-/!\\-/!\\-/!\\-/!\\ ";
-    static int counter = 0;
-    if ( counter++ > 3 )
-    {
-    	counter = 0;
-    	if ( txt[i] != '\0' )
-    	{
-    		LED_renderGlyph(txt[i++]);
     	}
     }
 }
