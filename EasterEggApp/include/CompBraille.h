@@ -11,17 +11,11 @@
 /*!************************************************************************************************************************************************************
  *
  *************************************************************************************************************************************************************/
-#include "TLC5955Drv.h"
+#include "CompLeds.h"
 
-#define _BRAILLE_OL         tlcPortR5
-#define _BRAILLE_OR         tlcPortR5
-#define _BRAILLE_ML         tlcPortR5
-#define _BRAILLE_MR         tlcPortR5
-#define _BRAILLE_UL         tlcPortR5
-#define _BRAILLE_UR         tlcPortR5
 
-void compBraille_showCharOnLEDs( char c, uint16_t brightness );
-
+void compBraille_renderGlyph( char c );
+void compBraille_showText( char *szText );
 
 
 #endif /* INCLUDE_COMPBRAILLE_H_ */

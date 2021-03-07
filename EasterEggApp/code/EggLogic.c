@@ -250,7 +250,8 @@ void EggLogic_init( void )
 	// turn on ON inidicator
 	LED_setBLEADVIndicator(1);
 
-	LED_showLauflichtString(" * P5 lebt! * ");
+	compBraille_showText( "P5 lebt " );
+	LED_showText(" * P5 lebt! *  ");
 }
 
 
