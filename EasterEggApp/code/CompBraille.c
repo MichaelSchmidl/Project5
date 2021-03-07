@@ -237,11 +237,11 @@ void compBraille_renderGlyph( char c )
 }
 
 
-void compBraille_showText( char *szText )
+void compBraille_showText( char *pszText )
 {
-	while( *szText != '\0' )
+	while( *pszText != '\0' )
 	{
-		char c = *szText++;
+		char c = *pszText++;
 		LED_renderGlyph( ' '  ); // clear all dots
 		if ( isdigit( c ) )
 		{

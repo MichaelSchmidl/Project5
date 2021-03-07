@@ -15,7 +15,7 @@
 
 
 void compBraille_renderGlyph( char c );
-void compBraille_showText( char *szText );
+void compBraille_showText( char *pszText );
 
 
 #endif /* INCLUDE_COMPBRAILLE_H_ */
