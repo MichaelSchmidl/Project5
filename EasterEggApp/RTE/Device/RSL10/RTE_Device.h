@@ -2651,7 +2651,7 @@
 //   <i> Defines if I2C driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_I2C
- #define RTE_I2C     0
+ #define RTE_I2C     1
 #endif
 //   <e>I2C auto configuration
 // ===============================

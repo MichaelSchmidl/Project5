@@ -39,6 +39,7 @@ extern "C"
 /* ----------------------------------------------------------------------------
  * Include files
  * --------------------------------------------------------------------------*/
+#include <RTE_Device.h>
 #include "RTE_Components.h"
 #include CMSIS_device_header
 #include "app_trace.h"
@@ -58,7 +59,10 @@ extern "C"
 #include "ble_sec.h"
 #include "ble_hogpd.h"
 
+#include <Driver_SPI.h>
+
 #include <GPIO_RSLxx.h>
+#include <I2C_RSLxx.h>
 
 #include "EggLogic.h"
 
@@ -80,18 +84,7 @@ extern "C"
 #define APP_DEBUG_DELAY_MS              3000
 
 /* Macros */
-/* Rounding Macro relaying on integer division of positive integer numbers
- * N and S. It rounds up N to the next interval S. For N=0 result is 0.
- * e.g. ROUND_UP(12,10) => 20  */
-#define ROUND_UP(N, S) ((((N) + (S)-1) / (S)) * (S))
-
-/* BLE Thread delay conversion from ms to os ticks with round up to the  portTICK_PERIOD_MS */
-#define APP_BLE_DELAY_TICKS             ((uint32_t) \
-                                         ((ROUND_UP((APP_BLE_DELAY_MS), portTICK_PERIOD_MS)) / portTICK_PERIOD_MS))
-
-/* Debug Thread delay conversion from ms to os ticks with round up to the  portTICK_PERIOD_MS */
-#define APP_DEBUG_DELAY_TICKS           ((uint32_t) \
-                                         ((ROUND_UP((APP_DEBUG_DELAY_MS), portTICK_PERIOD_MS)) / portTICK_PERIOD_MS))
+#define DELAY_MS(delay_ms) Sys_Delay_ProgramROM((delay_ms / 1000.0) * SystemCoreClock)
 
 /* --------------------------------------------------------------------------
  *  Device Information used for Device Information Server Service (DISS)
@@ -267,6 +260,9 @@ extern const appm_add_svc_func_t appm_add_svc_func_list[];
 extern DRIVER_GPIO_t Driver_GPIO;
 extern DRIVER_GPIO_t *gpio;
 
+extern ARM_DRIVER_I2C Driver_I2C0;
+extern ARM_DRIVER_I2C *i2c;
+
 /* ---------------------------------------------------------------------------
 * Function prototype definitions
 * --------------------------------------------------------------------------*/
@@ -297,6 +293,7 @@ extern int Msg_Handler(ke_msg_id_t const msgid, void *param,
 extern void Restart_Keystroke_Env(void);
 
 void GPIOirq_EventCallback(uint32_t event);
+void I2C_EventCallback(uint32_t event);
 
 
 /* ----------------------------------------------------------------------------

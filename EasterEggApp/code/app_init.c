@@ -118,6 +118,11 @@ void App_Initialize(void)
     /* Initialize gpio driver */
     gpio->Initialize(GPIOirq_EventCallback);
 
+    /* Initialize i2c driver structure */
+    i2c = &Driver_I2C0;
+    /* Initialize i2c, register callback function */
+    i2c->Initialize(I2C_EventCallback);
+
     // setup out own hardware components
     RC5_init();
     TLC5955drv_init();

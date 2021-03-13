@@ -228,7 +228,7 @@ void compMorse_showText( char *pszText )
 			case 'y':
 				_sendMorse( _szY );
 				break;
-			case 'ZA':
+			case 'Z':
 			case 'z':
 				_sendMorse( _szZ );
 				break;

@@ -211,7 +211,6 @@ struct StatechartTimeEvents
 struct Statechart
 {
 	StatechartStates stateConfVector[STATECHART_MAX_ORTHOGONAL_STATES];
-	sc_ushort stateConfVectorPosition; 
 	StatechartInternal internal;
 	StatechartIface iface;
 	StatechartTimeEvents timeEvents;

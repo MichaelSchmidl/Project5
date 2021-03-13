@@ -7,6 +7,11 @@
   </device>
   <toolchain Tcompiler="GCC" Toutput="exe"/>
   <components>
+    <component Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="I2C" Csub="I2C" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+      <file category="header" name="source/firmware/drivers/i2c_driver/include/I2C_RSLxx.h" version="1.0.0"/>
+      <file category="source" name="source/firmware/drivers/i2c_driver/source/I2C_RSLxx.c" version="1.0.0"/>
+    </component>
     <component Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Csub="SPI" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154">
       <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
       <file category="header" name="source/firmware/drivers/spi_driver/include/SPI_RSLxx.h" version="1.0.0"/>
@@ -132,6 +137,11 @@
       <file category="include" name="include/bb/"/>
       <file category="include" name="include/ble/profiles/"/>
       <file category="source" condition="Not_IAR_Condition" name="source/firmware/ble_abstraction_layer/ble/source/stubprf.c"/>
+    </api>
+    <api Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="ARM" Cversion="2.3.0" exclusive="0">
+      <package name="CMSIS" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
+      <file category="doc" name="CMSIS/Documentation/Driver/html/group__i2c__interface__gr.html"/>
+      <file category="header" name="CMSIS/Driver/Include/Driver_I2C.h"/>
     </api>
     <api Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Cvendor="ARM" Cversion="2.2.0" exclusive="0">
       <package name="CMSIS" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>

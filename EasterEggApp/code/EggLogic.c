@@ -9,6 +9,8 @@
 #include "EggLogic.h"
 #include "TLC5955drv.h"
 #include "CompLEDs.h"
+#include "CompBraille.h"
+#include "CompMorse.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // YAKINDU stuff
@@ -251,8 +253,10 @@ void EggLogic_init( void )
 	LED_setBLEADVIndicator(1);
 
 	compMorse_showText( "SOS P5 is sinking" );
-//	compBraille_showText( "P5 lebt " );
-//	LED_showText(" * P5 lebt! *  ");
+	DELAY_MS(1000);
+	compBraille_showText( "P5 lebt " );
+	DELAY_MS(1000);
+	LED_showText(" * P5 lebt! *  ");
 }
 
 

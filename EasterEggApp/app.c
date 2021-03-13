@@ -23,6 +23,7 @@
 #include "EggLogic.h"
 
 DRIVER_GPIO_t *gpio;
+ARM_DRIVER_I2C *i2c;
 
 /* ----------------------------------------------------------------------------
  * Application Version
@@ -53,6 +54,94 @@ void GPIOirq_EventCallback(uint32_t event)
 		    break;
     	default:
     		break;
+    }
+}
+
+
+void I2C_MasterCallback(uint32_t event);
+
+/* ----------------------------------------------------------------------------
+ * Function      : void I2C_MasterCallback(uint32_t event)
+ * ----------------------------------------------------------------------------
+ * Description   : This function is a master callback. The parameter event
+ *                 indicates one or more events that occurred during driver
+ *                 operation.
+ * Inputs        : event - I2C Events notification mask
+ * Outputs       : None
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+void I2C_MasterCallback(uint32_t event)
+{
+	uint8_t buff_rx[20];
+    bool direction = (i2c->GetStatus().direction == 1U);
+
+    /* Check if transfer is done */
+    if (event & ARM_I2C_EVENT_TRANSFER_DONE)
+    {
+        /* Device is configured as transmitter */
+        if (direction == I2C_STATUS_DIRECTION_TX)
+        {
+            /* Delay time for switching modes of operation */
+            Sys_Delay_ProgramROM((uint32_t)(0.5 * SystemCoreClock));
+
+            /* MasterTransmit finished, start MasterReceive */
+            i2c->MasterReceive(RTE_I2C0_SLAVE_ADDR_DEFAULT, buff_rx, sizeof(buff_rx), false);
+        }
+        /* Check if device is configured as receiver */
+        else if (direction == I2C_STATUS_DIRECTION_RX)
+        {
+            /* Check the address nack event */
+            if (event & ARM_I2C_EVENT_ADDRESS_NACK)
+            {
+                /* MasterTransmit finished, start MasterReceive */
+                i2c->MasterReceive(RTE_I2C0_SLAVE_ADDR_DEFAULT, buff_rx, sizeof(buff_rx), false);
+                return;
+            }
+        }
+    }
+    /* Check if transfer error occurred */
+    else if ((event & ARM_I2C_EVENT_TRANSFER_INCOMPLETE) ||
+             (event & ARM_I2C_EVENT_BUS_ERROR))
+    {
+        /* Abort current transfer */
+        i2c->Control(ARM_I2C_ABORT_TRANSFER, 0);
+
+        /* Go back to SlaveReceive default mode */
+        i2c->SlaveReceive(buff_rx, sizeof(buff_rx));
+
+        /* Toggle LED state 10 times for 100 milliseconds to indicate error */
+//        ToggleLed(10, 100);
+        PRINTF("TRANSFER INCOMPLETE OR BUS ERROR\n");
+    }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * Function      : void I2C_CallBack(uint32_t event)
+ * ----------------------------------------------------------------------------
+ * Description   : This function is a callback registered by the function
+ *                 Initialize. The parameter event indicates one or more events
+ *                 that occurred during driver operation.
+ * Inputs        : event - I2C Events notification mask
+ * Outputs       : None
+ * Assumptions   : None
+ * ------------------------------------------------------------------------- */
+void I2C_EventCallback(uint32_t event)
+{
+    static volatile uint32_t I2C_Event;
+    bool mode = (i2c->GetStatus().mode == 1U);
+    I2C_Event |= event;
+
+    /* Refresh the watchdog */
+    Sys_Watchdog_Refresh();
+
+    if(mode == I2C_STATUS_MODE_MASTER)
+    {
+        I2C_MasterCallback(event);
+    }
+    else if (mode == I2C_STATUS_MODE_SLAVE)
+    {
+    	while(1);
     }
 }
 
