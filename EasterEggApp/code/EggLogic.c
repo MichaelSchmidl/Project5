@@ -251,12 +251,13 @@ void EggLogic_init( void )
 
 	// turn on ON inidicator
 	LED_setBLEADVIndicator(1);
+	DELAY_MS(1000);
+	LED_showText(" * P5 lebt! *  ");
+	DELAY_MS(1000);
 
 	compMorse_showText( "SOS P5 is sinking" );
 	DELAY_MS(1000);
 	compBraille_showText( "P5 lebt " );
-	DELAY_MS(1000);
-	LED_showText(" * P5 lebt! *  ");
 }
 
 
