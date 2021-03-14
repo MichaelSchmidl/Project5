@@ -5,6 +5,7 @@
  *      Author: mschmidl
  */
 
+#include "app.h"
 #include "CompLEDs.h"
 
 
@@ -129,6 +130,8 @@ static void _renderGlyph( char c, int xPos, int glyphShiftLeft );
 #define _CHARACTER_GAP 1
 void LED_showText( char *szString )
 {
+    PRINTF("%s(%s)\r\n", __func__, szString);
+
 	char c_now;
 	char c_next;
 	while( *szString != '\0' )

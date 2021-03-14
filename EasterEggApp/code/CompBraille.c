@@ -6,12 +6,13 @@
  *
  *  https://de.wikipedia.org/wiki/Brailleschrift
  *
- *  Da BRAILLE für Zahlen und Buchstaben den gleichen Code verwendet, muss vor jeder Zahl ein # stehen.
- *  Ebenso werden Großbuchstaben durch vorangestelltes $ angezeigt.
+ *  Da BRAILLE fï¿½r Zahlen und Buchstaben den gleichen Code verwendet, muss vor jeder Zahl ein # stehen.
+ *  Ebenso werden Groï¿½buchstaben durch vorangestelltes $ angezeigt.
  *  "Test123" -> "$test#1#2#3"
  */
 
 #include <ctype.h>
+#include "app.h"
 #include "CompBraille.h"
 
 #define _BRAILLE_READING_DELAY_CYCLES   ( 50 * _CHAR_ANIMATION_DELAY_CYCLES )
@@ -239,6 +240,8 @@ void compBraille_renderGlyph( char c )
 
 void compBraille_showText( char *pszText )
 {
+    PRINTF("%s(%s)\r\n", __func__, pszText);
+
 	while( *pszText != '\0' )
 	{
 		char c = *pszText++;

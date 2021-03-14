@@ -249,15 +249,17 @@ void EggLogic_init( void )
 	statechart_init( &eggStatechart );
 	statechart_enter( &eggStatechart);
 
-	// turn on ON inidicator
+	// turn on ON indicator
 	LED_setBLEADVIndicator(1);
+#if 0
 	DELAY_MS(1000);
 	LED_showText(" * P5 lebt! *  ");
 	DELAY_MS(1000);
 
-	compMorse_showText( "SOS P5 is sinking" );
+	compMorse_showText( "P5 is sinking SOS" );
 	DELAY_MS(1000);
 	compBraille_showText( "P5 lebt " );
+#endif
 }
 
 

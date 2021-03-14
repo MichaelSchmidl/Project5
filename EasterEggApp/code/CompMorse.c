@@ -5,6 +5,7 @@
  *      Author: mschmidl
  */
 
+#include "app.h"
 #include "CompMorse.h"
 
 
@@ -88,6 +89,8 @@ static void _sendMorse( const char *pszDitsDahs )
 
 void compMorse_showText( char *pszText )
 {
+    PRINTF("%s(%s)\r\n", __func__, pszText);
+
 	while ( *pszText != '\0' )
 	{
 		char c = *pszText++;

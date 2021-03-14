@@ -9,10 +9,16 @@
 #include "app.h"
 #include "EggLogic.h"
 
-#warning RC5_EXPECTED_CODE is for LOEWE PLAY so far
-#define RC5_EXPECTED_CODE 0x31B5 //!< TBD
+#define RC5_COMMAND 53 //<! PLAY
+#if 0
+   #define RC5_DEVICE 21 //!< PLATTENSPIELER
+#else
+   #warning RC5_EXPECTED_CODE is for RC400E PLAY so far
+   #define RC5_DEVICE 12 //!< CDV
+#endif
+#define RC5_EXPECTED_CODE ( (RC5_DEVICE << 6) | RC5_COMMAND | (3 << 12) ) // ourPLAY
 
-#define RC5_MASK          0xF7FF
+#define RC5_MASK          0xF7FF // remove toggle bit
 
 #define MAX_RC5_SAMPLES (3 + (13*4))
 static uint8_t RC5_sampleCounter = 0;
@@ -41,11 +47,17 @@ static void RC5_sampleFunc( void )
     }
     if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
     {
+    	PRINTF("RC5=%04X ",  RC5_val & RC5_MASK);
     	// we have now our RC5 data
     	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
     	{
+        	PRINTF("match\r\n");
 //!TODO        	EGG_sendMessage( EGGLOGIC_MESSAGE_RC5_MATCH, // we are done with RC5
 //        			         0 );           // timeout=0 because IRQ context
+    	}
+    	else
+    	{
+        	PRINTF("\r\n");
     	}
 
     	// restart sampling
