@@ -13,8 +13,6 @@
 */
 #define CMSIS_device_header "rsl10.h"
 
-/* ONSemiconductor::CMSIS Driver.I2C.I2C.source */
-#define RTECFG_I2C
 /* ONSemiconductor::CMSIS Driver.SPI.SPI.source */
 #define RTECFG_SPI
 /* ONSemiconductor::Device.Libraries.DMA.source */

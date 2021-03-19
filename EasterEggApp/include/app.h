@@ -62,7 +62,6 @@ extern "C"
 #include <Driver_SPI.h>
 
 #include <GPIO_RSLxx.h>
-#include <I2C_RSLxx.h>
 
 #include "EggLogic.h"
 
@@ -84,7 +83,11 @@ extern "C"
 #define APP_DEBUG_DELAY_MS              3000
 
 /* Macros */
-#define DELAY_MS(delay_ms) Sys_Delay_ProgramROM((delay_ms / 1000.0) * SystemCoreClock)
+#define DELAY_MS(delay_ms) Sys_Delay_ProgramROM( (SystemCoreClock * delay_ms) / 1000UL )
+#define DELAY_US(delay_us) Sys_Delay_ProgramROM( (SystemCoreClock * delay_us) / 1000000UL )
+
+#define PCF8574_I2C_SA 0x40
+#define GYRO_I2C_SA    0x3A
 
 /* --------------------------------------------------------------------------
  *  Device Information used for Device Information Server Service (DISS)
@@ -124,7 +127,7 @@ extern "C"
 
 /**
  * PNP ID Value - LSB -> MSB
- *      Vendor ID Source : 0x02 (USB Implementer’s Forum assigned Vendor ID value)
+ *      Vendor ID Source : 0x02 (USB Implementerï¿½s Forum assigned Vendor ID value)
  *      Vendor ID : 0x045E      (Microsoft Corp)
  *      Product ID : 0x0040
  *      Product Version : 0x0300
@@ -152,13 +155,16 @@ extern "C"
 #define SS_DIO_NUM                      6  //!< TLC5955
 #define MOSI_DIO_NUM                    8  //!< TLC5955
 #define MISO_DIO_NUM                    2  //!< TLC5955
-#define GSCLK_DIO_NUM                   5 //!< TLC5955
+#define GSCLK_DIO_NUM                   5  //!< TLC5955
+
+#define SDA_DIO_NUM                     15 //!< bitbanging I2C bus
+#define SCL_DIO_NUM                     13 //!< bitbanging I2C bus
 
 /* Output power */
 #define OUTPUT_POWER_DBM                0
 
 /* Set timer to 100 ms (10 times the 10 ms kernel timer resolution) */
-#define TIMER_YAKINDU_SETTING             10
+#define TIMER_YAKINDU_SETTING           10
 
 /* Set timer to 200 ms (20 times the 10 ms kernel timer resolution) */
 #define TIMER_200MS_SETTING             20
@@ -260,9 +266,6 @@ extern const appm_add_svc_func_t appm_add_svc_func_list[];
 extern DRIVER_GPIO_t Driver_GPIO;
 extern DRIVER_GPIO_t *gpio;
 
-extern ARM_DRIVER_I2C Driver_I2C0;
-extern ARM_DRIVER_I2C *i2c;
-
 /* ---------------------------------------------------------------------------
 * Function prototype definitions
 * --------------------------------------------------------------------------*/
@@ -293,7 +296,6 @@ extern int Msg_Handler(ke_msg_id_t const msgid, void *param,
 extern void Restart_Keystroke_Env(void);
 
 void GPIOirq_EventCallback(uint32_t event);
-void I2C_EventCallback(uint32_t event);
 
 
 /* ----------------------------------------------------------------------------

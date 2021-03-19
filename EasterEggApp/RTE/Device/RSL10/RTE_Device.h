@@ -2141,7 +2141,7 @@
 //   <i> Defines the gpio pull configuration
 //   <i> Default: weak pull up
 #ifndef RTE_GPIO13_PULL_DEFAULT
- #define RTE_GPIO13_PULL_DEFAULT   1
+ #define RTE_GPIO13_PULL_DEFAULT   3
 #endif
 //   <o>IO mode
 //   <0x000=> GPIO_IN_0             <0x001=> GPIO_IN_1             <0x002=> GPIO_OUT_0            <0x003=> GPIO_OUT_1
@@ -2173,7 +2173,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO13_IOMODE_DEFAULT
- #define RTE_GPIO13_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO13_IOMODE_DEFAULT   0x003
 #endif
 // </e>
 // <e>GPIO 14 configure
@@ -2279,7 +2279,7 @@
 //   <i> Defines the gpio pull configuration
 //   <i> Default: weak pull up
 #ifndef RTE_GPIO15_PULL_DEFAULT
- #define RTE_GPIO15_PULL_DEFAULT   1
+ #define RTE_GPIO15_PULL_DEFAULT   3
 #endif
 //   <o>IO mode
 //   <0x000=> GPIO_IN_0             <0x001=> GPIO_IN_1             <0x002=> GPIO_OUT_0            <0x003=> GPIO_OUT_1
@@ -2311,7 +2311,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO15_IOMODE_DEFAULT
- #define RTE_GPIO15_IOMODE_DEFAULT   0x03F
+ #define RTE_GPIO15_IOMODE_DEFAULT   0x003
 #endif
 // </e>
 //   <o>Drive strengths
@@ -2651,7 +2651,7 @@
 //   <i> Defines if I2C driver should be enabled.
 //   <i> Default: 1
 #ifndef RTE_I2C
- #define RTE_I2C     1
+ #define RTE_I2C     0
 #endif
 //   <e>I2C auto configuration
 // ===============================
@@ -2660,7 +2660,7 @@
 //   <i> Drivers are also powered up during initialization if enabled.
 //   <i> Default: enable
 #ifndef RTE_I2C0_CFG_EN_DEFAULT
- #define RTE_I2C0_CFG_EN_DEFAULT   1
+ #define RTE_I2C0_CFG_EN_DEFAULT   0
 #endif
 //   <o>I2C speed
 //       <0x1=> standard speed (100kHz)

@@ -3,22 +3,17 @@
   <packages/>
   <device Dclock="48000000" Dcore="Cortex-M3" DcoreVersion="r2p1" Dendian="Little-endian" Dfamily="RSL10 Series" Dfpu="NO_FPU" Dmpu="NO_MPU" Dname="RSL10" Dvendor="ONSemiconductor:141" Pname="">
     <url>http:/www.onsemi.com</url>
-    <package info="ON Semiconductor RSL10 Device Family Pack" name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <package info="ON Semiconductor RSL10 Device Family Pack" name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
   </device>
   <toolchain Tcompiler="GCC" Toutput="exe"/>
   <components>
-    <component Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="I2C" Csub="I2C" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
-      <file category="header" name="source/firmware/drivers/i2c_driver/include/I2C_RSLxx.h" version="1.0.0"/>
-      <file category="source" name="source/firmware/drivers/i2c_driver/source/I2C_RSLxx.c" version="1.0.0"/>
-    </component>
-    <component Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Csub="SPI" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Csub="SPI" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.5.285">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="header" name="source/firmware/drivers/spi_driver/include/SPI_RSLxx.h" version="1.0.0"/>
       <file category="source" name="source/firmware/drivers/spi_driver/source/SPI_RSLxx.c" version="1.0.0"/>
     </component>
-    <component Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Csub="Fota" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Csub="Fota" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_over_the_air_users_guide.pdf"/>
       <file category="header" deviceDependent="1" name="include/sys_fota.h"/>
       <file category="header" deviceDependent="1" name="include/sys_boot.h"/>
@@ -26,40 +21,40 @@
       <file attr="config" category="utility" deviceDependent="1" name="lib/Release/fota.bin" version="1.0.0"/>
       <file category="library" deviceDependent="1" name="lib/Release/libfota.a"/>
     </component>
-    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="BASS" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="BASS" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/ceva/RW-BLE-PRF-BAS-IS.pdf"/>
       <file category="header" deviceDependent="1" name="include/ble/profiles/bass.h"/>
       <file category="library" deviceDependent="1" name="lib/ble_profiles/Release/libbass.a"/>
     </component>
-    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="DISS" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="DISS" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/ceva/RW-BLE-PRF-DIS-IS.pdf"/>
       <file category="header" deviceDependent="1" name="include/ble/profiles/diss.h"/>
       <file category="library" deviceDependent="1" name="lib/ble_profiles/Release/libdiss.a"/>
     </component>
-    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="HOGPD" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Bluetooth Profiles" Csub="HOGPD" Cvariant="release" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/ceva/RW-BLE-PRF-HOGP-IS.pdf"/>
       <file category="header" deviceDependent="1" name="include/ble/profiles/hogpd.h"/>
       <file category="library" deviceDependent="1" name="lib/ble_profiles/Release/libhogpd.a"/>
     </component>
-    <component Cclass="Device" Cgroup="Libraries" Csub="DMA" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Libraries" Csub="DMA" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
       <file category="header" deviceDependent="1" name="source/firmware/drivers/dma_driver/include/Driver_DMA.h"/>
       <file category="header" deviceDependent="1" name="source/firmware/drivers/dma_driver/include/DMA_RSLxx.h"/>
       <file category="source" deviceDependent="1" name="source/firmware/drivers/dma_driver/source/DMA_RSLxx.c"/>
     </component>
-    <component Cclass="Device" Cgroup="Libraries" Csub="GPIO" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Libraries" Csub="GPIO" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
       <file category="header" deviceDependent="1" name="source/firmware/drivers/gpio_driver/include/Driver_GPIO.h"/>
       <file category="header" deviceDependent="1" name="source/firmware/drivers/gpio_driver/include/GPIO_RSLxx.h"/>
       <file category="source" deviceDependent="1" name="source/firmware/drivers/gpio_driver/source/GPIO_RSLxx.c"/>
     </component>
-    <component Cclass="Device" Cgroup="Libraries" Csub="System" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Libraries" Csub="System" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
       <file category="header" deviceDependent="1" name="include/rsl10_romvect.h"/>
       <file category="header" deviceDependent="1" name="include/rsl10_sys_adc.h"/>
@@ -103,8 +98,8 @@
       <file category="source" deviceDependent="1" name="source/firmware/syslib/code/rsl10_sys_uart.c"/>
       <file category="source" deviceDependent="1" name="source/firmware/syslib/code/rsl10_sys_version.c"/>
     </component>
-    <component Cclass="Device" Cgroup="Startup" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.4.154" deviceDependent="1">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Device" Cgroup="Startup" Cvariant="source" Cvendor="ONSemiconductor" Cversion="3.5.285" deviceDependent="1">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" deviceDependent="1" name="documentation/RSL10_firmware_reference.pdf"/>
       <file category="include" deviceDependent="1" name="include/"/>
       <file category="source" condition="GCC_Condition" deviceDependent="1" name="source/firmware/cmsis/source/sbrk.c"/>
@@ -114,13 +109,13 @@
       <file attr="config" category="linkerScript" condition="GCC_Condition" deviceDependent="1" name="source/firmware/cmsis/source/GCC/sections.ld" version="1.0.0"/>
       <file attr="config" category="header" deviceDependent="1" name="source/firmware/drivers/RTE_config/RTE_Device.h" version="1.0.0"/>
     </component>
-    <component Cclass="Utility" Cgroup="IO" Csub="Printf wrapper" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Utility" Cgroup="IO" Csub="Printf wrapper" Cvendor="ONSemiconductor" Cversion="3.5.285">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="header" name="source/firmware/printf/printf.h"/>
       <file category="source" name="source/firmware/printf/printf.c"/>
     </component>
-    <component Cclass="Utility" Cgroup="IO" Csub="SEGGER RTT" Cvendor="ONSemiconductor" Cversion="3.4.154">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+    <component Cclass="Utility" Cgroup="IO" Csub="SEGGER RTT" Cvendor="ONSemiconductor" Cversion="3.5.285">
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="header" name="source/firmware/rtt/SEGGER_RTT.h"/>
       <file attr="config" category="header" name="source/firmware/rtt/SEGGER_RTT_Conf.h" version="1.0.0"/>
       <file category="source" name="source/firmware/rtt/SEGGER_RTT.c"/>
@@ -130,18 +125,13 @@
   </components>
   <apis>
     <api Capiversion="1.0.0" Cclass="Device" Cgroup="Bluetooth Core" Cvendor="ONSemiconductor" Cversion="1.0.0" exclusive="0">
-      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.4.154"/>
+      <package name="RSL10" url="www.onsemi.com" vendor="ONSemiconductor" version="3.5.285"/>
       <file category="doc" name="documentation/RSL10_firmware_reference.pdf"/>
       <file category="include" name="include/kernel/"/>
       <file category="include" name="include/ble/"/>
       <file category="include" name="include/bb/"/>
       <file category="include" name="include/ble/profiles/"/>
       <file category="source" condition="Not_IAR_Condition" name="source/firmware/ble_abstraction_layer/ble/source/stubprf.c"/>
-    </api>
-    <api Capiversion="2.3.0" Cclass="CMSIS Driver" Cgroup="I2C" Cvendor="ARM" Cversion="2.3.0" exclusive="0">
-      <package name="CMSIS" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>
-      <file category="doc" name="CMSIS/Documentation/Driver/html/group__i2c__interface__gr.html"/>
-      <file category="header" name="CMSIS/Driver/Include/Driver_I2C.h"/>
     </api>
     <api Capiversion="2.2.0" Cclass="CMSIS Driver" Cgroup="SPI" Cvendor="ARM" Cversion="2.2.0" exclusive="0">
       <package name="CMSIS" url="http://www.keil.com/pack/" vendor="ARM" version="5.6.0"/>

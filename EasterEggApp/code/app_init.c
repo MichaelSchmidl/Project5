@@ -20,6 +20,9 @@
 #include "app.h"
 #include "RC5receiver.h"
 #include "TLC5955drv.h"
+#include "i2c_master.h"
+#include "PCF8574drv.h"
+#include "GYROdrv.h"
 
 /* Application Environment Structure */
 struct app_env_tag app_env;
@@ -118,10 +121,10 @@ void App_Initialize(void)
     /* Initialize gpio driver */
     gpio->Initialize(GPIOirq_EventCallback);
 
-    /* Initialize i2c driver structure */
-    i2c = &Driver_I2C0;
-    /* Initialize i2c, register callback function */
-    i2c->Initialize(I2C_EventCallback);
+    /* Initialize i2c driver */
+    I2C_init();
+    PCF8574_write(0xFF); // set all pins to input
+    GYRO_init();
 
     // setup out own hardware components
     RC5_init();

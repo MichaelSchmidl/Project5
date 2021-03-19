@@ -38,11 +38,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>RTE/CMSIS_Driver/I2C_RSLxx.c</name>
-			<type>1</type>
-			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/source/I2C_RSLxx.c</locationURI>
-		</link>
-		<link>
 			<name>RTE/CMSIS_Driver/SPI_RSLxx.c</name>
 			<type>1</type>
 			<locationURI>$%7Bcmsis_pack_root%7D/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/source/SPI_RSLxx.c</locationURI>

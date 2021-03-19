@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.577327443.1531956973" name="Debug" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="FOTA generation" postbuildStep="${cross_prefix}objcopy -O binary &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; &quot;${ProjDirPath}/RTE/Device/RSL10/mkfotaimg.py&quot; -o &quot;${BuildArtifactFileBaseName}.fota&quot; &quot;${ProjDirPath}/RTE/Device/RSL10/fota.bin&quot; &quot;${BuildArtifactFileBaseName}.bin&quot;" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.577327443.1531956973" name="Debug" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="FOTA generation" postbuildStep="${cross_prefix}objcopy -O binary &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; &quot;${ProjDirPath}/RTE/Device/RSL10/mkfotaimg.py&quot; -o &quot;${BuildArtifactFileBaseName}.fota&quot; &quot;${ProjDirPath}/RTE/Device/RSL10/fota.bin&quot; &quot;${BuildArtifactFileBaseName}.bin&quot;" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.577327443.1531956973." name="/" resourcePath="">
 						<toolChain errorParsers="" id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1231854059" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.698384833" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -56,7 +56,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -73,7 +72,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -94,7 +92,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -134,7 +131,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -157,7 +153,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -174,7 +169,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -346,7 +340,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -363,7 +356,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -384,7 +376,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -424,7 +415,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -447,7 +437,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
@@ -464,7 +453,6 @@
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/include/kernel&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/dma_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/gpio_driver/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/i2c_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/drivers/spi_driver/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/printf&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cmsis_pack_root}/ONSemiconductor/RSL10/3.5.285/source/firmware/rtt&quot;"/>
