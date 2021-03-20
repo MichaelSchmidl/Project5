@@ -7,7 +7,7 @@
 
 #include "app.h"
 #include "CompLEDs.h"
-
+#include "GYROdrv.h"
 
 #define FONT_WIDTH 5
 #define FONT_HEIGHT 7
@@ -250,4 +250,60 @@ void LED_setBLEADVIndicator( uint16_t On )
 {
 	TLC5955drv_setChannelBrightness( _BLE_ADV_LED, On * _DEFAULT_BRIGHTNESS );
     TLC5955drv_refresh();
+}
+
+
+/*!*************************************************************************************************************************************************************
+ *
+ **************************************************************************************************************************************************************/
+void LED_setGYROIndicator( void )
+{
+	switch ( GYRO_getOrientation() )
+	{
+		case FRONT:
+			TLC5955drv_setChannelBrightness( _LED_H54, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H37, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H14, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H31, 0 );
+		    TLC5955drv_refresh();
+		    break;
+		case BACK:
+			TLC5955drv_setChannelBrightness( _LED_H54, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H37, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H14, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H31, _DEFAULT_BRIGHTNESS );
+		    TLC5955drv_refresh();
+		    break;
+		case PORTRAIT_UP:
+			TLC5955drv_setChannelBrightness( _LED_H54, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H37, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H14, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H31, 0 );
+		    TLC5955drv_refresh();
+		    break;
+		case LANDSCAPE_RIGHT:
+			TLC5955drv_setChannelBrightness( _LED_H54, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H37, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H14, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H31, _DEFAULT_BRIGHTNESS );
+		    TLC5955drv_refresh();
+		    break;
+		case PORTRAIT_DOWN:
+			TLC5955drv_setChannelBrightness( _LED_H54, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H37, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H14, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H31, 0 );
+		    TLC5955drv_refresh();
+		    break;
+		case LANDSCAPE_LEFT:
+			TLC5955drv_setChannelBrightness( _LED_H54, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H37, _DEFAULT_BRIGHTNESS );
+			TLC5955drv_setChannelBrightness( _LED_H14, 0 );
+			TLC5955drv_setChannelBrightness( _LED_H31, 0 );
+		    TLC5955drv_refresh();
+		    break;
+		default:
+			break;
+	}
+
 }

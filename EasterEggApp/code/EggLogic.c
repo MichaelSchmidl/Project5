@@ -292,4 +292,5 @@ void EggLogic_timerTick( uint32_t ms )
         	lastBLEconnected = 0;
     	}
     }
+    LED_setGYROIndicator();
 }

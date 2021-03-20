@@ -52,6 +52,11 @@ static int16_t _read12bit( uint8_t startReg )
     // revese indeaness
     *pVal++ = buf[1];
     *pVal++ = buf[0];
+    // check lower 4bits - must be ZERO
+    if ( 0 != ( val & 0x000F ) )
+    {
+	    PRINTF("ERR: possible wrong value read\r\n");
+    }
     // remove lower 4 bits
     val /= 16;
     return val;
@@ -82,6 +87,48 @@ int16_t GYRO_readZ( void )
 }
 
 
+int8_t GYRO_getPL( void )
+{
+	int8_t val = 0;
+    val = _readReg( 0x10 );
+    return val;
+}
+
+
+GRYRO_Orientation_t GYRO_getOrientation( void )
+{
+#define GYRO_ORIENTATION_THRESHOLD 500
+	int16_t x = GYRO_readX();
+	int16_t y = GYRO_readY();
+	int16_t z = GYRO_readZ();
+	if ( ( abs(x) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(y) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     (     z  < -GYRO_ORIENTATION_THRESHOLD ) )
+		return BACK; // X=0g, Y=0g, Z=-1g
+	if ( ( abs(x) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(y) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     (     z  > GYRO_ORIENTATION_THRESHOLD ) )
+		return FRONT; // X=0g, Y=0g, Z=1g
+	if ( ( abs(x) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     (     y  <  -GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(z) < GYRO_ORIENTATION_THRESHOLD ) )
+		return PORTRAIT_UP; // X=0g, Y=-1g, Z=0g
+	if ( (     x  > GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(y) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(z) < GYRO_ORIENTATION_THRESHOLD ) )
+		return LANDSCAPE_RIGHT; // X=1g, Y=0g, Z=0g
+	if ( ( abs(x) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     (     y  > GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(z) < GYRO_ORIENTATION_THRESHOLD ) )
+		return PORTRAIT_DOWN; // X=0g, Y=1g, Z=0g
+	if ( (     x  < -GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(y) < GYRO_ORIENTATION_THRESHOLD ) &&
+	     ( abs(z) < GYRO_ORIENTATION_THRESHOLD ) )
+		return LANDSCAPE_LEFT; // X=-1g, Y=0g, Z=0g
+	return UNKNOWN;
+}
+
+
 uint8_t GYRO_init( void )
 {
     if ( GYRO_ID_VAL != _readReg( GYRO_ID_REG ) )
@@ -90,16 +137,21 @@ uint8_t GYRO_init( void )
 	    return 0;
     }
     _writeReg( 0x2B, 0x40); // soft reset
-//    _writeReg( 0x2A, 1 ); // set ACTIVE
-
-	while (1)
+	DELAY_MS(1);
+    _writeReg( 0x2A, 1 ); // set ACTIVE
+	DELAY_MS(1);
+	_writeReg( 0x11, 0xC0 ); // enable Portrait/Landscape detection
+    DELAY_MS(1);
+#if 0
+    while (1)
 	{
 		int16_t x = GYRO_readX();
 		int16_t y = GYRO_readY();
 		int16_t z = GYRO_readZ();
-		PRINTF("X=%d Y=%d Z=%d\r\n", x, y, z);
-		DELAY_MS(250);
+		GRYRO_Orientation_t orientation = GYRO_getOrientation();
+		PRINTF( "X=%d Y=%d Z=%d %d\r\n", x, y, z, (int)orientation );
+		DELAY_MS(1000);
 	}
-
+#endif
 	return 1;
 }

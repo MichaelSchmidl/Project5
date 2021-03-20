@@ -35,6 +35,8 @@
  */
 static void _I2C_start(void)
 {
+   SDA_H;
+   SCL_H;
    DELAY_US(tHIGH_US);
    SDA_0;
    DELAY_US(tSETUP_US);
@@ -138,21 +140,13 @@ static uint8_t _I2C_rxd(uint8_t bWithAck)
  */
 void I2C_init(void)
 {
-   _I2C_stop();
+   SCL_H;
+   SDA_H;
    if (!Is_SCL_high) { // SCL must be released now - otherwise it's an error condition
-//	   HWERR_setFlag(HWERR_SCL_STUCKAT0);
+      PRINTF("ERR: SCL not high\r\n");
    }
    if (!Is_SDA_high) { // SDA should be released now - otherwise try to recover
-	   uint8_t count = 100; //!< empiric value of number of clocks necessary to free the bus
-	   while (count-- && (!Is_SDA_high)) {
-		   DELAY_US(tSETUP_US);
-		   SCL_H;
-		   DELAY_US(tHIGH_US);
-		   SCL_0;
-	   }
-	   if (0 == count) { // still stuck at ZERO is an error condition
-//		   HWERR_setFlag(HWERR_SDA_STUCKAT0);
-	   }
+      PRINTF("ERR: SDA not high\r\n");
    }
 }
 

@@ -73,5 +73,6 @@ void LED_setBLEADVIndicator( uint16_t On );
 void LED_renderGlyph( char c );
 void LED_showText( char *szString );
 void LED_setDbgLed( tlcPort which, uint16_t brightness );
+void LED_setGYROIndicator( void );
 
 #endif /* COMP_LEDS_H_ */
