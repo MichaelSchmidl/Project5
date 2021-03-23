@@ -12,20 +12,11 @@
 
 void EggLogic_init( void );
 void EggLogic_timerTick( uint32_t ms );
+void EggLogic_updateGyroAndTouchInfo( void );
 
-typedef enum
-{
-	EGGLOGIC_MESSAGE_NOP = 0,
-	EGGLOGIC_MESSAGE_TIMER_TICK,
-	EGGLOGIC_MESSAGE_TOUCH_IRQ,
-	EGGLOGIC_MESSAGE_TOUCH1_EVENT,
-	EGGLOGIC_MESSAGE_TOUCH2_EVENT,
-	EGGLOGIC_MESSAGE_TOUCH3_EVENT,
-	EGGLOGIC_MESSAGE_RC5_MATCH
-}eggLogicMessage_t;
-
-//void EGG_sendMessage( eggLogicMessage_t msg, uint32_t timeout );
 void EGG_doneWithSendingKeyStroke( void );
+void EggLogic_RC5match( void );
+
 
 
 #endif /* INCLUDE_EGGLOGIC_H_ */

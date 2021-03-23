@@ -8,14 +8,13 @@
 #include "app.h"
 #include "CompMorse.h"
 
+#define _DIT_LENGTH_MS        ( 350 )                 // '1' coded in "font"
+#define _DAH_LENGTH_MS        ( 3 * _DIT_LENGTH_MS )  // '3' coded in "font"
+#define _INTERSYMBOL_DELAY_MS ( 1 * _DIT_LENGTH_MS )
+#define _INTERCHAR_DELAY_MS   ( 3 * _DIT_LENGTH_MS )
+#define _INTERWORD_DELAY_MS   ( 7 * _DIT_LENGTH_MS )
 
-
-#define _DIT_DELAY_CYCLES         ( 7 * _CHAR_ANIMATION_DELAY_CYCLES ) // '1'
-#define _DAH_DELAY_CYCLES         ( 3 * _DIT_DELAY_CYCLES )            // '3'
-#define _INTERSYMBOL_DELAY_CYCLES ( 1 * _DIT_DELAY_CYCLES )
-#define _INTERCHAR_DELAY_CYCLES   ( 3 * _DIT_DELAY_CYCLES )
-#define _INTERWORD_DELAY_CYCLES   ( 7 * _DIT_DELAY_CYCLES )
-
+// '1' for DIT, '3' for DAH
 static const char _szA[]="13";
 static const char _szB[]="3111";
 static const char _szC[]="3131";
@@ -77,13 +76,13 @@ static void _sendMorse( const char *pszDitsDahs )
     	_setMorseLedsBrightness( _DEFAULT_BRIGHTNESS );
 		TLC5955drv_refresh();
 		int n = *pszDitsDahs - '0'; // "ASCII2INT"
-		Sys_Delay_ProgramROM( n * _DIT_DELAY_CYCLES );
+		DELAY_MS( n * _DIT_LENGTH_MS );
 		LED_renderGlyph( ' '  ); // clear all dots
 		TLC5955drv_refresh();
-		Sys_Delay_ProgramROM( _INTERSYMBOL_DELAY_CYCLES );
+		DELAY_MS( _INTERSYMBOL_DELAY_MS );
     	pszDitsDahs++;
 	}
-	Sys_Delay_ProgramROM( _INTERCHAR_DELAY_CYCLES - _INTERSYMBOL_DELAY_CYCLES );
+	DELAY_MS( _INTERCHAR_DELAY_MS - _INTERSYMBOL_DELAY_MS );
 }
 
 
@@ -99,7 +98,7 @@ void compMorse_showText( char *pszText )
 		 	case ' ':
 				LED_renderGlyph( ' '  ); // clear all dots
 				TLC5955drv_refresh();
-				Sys_Delay_ProgramROM( _INTERWORD_DELAY_CYCLES );
+				DELAY_MS( _INTERWORD_DELAY_MS );
 				break;
 		 	case '0':
 				_sendMorse( _sz0 );

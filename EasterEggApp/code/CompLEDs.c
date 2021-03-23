@@ -7,7 +7,6 @@
 
 #include "app.h"
 #include "CompLEDs.h"
-#include "GYROdrv.h"
 
 #define FONT_WIDTH 5
 #define FONT_HEIGHT 7
@@ -152,8 +151,8 @@ void LED_showText( char *szString )
 				_renderGlyph( c_next, FONT_WIDTH - (n - _CHARACTER_GAP) , 0 );
 			}
 			TLC5955drv_refresh();
-			Sys_Delay_ProgramROM( _CHAR_ANIMATION_DELAY_CYCLES );
-			if ( n == 0 ) Sys_Delay_ProgramROM( _CHAR_READING_DELAY_CYCLES );
+			DELAY_MS( _CHAR_ANIMATION_DELAY_MS );
+			if ( n == 0 ) DELAY_MS( _CHAR_READING_DELAY_MS );
 		}
 	}
 }
@@ -256,9 +255,9 @@ void LED_setBLEADVIndicator( uint16_t On )
 /*!*************************************************************************************************************************************************************
  *
  **************************************************************************************************************************************************************/
-void LED_setGYROIndicator( void )
+void LED_setGYROIndicator( GRYRO_Orientation_t orientation )
 {
-	switch ( GYRO_getOrientation() )
+	switch ( orientation )
 	{
 		case FRONT:
 			TLC5955drv_setChannelBrightness( _LED_H54, 0 );

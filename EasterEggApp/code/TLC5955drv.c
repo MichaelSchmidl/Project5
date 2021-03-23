@@ -253,7 +253,7 @@ int32_t TLC5955drv_refresh( void )
 {
 	while ( !SPItransferDone )
 	{
-	    Sys_Delay_ProgramROM( 1000UL ); // 1000 Cycles @20MHz -> 125us
+	    DELAY_US( 300 );
 	}
 	SPItransferDone = 0;
 

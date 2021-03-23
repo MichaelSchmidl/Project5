@@ -12,11 +12,12 @@
  *
  *************************************************************************************************************************************************************/
 #include "TLC5955Drv.h"
+#include "GYROdrv.h"
 
 #define _DEFAULT_BRIGHTNESS 25
 
-#define _CHAR_ANIMATION_DELAY_CYCLES    300000UL
-#define _CHAR_READING_DELAY_CYCLES      ( 10 * _CHAR_ANIMATION_DELAY_CYCLES )
+#define _CHAR_ANIMATION_DELAY_MS    ( 50 ) // 50ms
+#define _CHAR_READING_DELAY_MS      ( 10 * _CHAR_ANIMATION_DELAY_MS )
 
 #define _DGB_LED_H3          tlcPortR0
 #define _DGB_LED_H4          tlcPortG0
@@ -73,6 +74,6 @@ void LED_setBLEADVIndicator( uint16_t On );
 void LED_renderGlyph( char c );
 void LED_showText( char *szString );
 void LED_setDbgLed( tlcPort which, uint16_t brightness );
-void LED_setGYROIndicator( void );
+void LED_setGYROIndicator( GRYRO_Orientation_t orientation );
 
 #endif /* COMP_LEDS_H_ */

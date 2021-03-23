@@ -22,6 +22,7 @@
 #include "RC5receiver.h"
 #include "EggLogic.h"
 
+
 DRIVER_GPIO_t *gpio;
 
 /* ----------------------------------------------------------------------------
@@ -45,9 +46,10 @@ void GPIOirq_EventCallback(uint32_t event)
     switch ( event )
     {
     	case GPIO_EVENT_0_IRQ:
-//    		EGG_sendMessage( EGGLOGIC_MESSAGE_TOUCH_IRQ,
-//    				         0UL ); // timeout=0 because IRQ context
-		    break;
+    		// da TOUCH und GYRO am gleichen Bus hängen, könnte es zu Konflikten kommen
+    		// daher pollen wir z.Z. in der YAKINDU Tick Funktion beide alle 100ms
+    	{
+    	} break;
     	case GPIO_EVENT_1_IRQ:
     		RC5_HandleSignalChange();
 		    break;

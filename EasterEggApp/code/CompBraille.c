@@ -15,7 +15,7 @@
 #include "app.h"
 #include "CompBraille.h"
 
-#define _BRAILLE_READING_DELAY_CYCLES   ( 50 * _CHAR_ANIMATION_DELAY_CYCLES )
+#define _BRAILLE_READING_DELAY_MS   ( 500 )
 
 #define _BRAILLE_OL         _LED_H42
 #define _BRAILLE_OR         _LED_H22
@@ -250,16 +250,16 @@ void compBraille_showText( char *pszText )
 		{
 			compBraille_renderGlyph( '#' );
 			TLC5955drv_refresh();
-			Sys_Delay_ProgramROM( _BRAILLE_READING_DELAY_CYCLES );
+			DELAY_MS( _BRAILLE_READING_DELAY_MS );
 		}
 		else if ( isupper( c ) )
 		{
 			compBraille_renderGlyph( '$' );
 			TLC5955drv_refresh();
-			Sys_Delay_ProgramROM( _BRAILLE_READING_DELAY_CYCLES );
+			DELAY_MS( _BRAILLE_READING_DELAY_MS );
 		}
 		compBraille_renderGlyph( c );
 		TLC5955drv_refresh();
-		Sys_Delay_ProgramROM( _BRAILLE_READING_DELAY_CYCLES );
+		DELAY_MS( _BRAILLE_READING_DELAY_MS );
 	}
 }

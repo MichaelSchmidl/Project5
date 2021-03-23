@@ -104,7 +104,8 @@ void App_Initialize(void)
     /* Configure DIOs */
     Sys_DIO_Config(POWER_ON_DIO, DIO_MODE_GPIO_OUT_1);
     Sys_DIO_Config(RECOVERY_FOTA_DEBUG_DIO, DIO_MODE_GPIO_OUT_0);
-    Sys_DIO_Config(RC5_DIO_NUM,  DIO_MODE_GPIO_IN_1 | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE);
+    Sys_DIO_Config(RC5_DIO_NUM,  DIO_MODE_GPIO_IN_1 | DIO_STRONG_PULL_UP | DIO_LPF_DISABLE);
+    Sys_DIO_Config(TOUCH_IRQ_DIO_NUM,  DIO_MODE_GPIO_IN_0 | DIO_STRONG_PULL_UP | DIO_LPF_DISABLE);
 
     /* Initialize the baseband and BLE stack */
     BLE_Initialize();

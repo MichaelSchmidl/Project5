@@ -27,6 +27,17 @@ static uint32_t RC5_val = 0;
 #undef RC5_VERBOSE_DEBUG_SIGNAL
 #define DEBUG_DIO_NUM RECOVERY_FOTA_DEBUG_DIO
 
+static uint8_t _match = 0;
+
+
+uint8_t RC5_doWeHaveAmatch( void )
+{
+	uint8_t ret = _match;
+	_match = 0;
+	return ret;
+}
+
+
 static void RC5_sampleFunc( void )
 {
     if ( 1 == (RC5_sampleCounter % 4) )
@@ -47,17 +58,19 @@ static void RC5_sampleFunc( void )
     }
     if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
     {
-    	PRINTF("RC5=%04X ",  RC5_val & RC5_MASK);
-    	// we have now our RC5 data
-    	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
+//    	if ( 0 != RC5_val ) // keine Ahnung warum I2C da Pulse erzeugt am Pin
     	{
-        	PRINTF("match\r\n");
-//!TODO        	EGG_sendMessage( EGGLOGIC_MESSAGE_RC5_MATCH, // we are done with RC5
-//        			         0 );           // timeout=0 because IRQ context
-    	}
-    	else
-    	{
-        	PRINTF("\r\n");
+        	PRINTF("RC5=%04X ",  RC5_val & RC5_MASK);
+        	// we have now our RC5 data
+        	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
+        	{
+            	PRINTF("match\r\n");
+            	_match = 1;
+        	}
+        	else
+        	{
+            	PRINTF("\r\n");
+        	}
     	}
 
     	// restart sampling

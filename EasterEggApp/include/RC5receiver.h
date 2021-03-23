@@ -23,6 +23,8 @@ void RC5_init( void);
 void RC5_HandleSignalChange( void );
 void TIMER0_IRQHandler(void);
 
+uint8_t RC5_doWeHaveAmatch( void );
+
 
 /* ----------------------------------------------------------------------------
  * Close the 'extern "C"' block

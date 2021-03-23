@@ -79,9 +79,6 @@ extern "C"
 /* Delay cycle for BLE Thread in ms */
 #define APP_BLE_DELAY_MS                10
 
-/* Delay cycle for Debug Thread in ms */
-#define APP_DEBUG_DELAY_MS              3000
-
 /* Macros */
 #define DELAY_MS(delay_ms) Sys_Delay_ProgramROM( (SystemCoreClock * delay_ms) / 1000UL )
 #define DELAY_US(delay_us) Sys_Delay_ProgramROM( (SystemCoreClock * delay_us) / 1000000UL )
@@ -148,7 +145,7 @@ extern "C"
 #define RECOVERY_FOTA_DEBUG_DIO         12 //!< recovery, FOTA and debug pin
 
 #define RC5_DIO_NUM                     10 //!< RC5 receiver data input
-#define BUTTON_DIO                      0  //!< Touch IRQ
+#define TOUCH_IRQ_DIO_NUM   			0  //!< Touch IRQ
 #define POWER_ON_DIO                    1  //!< turn on or off power
 
 #define SCLK_DIO_NUM                    3  //!< TLC5955

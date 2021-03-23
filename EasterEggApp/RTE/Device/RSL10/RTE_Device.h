@@ -1244,7 +1244,7 @@
 //   <i> Defines the gpio pull configuration
 //   <i> Default: weak pull up
 #ifndef RTE_GPIO0_PULL_DEFAULT
- #define RTE_GPIO0_PULL_DEFAULT   1
+ #define RTE_GPIO0_PULL_DEFAULT   3
 #endif
 //   <o>IO mode
 //   <0x000=> GPIO_IN_0             <0x001=> GPIO_IN_1             <0x002=> GPIO_OUT_0            <0x003=> GPIO_OUT_1
@@ -1276,7 +1276,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO0_IOMODE_DEFAULT
- #define RTE_GPIO0_IOMODE_DEFAULT   0x001
+ #define RTE_GPIO0_IOMODE_DEFAULT   0x000
 #endif
 // </e>
 // <e>GPIO 1 configure
@@ -1916,7 +1916,7 @@
 //   <i> Defines the GPIO output strength
 //   <i> Default: 6x drive strength
 #ifndef RTE_GPIO10_DRIVE_DEFAULT
- #define RTE_GPIO10_DRIVE_DEFAULT   3
+ #define RTE_GPIO10_DRIVE_DEFAULT   0
 #endif
 //   <o>Low pass filter
 //       <0x0=> disable
@@ -2320,7 +2320,7 @@
 //   <i> Configures the drive strengths
 //   <i> Default: increased drive strengths
 #ifndef RTE_GPIO_DRIVE_STRENGTHS_DEFAULT
- #define RTE_GPIO_DRIVE_STRENGTHS_DEFAULT   1
+ #define RTE_GPIO_DRIVE_STRENGTHS_DEFAULT   0
 #endif
 // <e>DIO 0 interrupt enable
 // ===============================
@@ -2346,7 +2346,7 @@
 //   <i> Defines the interrupt trigger event
 //   <i> Default: rising edge
 #ifndef RTE_GPIO_DIO0_TRG_DEFAULT
- #define RTE_GPIO_DIO0_TRG_DEFAULT   3
+ #define RTE_GPIO_DIO0_TRG_DEFAULT   4
 #endif
 //   <o>Debounce filter
 //       <0x0=> disabled
@@ -2354,7 +2354,7 @@
 //   <i> Defines if debounce filter should be enabled
 //   <i> Default: disabled
 #ifndef RTE_GPIO_DIO0_DBC_DEFAULT
- #define RTE_GPIO_DIO0_DBC_DEFAULT   1
+ #define RTE_GPIO_DIO0_DBC_DEFAULT   0
 #endif
 //   <o>Pre-empt priority <0-0x7>
 //   <i> Defines the pre-empt priority

@@ -8,6 +8,8 @@
 #include "app.h"
 #include "EggLogic.h"
 #include "TLC5955drv.h"
+#include "GYROdrv.h"
+#include "PCF8574drv.h"
 #include "CompLEDs.h"
 #include "CompBraille.h"
 #include "CompMorse.h"
@@ -184,6 +186,8 @@ void statechart_toggleDebugLED(Statechart* handle)
 void statechart_shutDownSystem(Statechart* handle)
 {
     PRINTF("%s entered\n", __func__);
+    ke_timer_clear(YAKINDU_TIMER, TASK_APP);
+
     Sys_GPIO_Set_High(RECOVERY_FOTA_DEBUG_DIO); // turn OFF on board LED
 #if 1
     Sys_GPIO_Set_Low(POWER_ON_DIO); // turn off immediately
@@ -220,13 +224,13 @@ sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer w
 
 void statechart_sendTLCbraille( Statechart* handle)
 {
-
+	compBraille_showText( "P5 lebt " );
 }
 
 
 void statechart_sendTLCmorse( Statechart* handle, const sc_integer index)
 {
-
+	compMorse_showText( "P5 is sinking SOS" );
 }
 
 
@@ -234,7 +238,44 @@ void statechart_sendURLstroke( Statechart* handle)
 {
 
 }
+
+void EggLogic_RC5match( void )
+{
+	statechart_raise_rC5match( &eggStatechart );
+}
+
 ///////////////////////////////////////////////////////////////////////////////
+
+
+void EggLogic_updateGyroAndTouchInfo( void )
+{
+	if ( 0 != RC5_doWeHaveAmatch() )
+	{
+		statechart_raise_rC5match( &eggStatechart );
+	}
+
+    static GRYRO_Orientation_t lastGyroState = 0xFF;
+	GRYRO_Orientation_t gyro = GYRO_getOrientation();
+	if ( gyro != lastGyroState )
+	{
+		PRINTF("GYRO %d\r\n", (int)gyro);
+		if ( LANDSCAPE_RIGHT == gyro )
+		statechart_raise_gYROtilt( &eggStatechart );
+	}
+	lastGyroState = gyro;
+
+	static uint8_t lastTouchState = 0;
+	uint8_t touch = PCF8574_read() & 0x07;
+	if ( touch != lastTouchState )
+	{
+		PRINTF("PCF %X\r\n", touch);
+		if ( 0 != touch )
+		{
+			statechart_raise_touchIRQ( &eggStatechart );
+		}
+	}
+	lastTouchState = touch;
+}
 
 
 void EggLogic_init( void )
@@ -292,5 +333,7 @@ void EggLogic_timerTick( uint32_t ms )
         	lastBLEconnected = 0;
     	}
     }
-    LED_setGYROIndicator();
+
+    // poll info of GYRO and TOUCHes every 100ms
+    EggLogic_updateGyroAndTouchInfo();
 }
