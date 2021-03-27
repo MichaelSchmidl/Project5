@@ -14,7 +14,8 @@
 #include "TLC5955Drv.h"
 #include "GYROdrv.h"
 
-#define _DEFAULT_BRIGHTNESS 25
+#define _DEFAULT_BRIGHTNESS   500
+#define _INDICATOR_BRIGHTNESS 10
 
 #define _CHAR_ANIMATION_DELAY_MS    ( 50 ) // 50ms
 #define _CHAR_READING_DELAY_MS      ( 10 * _CHAR_ANIMATION_DELAY_MS )

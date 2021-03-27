@@ -144,7 +144,7 @@ static void _fillTlcControlDataLatch( void )
     // set the MC bits - 19mA which is binary 100. Therefore the value is binary 1 0010 0100 = 0x124
     // set the MC bits - 24mA which is binary 101. Therefore the value is binary 1 0110 1101 = 0x16D
     _writeStreamBits( m_u8DataShiftStreamMOSI,
-                     TLC_MC_BIT_POS, 0x124L, TLC_MC_BIT_LEN );
+                     TLC_MC_BIT_POS, 0x000L, TLC_MC_BIT_LEN );
 
     // set DC bits - dot correction - for all channels of the given TLC5955
     int nBitPos = TLC_DC_BIT_POS;

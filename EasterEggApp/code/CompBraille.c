@@ -240,7 +240,7 @@ void compBraille_renderGlyph( char c )
 
 void compBraille_showText( char *pszText )
 {
-    PRINTF("%s(%s)\r\n", __func__, pszText);
+//    PRINTF("%s(%s)\r\n", __func__, pszText);
 
 	while( *pszText != '\0' )
 	{

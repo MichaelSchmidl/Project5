@@ -14,27 +14,32 @@
 #endif
 
 /* prototypes of all internal functions */
+static void effect_main_region_sendRC5URLTextWithTouch_tr1(Statechart* handle);
 static void enact_main_region_wait4BLE(Statechart* handle);
 static void enact_main_region_autoShutdown(Statechart* handle);
 static void enact_main_region_sendGreetingText(Statechart* handle);
 static void enact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle);
 static void enact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void enact_main_region_sendRC5URLTextWithTouch(Statechart* handle);
-static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle);
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle);
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle);
 static void enact_main_region_wait4RC5match(Statechart* handle);
 static void enact_main_region_sendBrailleText_r1_sendBrailleChar(Statechart* handle);
 static void enact_main_region_wait4GyroTilt(Statechart* handle);
-static void enact_main_region_morseFinalURL(Statechart* handle);
-static void enact_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle);
+static void enact_main_region_morseRC5Hint(Statechart* handle);
+static void enact_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle);
 static void exact_main_region_wait4BLE(Statechart* handle);
 static void exact_main_region_sendGreetingText(Statechart* handle);
 static void exact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle);
 static void exact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void exact_main_region_sendRC5URLTextWithTouch(Statechart* handle);
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle);
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle);
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle);
 static void exact_main_region_wait4RC5match(Statechart* handle);
 static void exact_main_region_wait4GyroTilt(Statechart* handle);
-static void exact_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle);
+static void exact_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle);
 static void enseq_main_region_wait4BLE_default(Statechart* handle);
 static void enseq_main_region_autoShutdown_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_default(Statechart* handle);
@@ -42,23 +47,29 @@ static void enseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke_default(
 static void enseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_r1_gracePeriod_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(Statechart* handle);
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_default(Statechart* handle);
 static void enseq_main_region_wait4RC5match_default(Statechart* handle);
 static void enseq_main_region_sendBrailleText_default(Statechart* handle);
 static void enseq_main_region_sendBrailleText_r1_sendBrailleChar_default(Statechart* handle);
 static void enseq_main_region_wait4GyroTilt_default(Statechart* handle);
-static void enseq_main_region_morseFinalURL_default(Statechart* handle);
-static void enseq_main_region_morseFinalURL_r1_sendMorseChar_default(Statechart* handle);
-static void enseq_main_region_morseFinalURL_r1_prepareNextChar_default(Statechart* handle);
+static void enseq_main_region_morseRC5Hint_default(Statechart* handle);
+static void enseq_main_region_morseRC5Hint_r1_sendMorseChar_default(Statechart* handle);
+static void enseq_main_region_morseRC5Hint_r1_prepareNextChar_default(Statechart* handle);
 static void enseq_main_region_showFinalLaufschrift_default(Statechart* handle);
 static void enseq_main_region_showFinalLaufschrift_r1_showLaufschrift_default(Statechart* handle);
 static void enseq_main_region_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_r1_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_default(Statechart* handle);
 static void enseq_main_region_sendBrailleText_r1_default(Statechart* handle);
-static void enseq_main_region_morseFinalURL_r1_default(Statechart* handle);
+static void enseq_main_region_morseRC5Hint_r1_default(Statechart* handle);
 static void enseq_main_region_showFinalLaufschrift_r1_default(Statechart* handle);
 static void exseq_main_region_wait4BLE(Statechart* handle);
 static void exseq_main_region_autoShutdown(Statechart* handle);
@@ -67,28 +78,35 @@ static void exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statecha
 static void exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(Statechart* handle);
 static void exseq_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(Statechart* handle);
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(Statechart* handle);
 static void exseq_main_region_wait4RC5match(Statechart* handle);
 static void exseq_main_region_sendBrailleText(Statechart* handle);
 static void exseq_main_region_sendBrailleText_r1_sendBrailleChar(Statechart* handle);
 static void exseq_main_region_wait4GyroTilt(Statechart* handle);
-static void exseq_main_region_morseFinalURL(Statechart* handle);
-static void exseq_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle);
-static void exseq_main_region_morseFinalURL_r1_prepareNextChar(Statechart* handle);
+static void exseq_main_region_morseRC5Hint(Statechart* handle);
+static void exseq_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle);
+static void exseq_main_region_morseRC5Hint_r1_prepareNextChar(Statechart* handle);
 static void exseq_main_region_showFinalLaufschrift_r1_showLaufschrift(Statechart* handle);
 static void exseq_main_region(Statechart* handle);
 static void exseq_main_region_sendGreetingText_r1(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1(Statechart* handle);
 static void exseq_main_region_sendBrailleText_r1(Statechart* handle);
-static void exseq_main_region_morseFinalURL_r1(Statechart* handle);
+static void exseq_main_region_morseRC5Hint_r1(Statechart* handle);
 static void react_main_region__entry_Default(Statechart* handle);
 static void react_main_region_sendGreetingText_r1__entry_Default(Statechart* handle);
 static void react_main_region_sendRC5URLTextWithTouch_r1__entry_Default(Statechart* handle);
 static void react_main_region_sendBrailleText_r1__entry_Default(Statechart* handle);
-static void react_main_region_morseFinalURL_r1__entry_Default(Statechart* handle);
+static void react_main_region_morseRC5Hint_r1__entry_Default(Statechart* handle);
 static void react_main_region_showFinalLaufschrift_r1__entry_Default(Statechart* handle);
+static void react_main_region_sendRC5URLTextWithTouch_r1_DONE_WITH_URL(Statechart* handle);
 
 /*! State machine reactions. */
 static sc_integer react(Statechart* handle, const sc_integer transitioned_before);
@@ -114,14 +132,32 @@ static sc_integer main_region_sendGreetingText_r1_gracePeriod_react(Statechart* 
 /*! The reactions of state sendRC5URLTextWithTouch. */
 static sc_integer main_region_sendRC5URLTextWithTouch_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state sendURLKeyStroke. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_react(Statechart* handle, const sc_integer transitioned_before);
+/*! The reactions of state sendURL1Part. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state wait4URLKeyStrokeSent. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
+/*! The reactions of state wait4URL1KeyStrokeSent. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state wait4NextURLtouch. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_react(Statechart* handle, const sc_integer transitioned_before);
+/*! The reactions of state wait4NextURL1touch. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state sendURL2Part. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state wait4URL2KeyStrokeSent. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state wait4NextURL2touch. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state sendURL3Part. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state wait4URL3KeyStrokeSent. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
+
+/*! The reactions of state wait4NextURL3touch. */
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state wait4RC5match. */
 static sc_integer main_region_wait4RC5match_react(Statechart* handle, const sc_integer transitioned_before);
@@ -135,14 +171,14 @@ static sc_integer main_region_sendBrailleText_r1_sendBrailleChar_react(Statechar
 /*! The reactions of state wait4GyroTilt. */
 static sc_integer main_region_wait4GyroTilt_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state morseFinalURL. */
-static sc_integer main_region_morseFinalURL_react(Statechart* handle, const sc_integer transitioned_before);
+/*! The reactions of state morseRC5Hint. */
+static sc_integer main_region_morseRC5Hint_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state sendMorseChar. */
-static sc_integer main_region_morseFinalURL_r1_sendMorseChar_react(Statechart* handle, const sc_integer transitioned_before);
+static sc_integer main_region_morseRC5Hint_r1_sendMorseChar_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state prepareNextChar. */
-static sc_integer main_region_morseFinalURL_r1_prepareNextChar_react(Statechart* handle, const sc_integer transitioned_before);
+static sc_integer main_region_morseRC5Hint_r1_prepareNextChar_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state showFinalLaufschrift. */
 static sc_integer main_region_showFinalLaufschrift_react(Statechart* handle, const sc_integer transitioned_before);
@@ -170,8 +206,6 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 static statechart_event statechart_get_next_event(Statechart* handle);
 static void statechart_dispatch_next_event(Statechart* handle);
 static StatechartEventID statechart_get_timed_event_name(Statechart* handle, sc_eventid evid);
-static void statechart_event_value_init(statechart_event * ev, StatechartEventID name, void * value);
-static void statechart_add_value_event_to_queue(statechart_eventqueue * eq, StatechartEventID name, void * value);
 
 
 void statechart_init(Statechart* handle)
@@ -189,7 +223,12 @@ void statechart_init(Statechart* handle)
 	
 	/* Default init sequence for statechart Statechart */
 	handle->internal.generalTimeout = (5 * 60);
+	handle->internal.greetingWaitTime = 60;
+	handle->internal.strokeCharWaitTimeMS = 100;
 	handle->internal.greetingIndex = 0;
+	handle->internal.url1Index = 0;
+	handle->internal.url2Index = 0;
+	handle->internal.url3Index = 0;
 	handle->internal.morseIndex = 0;
 	
 	handle->isExecuting = bool_false;
@@ -286,18 +325,42 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			break;
 		case Statechart_main_region_sendRC5URLTextWithTouch :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH] >= Statechart_main_region_sendRC5URLTextWithTouch
-				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH] <= Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch);
+				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH] <= Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch);
 			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURLKEYSTROKE] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL1PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part
 			);
 			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URLKEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL1KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent
 			);
 			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURLTOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL1TOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL2PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL2KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL2TOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL3PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL3KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent
+			);
+			break;
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL3TOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch
 			);
 			break;
 		case Statechart_main_region_wait4RC5match :
@@ -316,16 +379,16 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_WAIT4GYROTILT] == Statechart_main_region_wait4GyroTilt
 			);
 			break;
-		case Statechart_main_region_morseFinalURL :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSEFINALURL] >= Statechart_main_region_morseFinalURL
-				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSEFINALURL] <= Statechart_main_region_morseFinalURL_r1_prepareNextChar);
+		case Statechart_main_region_morseRC5Hint :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSERC5HINT] >= Statechart_main_region_morseRC5Hint
+				&& handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSERC5HINT] <= Statechart_main_region_morseRC5Hint_r1_prepareNextChar);
 			break;
-		case Statechart_main_region_morseFinalURL_r1_sendMorseChar :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSEFINALURL_R1_SENDMORSECHAR] == Statechart_main_region_morseFinalURL_r1_sendMorseChar
+		case Statechart_main_region_morseRC5Hint_r1_sendMorseChar :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSERC5HINT_R1_SENDMORSECHAR] == Statechart_main_region_morseRC5Hint_r1_sendMorseChar
 			);
 			break;
-		case Statechart_main_region_morseFinalURL_r1_prepareNextChar :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSEFINALURL_R1_PREPARENEXTCHAR] == Statechart_main_region_morseFinalURL_r1_prepareNextChar
+		case Statechart_main_region_morseRC5Hint_r1_prepareNextChar :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_MORSERC5HINT_R1_PREPARENEXTCHAR] == Statechart_main_region_morseRC5Hint_r1_prepareNextChar
 			);
 			break;
 		case Statechart_main_region_showFinalLaufschrift :
@@ -347,11 +410,11 @@ static void clear_in_events(Statechart* handle)
 {
 	handle->iface.BLEconnected_raised = bool_false;
 	handle->iface.BLEdisconnected_raised = bool_false;
-	handle->iface.TouchIRQ_raised = bool_false;
+	handle->iface.Touch1IRQ_raised = bool_false;
+	handle->iface.Touch2IRQ_raised = bool_false;
+	handle->iface.Touch3IRQ_raised = bool_false;
 	handle->iface.KBDstrokeSent_raised = bool_false;
-	handle->iface.URLstringDone_raised = bool_false;
 	handle->iface.RC5match_raised = bool_false;
-	handle->iface.brailleCharSent_raised = bool_false;
 	handle->iface.brailleStringDone_raised = bool_false;
 	handle->iface.GYROtilt_raised = bool_false;
 	handle->iface.morseStringDone_raised = bool_false;
@@ -360,10 +423,12 @@ static void clear_in_events(Statechart* handle)
 	handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised = bool_false;
+	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised = bool_false;
+	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised = bool_false;
+	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised = bool_false;
+	handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised = bool_false;
 }
 
 static void micro_step(Statechart* handle)
@@ -395,19 +460,49 @@ static void micro_step(Statechart* handle)
 			main_region_sendGreetingText_r1_gracePeriod_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part :
 		{
-			main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_react(handle, -1);
+			main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
 		{
-			main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_react(handle, -1);
+			main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
-			main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_react(handle, -1);
+			main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(handle, -1);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
+		{
+			main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_react(handle, -1);
 			break;
 		}
 		case Statechart_main_region_wait4RC5match :
@@ -425,14 +520,14 @@ static void micro_step(Statechart* handle)
 			main_region_wait4GyroTilt_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_morseFinalURL_r1_sendMorseChar :
+		case Statechart_main_region_morseRC5Hint_r1_sendMorseChar :
 		{
-			main_region_morseFinalURL_r1_sendMorseChar_react(handle, -1);
+			main_region_morseRC5Hint_r1_sendMorseChar_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_morseFinalURL_r1_prepareNextChar :
+		case Statechart_main_region_morseRC5Hint_r1_prepareNextChar :
 		{
-			main_region_morseFinalURL_r1_prepareNextChar_react(handle, -1);
+			main_region_morseRC5Hint_r1_prepareNextChar_react(handle, -1);
 			break;
 		}
 		case Statechart_main_region_showFinalLaufschrift_r1_showLaufschrift :
@@ -458,7 +553,7 @@ static void run_cycle(Statechart* handle)
 		micro_step(handle);
 		clear_in_events(handle);
 		statechart_dispatch_next_event(handle);
-	} while (((((((((((((((((((handle->iface.BLEconnected_raised == bool_true) || (handle->iface.BLEdisconnected_raised == bool_true)) || (handle->iface.TouchIRQ_raised == bool_true)) || (handle->iface.KBDstrokeSent_raised == bool_true)) || (handle->iface.URLstringDone_raised == bool_true)) || (handle->iface.RC5match_raised == bool_true)) || (handle->iface.brailleCharSent_raised == bool_true)) || (handle->iface.brailleStringDone_raised == bool_true)) || (handle->iface.GYROtilt_raised == bool_true)) || (handle->iface.morseStringDone_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4BLE_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised == bool_true));
+	} while (((((((((((((((((((((handle->iface.BLEconnected_raised == bool_true) || (handle->iface.BLEdisconnected_raised == bool_true)) || (handle->iface.Touch1IRQ_raised == bool_true)) || (handle->iface.Touch2IRQ_raised == bool_true)) || (handle->iface.Touch3IRQ_raised == bool_true)) || (handle->iface.KBDstrokeSent_raised == bool_true)) || (handle->iface.RC5match_raised == bool_true)) || (handle->iface.brailleStringDone_raised == bool_true)) || (handle->iface.GYROtilt_raised == bool_true)) || (handle->iface.morseStringDone_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4BLE_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised == bool_true));
 	handle->isExecuting = bool_false;
 }
 
@@ -475,9 +570,21 @@ void statechart_raise_bLEdisconnected(Statechart* handle)
 	run_cycle(handle);
 }
 
-void statechart_raise_touchIRQ(Statechart* handle)
+void statechart_raise_touch1IRQ(Statechart* handle)
 {
-	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_TouchIRQ);
+	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_Touch1IRQ);
+	run_cycle(handle);
+}
+
+void statechart_raise_touch2IRQ(Statechart* handle)
+{
+	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_Touch2IRQ);
+	run_cycle(handle);
+}
+
+void statechart_raise_touch3IRQ(Statechart* handle)
+{
+	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_Touch3IRQ);
 	run_cycle(handle);
 }
 
@@ -487,21 +594,9 @@ void statechart_raise_kBDstrokeSent(Statechart* handle)
 	run_cycle(handle);
 }
 
-void statechart_raise_uRLstringDone(Statechart* handle, sc_integer value)
-{
-	statechart_add_value_event_to_queue(&(handle->in_event_queue), Statechart_URLstringDone, &value);
-	run_cycle(handle);
-}
-
 void statechart_raise_rC5match(Statechart* handle)
 {
 	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_RC5match);
-	run_cycle(handle);
-}
-
-void statechart_raise_brailleCharSent(Statechart* handle)
-{
-	statechart_add_event_to_queue(&(handle->in_event_queue), Statechart_brailleCharSent);
 	run_cycle(handle);
 }
 
@@ -527,6 +622,13 @@ void statechart_raise_morseStringDone(Statechart* handle)
 
 
 /* implementations of all internal functions */
+
+static void effect_main_region_sendRC5URLTextWithTouch_tr1(Statechart* handle)
+{
+	exseq_main_region_sendRC5URLTextWithTouch(handle);
+	enseq_main_region_sendBrailleText_default(handle);
+	react(handle, 0);
+}
 
 /* Entry action for state 'wait4BLE'. */
 static void enact_main_region_wait4BLE(Statechart* handle)
@@ -562,7 +664,7 @@ static void enact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statecha
 static void enact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle)
 {
 	/* Entry action for state 'gracePeriod'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) , (10 * 1000), bool_false);
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) , (handle->internal.greetingWaitTime * 1000), bool_false);
 }
 
 /* Entry action for state 'sendRC5URLTextWithTouch'. */
@@ -570,14 +672,33 @@ static void enact_main_region_sendRC5URLTextWithTouch(Statechart* handle)
 {
 	/* Entry action for state 'sendRC5URLTextWithTouch'. */
 	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised) , (handle->internal.generalTimeout * 1000), bool_false);
+	handle->internal.url1Index = 0;
+	handle->internal.url2Index = 0;
+	handle->internal.url3Index = 0;
 }
 
-/* Entry action for state 'sendURLKeyStroke'. */
-static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle)
+/* Entry action for state 'sendURL1Part'. */
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle)
 {
-	/* Entry action for state 'sendURLKeyStroke'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised) , 100, bool_false);
-	statechart_sendURLstroke(handle);
+	/* Entry action for state 'sendURL1Part'. */
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) , 100, bool_false);
+	statechart_sendKBDstroke(handle, 1, handle->internal.url1Index++);
+}
+
+/* Entry action for state 'sendURL2Part'. */
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle)
+{
+	/* Entry action for state 'sendURL2Part'. */
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) , 100, bool_false);
+	statechart_sendKBDstroke(handle, 2, handle->internal.url2Index++);
+}
+
+/* Entry action for state 'sendURL3Part'. */
+static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
+{
+	/* Entry action for state 'sendURL3Part'. */
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) , 100, bool_false);
+	statechart_sendKBDstroke(handle, 3, handle->internal.url3Index++);
 }
 
 /* Entry action for state 'wait4RC5match'. */
@@ -601,18 +722,18 @@ static void enact_main_region_wait4GyroTilt(Statechart* handle)
 	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised) , (handle->internal.generalTimeout * 1000), bool_false);
 }
 
-/* Entry action for state 'morseFinalURL'. */
-static void enact_main_region_morseFinalURL(Statechart* handle)
+/* Entry action for state 'morseRC5Hint'. */
+static void enact_main_region_morseRC5Hint(Statechart* handle)
 {
-	/* Entry action for state 'morseFinalURL'. */
+	/* Entry action for state 'morseRC5Hint'. */
 	handle->internal.morseIndex = 0;
 }
 
 /* Entry action for state 'sendMorseChar'. */
-static void enact_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle)
+static void enact_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle)
 {
 	/* Entry action for state 'sendMorseChar'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised) , 500, bool_false);
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised) , 500, bool_false);
 	statechart_sendTLCmorse(handle, handle->internal.morseIndex++);
 }
 
@@ -652,11 +773,25 @@ static void exact_main_region_sendRC5URLTextWithTouch(Statechart* handle)
 	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised) );		
 }
 
-/* Exit action for state 'sendURLKeyStroke'. */
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle)
+/* Exit action for state 'sendURL1Part'. */
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle)
 {
-	/* Exit action for state 'sendURLKeyStroke'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised) );		
+	/* Exit action for state 'sendURL1Part'. */
+	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) );		
+}
+
+/* Exit action for state 'sendURL2Part'. */
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle)
+{
+	/* Exit action for state 'sendURL2Part'. */
+	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) );		
+}
+
+/* Exit action for state 'sendURL3Part'. */
+static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
+{
+	/* Exit action for state 'sendURL3Part'. */
+	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) );		
 }
 
 /* Exit action for state 'wait4RC5match'. */
@@ -674,10 +809,10 @@ static void exact_main_region_wait4GyroTilt(Statechart* handle)
 }
 
 /* Exit action for state 'sendMorseChar'. */
-static void exact_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle)
+static void exact_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle)
 {
 	/* Exit action for state 'sendMorseChar'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised) );		
+	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised) );		
 }
 
 /* 'default' enter sequence for state wait4BLE */
@@ -735,26 +870,70 @@ static void enseq_main_region_sendRC5URLTextWithTouch_default(Statechart* handle
 	enseq_main_region_sendRC5URLTextWithTouch_r1_default(handle);
 }
 
-/* 'default' enter sequence for state sendURLKeyStroke */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_default(Statechart* handle)
+/* 'default' enter sequence for state sendURL1Part */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(Statechart* handle)
 {
-	/* 'default' enter sequence for state sendURLKeyStroke */
-	enact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(handle);
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke;
+	/* 'default' enter sequence for state sendURL1Part */
+	enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part;
 }
 
-/* 'default' enter sequence for state wait4URLKeyStrokeSent */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_default(Statechart* handle)
+/* 'default' enter sequence for state wait4URL1KeyStrokeSent */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(Statechart* handle)
 {
-	/* 'default' enter sequence for state wait4URLKeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent;
+	/* 'default' enter sequence for state wait4URL1KeyStrokeSent */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent;
 }
 
-/* 'default' enter sequence for state wait4NextURLtouch */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_default(Statechart* handle)
+/* 'default' enter sequence for state wait4NextURL1touch */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(Statechart* handle)
 {
-	/* 'default' enter sequence for state wait4NextURLtouch */
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch;
+	/* 'default' enter sequence for state wait4NextURL1touch */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch;
+}
+
+/* 'default' enter sequence for state sendURL2Part */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state sendURL2Part */
+	enact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part;
+}
+
+/* 'default' enter sequence for state wait4URL2KeyStrokeSent */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state wait4URL2KeyStrokeSent */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent;
+}
+
+/* 'default' enter sequence for state wait4NextURL2touch */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state wait4NextURL2touch */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch;
+}
+
+/* 'default' enter sequence for state sendURL3Part */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state sendURL3Part */
+	enact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part;
+}
+
+/* 'default' enter sequence for state wait4URL3KeyStrokeSent */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state wait4URL3KeyStrokeSent */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent;
+}
+
+/* 'default' enter sequence for state wait4NextURL3touch */
+static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_default(Statechart* handle)
+{
+	/* 'default' enter sequence for state wait4NextURL3touch */
+	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch;
 }
 
 /* 'default' enter sequence for state wait4RC5match */
@@ -788,27 +967,27 @@ static void enseq_main_region_wait4GyroTilt_default(Statechart* handle)
 	handle->stateConfVector[0] = Statechart_main_region_wait4GyroTilt;
 }
 
-/* 'default' enter sequence for state morseFinalURL */
-static void enseq_main_region_morseFinalURL_default(Statechart* handle)
+/* 'default' enter sequence for state morseRC5Hint */
+static void enseq_main_region_morseRC5Hint_default(Statechart* handle)
 {
-	/* 'default' enter sequence for state morseFinalURL */
-	enact_main_region_morseFinalURL(handle);
-	enseq_main_region_morseFinalURL_r1_default(handle);
+	/* 'default' enter sequence for state morseRC5Hint */
+	enact_main_region_morseRC5Hint(handle);
+	enseq_main_region_morseRC5Hint_r1_default(handle);
 }
 
 /* 'default' enter sequence for state sendMorseChar */
-static void enseq_main_region_morseFinalURL_r1_sendMorseChar_default(Statechart* handle)
+static void enseq_main_region_morseRC5Hint_r1_sendMorseChar_default(Statechart* handle)
 {
 	/* 'default' enter sequence for state sendMorseChar */
-	enact_main_region_morseFinalURL_r1_sendMorseChar(handle);
-	handle->stateConfVector[0] = Statechart_main_region_morseFinalURL_r1_sendMorseChar;
+	enact_main_region_morseRC5Hint_r1_sendMorseChar(handle);
+	handle->stateConfVector[0] = Statechart_main_region_morseRC5Hint_r1_sendMorseChar;
 }
 
 /* 'default' enter sequence for state prepareNextChar */
-static void enseq_main_region_morseFinalURL_r1_prepareNextChar_default(Statechart* handle)
+static void enseq_main_region_morseRC5Hint_r1_prepareNextChar_default(Statechart* handle)
 {
 	/* 'default' enter sequence for state prepareNextChar */
-	handle->stateConfVector[0] = Statechart_main_region_morseFinalURL_r1_prepareNextChar;
+	handle->stateConfVector[0] = Statechart_main_region_morseRC5Hint_r1_prepareNextChar;
 }
 
 /* 'default' enter sequence for state showFinalLaufschrift */
@@ -854,10 +1033,10 @@ static void enseq_main_region_sendBrailleText_r1_default(Statechart* handle)
 }
 
 /* 'default' enter sequence for region r1 */
-static void enseq_main_region_morseFinalURL_r1_default(Statechart* handle)
+static void enseq_main_region_morseRC5Hint_r1_default(Statechart* handle)
 {
 	/* 'default' enter sequence for region r1 */
-	react_main_region_morseFinalURL_r1__entry_Default(handle);
+	react_main_region_morseRC5Hint_r1__entry_Default(handle);
 }
 
 /* 'default' enter sequence for region r1 */
@@ -921,25 +1100,69 @@ static void exseq_main_region_sendRC5URLTextWithTouch(Statechart* handle)
 	exact_main_region_sendRC5URLTextWithTouch(handle);
 }
 
-/* Default exit sequence for state sendURLKeyStroke */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(Statechart* handle)
+/* Default exit sequence for state sendURL1Part */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle)
 {
-	/* Default exit sequence for state sendURLKeyStroke */
+	/* Default exit sequence for state sendURL1Part */
 	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(handle);
+	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
 }
 
-/* Default exit sequence for state wait4URLKeyStrokeSent */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent(Statechart* handle)
+/* Default exit sequence for state wait4URL1KeyStrokeSent */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(Statechart* handle)
 {
-	/* Default exit sequence for state wait4URLKeyStrokeSent */
+	/* Default exit sequence for state wait4URL1KeyStrokeSent */
 	handle->stateConfVector[0] = Statechart_last_state;
 }
 
-/* Default exit sequence for state wait4NextURLtouch */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch(Statechart* handle)
+/* Default exit sequence for state wait4NextURL1touch */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(Statechart* handle)
 {
-	/* Default exit sequence for state wait4NextURLtouch */
+	/* Default exit sequence for state wait4NextURL1touch */
+	handle->stateConfVector[0] = Statechart_last_state;
+}
+
+/* Default exit sequence for state sendURL2Part */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle)
+{
+	/* Default exit sequence for state sendURL2Part */
+	handle->stateConfVector[0] = Statechart_last_state;
+	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
+}
+
+/* Default exit sequence for state wait4URL2KeyStrokeSent */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(Statechart* handle)
+{
+	/* Default exit sequence for state wait4URL2KeyStrokeSent */
+	handle->stateConfVector[0] = Statechart_last_state;
+}
+
+/* Default exit sequence for state wait4NextURL2touch */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(Statechart* handle)
+{
+	/* Default exit sequence for state wait4NextURL2touch */
+	handle->stateConfVector[0] = Statechart_last_state;
+}
+
+/* Default exit sequence for state sendURL3Part */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
+{
+	/* Default exit sequence for state sendURL3Part */
+	handle->stateConfVector[0] = Statechart_last_state;
+	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
+}
+
+/* Default exit sequence for state wait4URL3KeyStrokeSent */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(Statechart* handle)
+{
+	/* Default exit sequence for state wait4URL3KeyStrokeSent */
+	handle->stateConfVector[0] = Statechart_last_state;
+}
+
+/* Default exit sequence for state wait4NextURL3touch */
+static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(Statechart* handle)
+{
+	/* Default exit sequence for state wait4NextURL3touch */
 	handle->stateConfVector[0] = Statechart_last_state;
 }
 
@@ -973,23 +1196,23 @@ static void exseq_main_region_wait4GyroTilt(Statechart* handle)
 	exact_main_region_wait4GyroTilt(handle);
 }
 
-/* Default exit sequence for state morseFinalURL */
-static void exseq_main_region_morseFinalURL(Statechart* handle)
+/* Default exit sequence for state morseRC5Hint */
+static void exseq_main_region_morseRC5Hint(Statechart* handle)
 {
-	/* Default exit sequence for state morseFinalURL */
-	exseq_main_region_morseFinalURL_r1(handle);
+	/* Default exit sequence for state morseRC5Hint */
+	exseq_main_region_morseRC5Hint_r1(handle);
 }
 
 /* Default exit sequence for state sendMorseChar */
-static void exseq_main_region_morseFinalURL_r1_sendMorseChar(Statechart* handle)
+static void exseq_main_region_morseRC5Hint_r1_sendMorseChar(Statechart* handle)
 {
 	/* Default exit sequence for state sendMorseChar */
 	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_morseFinalURL_r1_sendMorseChar(handle);
+	exact_main_region_morseRC5Hint_r1_sendMorseChar(handle);
 }
 
 /* Default exit sequence for state prepareNextChar */
-static void exseq_main_region_morseFinalURL_r1_prepareNextChar(Statechart* handle)
+static void exseq_main_region_morseRC5Hint_r1_prepareNextChar(Statechart* handle)
 {
 	/* Default exit sequence for state prepareNextChar */
 	handle->stateConfVector[0] = Statechart_last_state;
@@ -1037,21 +1260,57 @@ static void exseq_main_region(Statechart* handle)
 			exact_main_region_sendGreetingText(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+			exact_main_region_sendRC5URLTextWithTouch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(handle);
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
@@ -1070,14 +1329,14 @@ static void exseq_main_region(Statechart* handle)
 			exseq_main_region_wait4GyroTilt(handle);
 			break;
 		}
-		case Statechart_main_region_morseFinalURL_r1_sendMorseChar :
+		case Statechart_main_region_morseRC5Hint_r1_sendMorseChar :
 		{
-			exseq_main_region_morseFinalURL_r1_sendMorseChar(handle);
+			exseq_main_region_morseRC5Hint_r1_sendMorseChar(handle);
 			break;
 		}
-		case Statechart_main_region_morseFinalURL_r1_prepareNextChar :
+		case Statechart_main_region_morseRC5Hint_r1_prepareNextChar :
 		{
-			exseq_main_region_morseFinalURL_r1_prepareNextChar(handle);
+			exseq_main_region_morseRC5Hint_r1_prepareNextChar(handle);
 			break;
 		}
 		case Statechart_main_region_showFinalLaufschrift_r1_showLaufschrift :
@@ -1122,19 +1381,49 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1(Statechart* handle)
 	/* Handle exit of all possible states (of Statechart.main_region.sendRC5URLTextWithTouch.r1) at position 0... */
 	switch(handle->stateConfVector[ 0 ])
 	{
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch :
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+			break;
+		}
+		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
+		{
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(handle);
 			break;
 		}
 		default: break;
@@ -1158,20 +1447,20 @@ static void exseq_main_region_sendBrailleText_r1(Statechart* handle)
 }
 
 /* Default exit sequence for region r1 */
-static void exseq_main_region_morseFinalURL_r1(Statechart* handle)
+static void exseq_main_region_morseRC5Hint_r1(Statechart* handle)
 {
 	/* Default exit sequence for region r1 */
-	/* Handle exit of all possible states (of Statechart.main_region.morseFinalURL.r1) at position 0... */
+	/* Handle exit of all possible states (of Statechart.main_region.morseRC5Hint.r1) at position 0... */
 	switch(handle->stateConfVector[ 0 ])
 	{
-		case Statechart_main_region_morseFinalURL_r1_sendMorseChar :
+		case Statechart_main_region_morseRC5Hint_r1_sendMorseChar :
 		{
-			exseq_main_region_morseFinalURL_r1_sendMorseChar(handle);
+			exseq_main_region_morseRC5Hint_r1_sendMorseChar(handle);
 			break;
 		}
-		case Statechart_main_region_morseFinalURL_r1_prepareNextChar :
+		case Statechart_main_region_morseRC5Hint_r1_prepareNextChar :
 		{
-			exseq_main_region_morseFinalURL_r1_prepareNextChar(handle);
+			exseq_main_region_morseRC5Hint_r1_prepareNextChar(handle);
 			break;
 		}
 		default: break;
@@ -1196,7 +1485,7 @@ static void react_main_region_sendGreetingText_r1__entry_Default(Statechart* han
 static void react_main_region_sendRC5URLTextWithTouch_r1__entry_Default(Statechart* handle)
 {
 	/* Default react sequence for initial entry  */
-	enseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_default(handle);
+	enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(handle);
 }
 
 /* Default react sequence for initial entry  */
@@ -1207,10 +1496,10 @@ static void react_main_region_sendBrailleText_r1__entry_Default(Statechart* hand
 }
 
 /* Default react sequence for initial entry  */
-static void react_main_region_morseFinalURL_r1__entry_Default(Statechart* handle)
+static void react_main_region_morseRC5Hint_r1__entry_Default(Statechart* handle)
 {
 	/* Default react sequence for initial entry  */
-	enseq_main_region_morseFinalURL_r1_sendMorseChar_default(handle);
+	enseq_main_region_morseRC5Hint_r1_sendMorseChar_default(handle);
 }
 
 /* Default react sequence for initial entry  */
@@ -1218,6 +1507,13 @@ static void react_main_region_showFinalLaufschrift_r1__entry_Default(Statechart*
 {
 	/* Default react sequence for initial entry  */
 	enseq_main_region_showFinalLaufschrift_r1_showLaufschrift_default(handle);
+}
+
+/* The reactions of exit DONE_WITH_URL. */
+static void react_main_region_sendRC5URLTextWithTouch_r1_DONE_WITH_URL(Statechart* handle)
+{
+	/* The reactions of exit DONE_WITH_URL. */
+	effect_main_region_sendRC5URLTextWithTouch_tr1(handle);
 }
 
 
@@ -1292,7 +1588,7 @@ static sc_integer main_region_sendGreetingText_react(Statechart* handle, const s
 				transitioned_after = 0;
 			}  else
 			{
-				if (handle->iface.TouchIRQ_raised == bool_true)
+				if (handle->iface.Touch1IRQ_raised == bool_true)
 				{ 
 					exseq_main_region_sendGreetingText(handle);
 					enseq_main_region_sendRC5URLTextWithTouch_default(handle);
@@ -1389,16 +1685,7 @@ static sc_integer main_region_sendRC5URLTextWithTouch_react(Statechart* handle, 
 			enseq_main_region_autoShutdown_default(handle);
 			react(handle, 0);
 			transitioned_after = 0;
-		}  else
-		{
-			if (handle->iface.URLstringDone_raised == bool_true)
-			{ 
-				exseq_main_region_sendRC5URLTextWithTouch(handle);
-				enseq_main_region_wait4RC5match_default(handle);
-				react(handle, 0);
-				transitioned_after = 0;
-			} 
-		}
+		} 
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
@@ -1406,16 +1693,16 @@ static sc_integer main_region_sendRC5URLTextWithTouch_react(Statechart* handle, 
 	} return transitioned_after;
 }
 
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(Statechart* handle, const sc_integer transitioned_before)
 {
-	/* The reactions of state sendURLKeyStroke. */
+	/* The reactions of state sendURL1Part. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised == bool_true)
+		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised == bool_true)
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_default(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
 		} 
@@ -1426,16 +1713,16 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_react(
 	} return transitioned_after;
 }
 
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
 {
-	/* The reactions of state wait4URLKeyStrokeSent. */
+	/* The reactions of state wait4URL1KeyStrokeSent. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (handle->iface.KBDstrokeSent_raised == bool_true)
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_default(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
 		} 
@@ -1446,16 +1733,162 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent_r
 	} return transitioned_after;
 }
 
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_react(Statechart* handle, const sc_integer transitioned_before)
 {
-	/* The reactions of state wait4NextURLtouch. */
+	/* The reactions of state wait4NextURL1touch. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->iface.TouchIRQ_raised == bool_true)
+		if (((handle->iface.Touch1IRQ_raised) == bool_true) && (((handle->internal.url1Index) < (statechart_getKBDstringLength(handle, 1))) == bool_true))
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_default(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		}  else
+		{
+			if (((handle->iface.Touch2IRQ_raised) == bool_true) && (((handle->internal.url1Index) >= (statechart_getKBDstringLength(handle, 1))) == bool_true))
+			{ 
+				exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
+				enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(handle);
+				main_region_sendRC5URLTextWithTouch_react(handle, 0);
+				transitioned_after = 0;
+			} 
+		}
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state sendURL2Part. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised == bool_true)
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		} 
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state wait4URL2KeyStrokeSent. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (handle->iface.KBDstrokeSent_raised == bool_true)
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		} 
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state wait4NextURL2touch. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (((handle->iface.Touch2IRQ_raised) == bool_true) && (((handle->internal.url2Index) < (statechart_getKBDstringLength(handle, 2))) == bool_true))
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		}  else
+		{
+			if (((handle->iface.Touch3IRQ_raised) == bool_true) && (((handle->internal.url2Index) >= (statechart_getKBDstringLength(handle, 2))) == bool_true))
+			{ 
+				exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
+				enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(handle);
+				main_region_sendRC5URLTextWithTouch_react(handle, 0);
+				transitioned_after = 0;
+			} 
+		}
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state sendURL3Part. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised == bool_true)
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		} 
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state wait4URL3KeyStrokeSent. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.url3Index) < (statechart_getKBDstringLength(handle, 3))) == bool_true))
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_default(handle);
+			main_region_sendRC5URLTextWithTouch_react(handle, 0);
+			transitioned_after = 0;
+		}  else
+		{
+			if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.url3Index) >= (statechart_getKBDstringLength(handle, 3))) == bool_true))
+			{ 
+				exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+				react_main_region_sendRC5URLTextWithTouch_r1_DONE_WITH_URL(handle);
+				transitioned_after = 0;
+			} 
+		}
+	} /* If no transition was taken then execute local reactions */
+	if ((transitioned_after) == (transitioned_before))
+	{ 
+		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
+	} return transitioned_after;
+}
+
+static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_react(Statechart* handle, const sc_integer transitioned_before)
+{
+	/* The reactions of state wait4NextURL3touch. */
+ 			sc_integer transitioned_after = transitioned_before;
+	if ((transitioned_after) < (0))
+	{ 
+		if (((handle->iface.Touch3IRQ_raised) == bool_true) && (((handle->internal.url3Index) < (statechart_getKBDstringLength(handle, 3))) == bool_true))
+		{ 
+			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(handle);
+			enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
 		} 
@@ -1483,7 +1916,7 @@ static sc_integer main_region_wait4RC5match_react(Statechart* handle, const sc_i
 			if (handle->iface.RC5match_raised == bool_true)
 			{ 
 				exseq_main_region_wait4RC5match(handle);
-				enseq_main_region_sendBrailleText_default(handle);
+				enseq_main_region_showFinalLaufschrift_default(handle);
 				react(handle, 0);
 				transitioned_after = 0;
 			} 
@@ -1521,13 +1954,6 @@ static sc_integer main_region_sendBrailleText_r1_sendBrailleChar_react(Statechar
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->iface.brailleCharSent_raised == bool_true)
-		{ 
-			exseq_main_region_sendBrailleText_r1_sendBrailleChar(handle);
-			enseq_main_region_sendBrailleText_r1_sendBrailleChar_default(handle);
-			main_region_sendBrailleText_react(handle, 0);
-			transitioned_after = 0;
-		} 
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
@@ -1552,7 +1978,7 @@ static sc_integer main_region_wait4GyroTilt_react(Statechart* handle, const sc_i
 			if (handle->iface.GYROtilt_raised == bool_true)
 			{ 
 				exseq_main_region_wait4GyroTilt(handle);
-				enseq_main_region_morseFinalURL_default(handle);
+				enseq_main_region_morseRC5Hint_default(handle);
 				react(handle, 0);
 				transitioned_after = 0;
 			} 
@@ -1564,16 +1990,16 @@ static sc_integer main_region_wait4GyroTilt_react(Statechart* handle, const sc_i
 	} return transitioned_after;
 }
 
-static sc_integer main_region_morseFinalURL_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_morseRC5Hint_react(Statechart* handle, const sc_integer transitioned_before)
 {
-	/* The reactions of state morseFinalURL. */
+	/* The reactions of state morseRC5Hint. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
 		if (handle->iface.morseStringDone_raised == bool_true)
 		{ 
-			exseq_main_region_morseFinalURL(handle);
-			enseq_main_region_showFinalLaufschrift_default(handle);
+			exseq_main_region_morseRC5Hint(handle);
+			enseq_main_region_wait4RC5match_default(handle);
 			react(handle, 0);
 			transitioned_after = 0;
 		} 
@@ -1584,40 +2010,40 @@ static sc_integer main_region_morseFinalURL_react(Statechart* handle, const sc_i
 	} return transitioned_after;
 }
 
-static sc_integer main_region_morseFinalURL_r1_sendMorseChar_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_morseRC5Hint_r1_sendMorseChar_react(Statechart* handle, const sc_integer transitioned_before)
 {
 	/* The reactions of state sendMorseChar. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised == bool_true)
+		if (handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised == bool_true)
 		{ 
-			exseq_main_region_morseFinalURL_r1_sendMorseChar(handle);
-			enseq_main_region_morseFinalURL_r1_prepareNextChar_default(handle);
-			main_region_morseFinalURL_react(handle, 0);
+			exseq_main_region_morseRC5Hint_r1_sendMorseChar(handle);
+			enseq_main_region_morseRC5Hint_r1_prepareNextChar_default(handle);
+			main_region_morseRC5Hint_react(handle, 0);
 			transitioned_after = 0;
 		} 
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		transitioned_after = main_region_morseFinalURL_react(handle, transitioned_before);
+		transitioned_after = main_region_morseRC5Hint_react(handle, transitioned_before);
 	} return transitioned_after;
 }
 
-static sc_integer main_region_morseFinalURL_r1_prepareNextChar_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_morseRC5Hint_r1_prepareNextChar_react(Statechart* handle, const sc_integer transitioned_before)
 {
 	/* The reactions of state prepareNextChar. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		exseq_main_region_morseFinalURL_r1_prepareNextChar(handle);
-		enseq_main_region_morseFinalURL_r1_sendMorseChar_default(handle);
-		main_region_morseFinalURL_react(handle, 0);
+		exseq_main_region_morseRC5Hint_r1_prepareNextChar(handle);
+		enseq_main_region_morseRC5Hint_r1_sendMorseChar_default(handle);
+		main_region_morseRC5Hint_react(handle, 0);
 		transitioned_after = 0;
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
-		transitioned_after = main_region_morseFinalURL_react(handle, transitioned_before);
+		transitioned_after = main_region_morseRC5Hint_react(handle, transitioned_before);
 	} return transitioned_after;
 }
 
@@ -1705,7 +2131,6 @@ static sc_boolean statechart_eventqueue_push(statechart_eventqueue * eq, statech
 static void statechart_event_init(statechart_event * ev, StatechartEventID name)
 {
 	ev->name = name;
-	ev->has_value = bool_false;
 }
 
 static void statechart_add_event_to_queue(statechart_eventqueue * eq, StatechartEventID name)
@@ -1727,9 +2152,19 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 			handle->iface.BLEdisconnected_raised = bool_true;
 			break;
 		}
-		case Statechart_TouchIRQ:
+		case Statechart_Touch1IRQ:
 		{
-			handle->iface.TouchIRQ_raised = bool_true;
+			handle->iface.Touch1IRQ_raised = bool_true;
+			break;
+		}
+		case Statechart_Touch2IRQ:
+		{
+			handle->iface.Touch2IRQ_raised = bool_true;
+			break;
+		}
+		case Statechart_Touch3IRQ:
+		{
+			handle->iface.Touch3IRQ_raised = bool_true;
 			break;
 		}
 		case Statechart_KBDstrokeSent:
@@ -1737,20 +2172,9 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 			handle->iface.KBDstrokeSent_raised = bool_true;
 			break;
 		}
-		case Statechart_URLstringDone:
-		{
-			handle->iface.URLstringDone_raised = bool_true;
-			handle->iface.URLstringDone_value = event->value.Statechart_URLstringDone_value;
-			break;
-		}
 		case Statechart_RC5match:
 		{
 			handle->iface.RC5match_raised = bool_true;
-			break;
-		}
-		case Statechart_brailleCharSent:
-		{
-			handle->iface.brailleCharSent_raised = bool_true;
 			break;
 		}
 		case Statechart_brailleStringDone:
@@ -1793,9 +2217,19 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised = bool_true;
 			break;
 		}
-		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_time_event_0:
+		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_time_event_0:
 		{
-			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised = bool_true;
+			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised = bool_true;
+			break;
+		}
+		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_time_event_0:
+		{
+			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised = bool_true;
+			break;
+		}
+		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_time_event_0:
+		{
+			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised = bool_true;
 			break;
 		}
 		case Statechart_Statechart_main_region_wait4RC5match_time_event_0:
@@ -1808,9 +2242,9 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 			handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised = bool_true;
 			break;
 		}
-		case Statechart_Statechart_main_region_morseFinalURL_r1_sendMorseChar_time_event_0:
+		case Statechart_Statechart_main_region_morseRC5Hint_r1_sendMorseChar_time_event_0:
 		{
-			handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised = bool_true;
+			handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised = bool_true;
 			break;
 		}
 		default:
@@ -1852,8 +2286,14 @@ static StatechartEventID statechart_get_timed_event_name(Statechart* handle, sc_
 	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised) {
 		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_0;
 	}
-	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised) {
-		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_time_event_0;
+	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) {
+		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_time_event_0;
+	}
+	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) {
+		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_time_event_0;
+	}
+	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) {
+		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_time_event_0;
 	}
 	if(evid == &handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised) {
 		return Statechart_Statechart_main_region_wait4RC5match_time_event_0;
@@ -1861,31 +2301,9 @@ static StatechartEventID statechart_get_timed_event_name(Statechart* handle, sc_
 	if(evid == &handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised) {
 		return Statechart_Statechart_main_region_wait4GyroTilt_time_event_0;
 	}
-	if(evid == &handle->timeEvents.statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised) {
-		return Statechart_Statechart_main_region_morseFinalURL_r1_sendMorseChar_time_event_0;
+	if(evid == &handle->timeEvents.statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised) {
+		return Statechart_Statechart_main_region_morseRC5Hint_r1_sendMorseChar_time_event_0;
 	}
 	return Statechart_invalid_event;
 }
 
-
-static void statechart_event_value_init(statechart_event * ev, StatechartEventID name, void * value)
-{
-	ev->name = name;
-	ev->has_value = bool_true;
-	
-	switch(name)
-	{
-		case Statechart_URLstringDone:
-			ev->value.Statechart_URLstringDone_value = *((sc_integer*)value);
-			break;
-		default:
-			break;
-	}
-}
-
-static void statechart_add_value_event_to_queue(statechart_eventqueue * eq, StatechartEventID name, void * value)
-{
-	statechart_event event;
-	statechart_event_value_init(&event, name, value);
-	statechart_eventqueue_push(eq, event);
-}

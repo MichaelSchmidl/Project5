@@ -234,10 +234,10 @@ void LED_setDbgLed( tlcPort which, uint16_t brightness )
  **************************************************************************************************************************************************************/
 void LED_setBLEconnectedIndicator( uint16_t On )
 {
-	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED1, On * _DEFAULT_BRIGHTNESS );
-	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED2, On * _DEFAULT_BRIGHTNESS );
-	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED3, On * _DEFAULT_BRIGHTNESS );
-	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED4, On * _DEFAULT_BRIGHTNESS );
+	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED1, On * _INDICATOR_BRIGHTNESS );
+	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED2, On * _INDICATOR_BRIGHTNESS );
+	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED3, On * _INDICATOR_BRIGHTNESS );
+	TLC5955drv_setChannelBrightness( _BLE_CONNECTED_LED4, On * _INDICATOR_BRIGHTNESS );
     TLC5955drv_refresh();
 }
 
@@ -247,7 +247,7 @@ void LED_setBLEconnectedIndicator( uint16_t On )
  **************************************************************************************************************************************************************/
 void LED_setBLEADVIndicator( uint16_t On )
 {
-	TLC5955drv_setChannelBrightness( _BLE_ADV_LED, On * _DEFAULT_BRIGHTNESS );
+	TLC5955drv_setChannelBrightness( _BLE_ADV_LED, On * _INDICATOR_BRIGHTNESS );
     TLC5955drv_refresh();
 }
 

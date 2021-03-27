@@ -50,7 +50,7 @@ extern "C" {
 #define SC_INVALID_EVENT_VALUE 0
 #endif
 /*! Define number of states in the state enum */
-#define STATECHART_STATE_COUNT 19
+#define STATECHART_STATE_COUNT 25
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
 #define STATECHART_MAX_ORTHOGONAL_STATES 1
@@ -65,25 +65,25 @@ extern "C" {
 #define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_WAITFORGREETINGKEYSTROKESENT 0
 #define SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_GRACEPERIOD 0
 #define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH 0
-#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURLKEYSTROKE 0
-#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URLKEYSTROKESENT 0
-#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURLTOUCH 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL1PART 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL1KEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL1TOUCH 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL2PART 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL2KEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL2TOUCH 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL3PART 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL3KEYSTROKESENT 0
+#define SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL3TOUCH 0
 #define SCVI_STATECHART_MAIN_REGION_WAIT4RC5MATCH 0
 #define SCVI_STATECHART_MAIN_REGION_SENDBRAILLETEXT 0
 #define SCVI_STATECHART_MAIN_REGION_SENDBRAILLETEXT_R1_SENDBRAILLECHAR 0
 #define SCVI_STATECHART_MAIN_REGION_WAIT4GYROTILT 0
-#define SCVI_STATECHART_MAIN_REGION_MORSEFINALURL 0
-#define SCVI_STATECHART_MAIN_REGION_MORSEFINALURL_R1_SENDMORSECHAR 0
-#define SCVI_STATECHART_MAIN_REGION_MORSEFINALURL_R1_PREPARENEXTCHAR 0
+#define SCVI_STATECHART_MAIN_REGION_MORSERC5HINT 0
+#define SCVI_STATECHART_MAIN_REGION_MORSERC5HINT_R1_SENDMORSECHAR 0
+#define SCVI_STATECHART_MAIN_REGION_MORSERC5HINT_R1_PREPARENEXTCHAR 0
 #define SCVI_STATECHART_MAIN_REGION_SHOWFINALLAUFSCHRIFT 0
 #define SCVI_STATECHART_MAIN_REGION_SHOWFINALLAUFSCHRIFT_R1_SHOWLAUFSCHRIFT 0
 
-/*
- * Union of all possible event value types.
- */
-typedef union {
-	sc_integer Statechart_URLstringDone_value;
-} statechart_event_value;
 
 /*
  * Enum of event names in the statechart.
@@ -92,11 +92,11 @@ typedef enum  {
 	Statechart_invalid_event = SC_INVALID_EVENT_VALUE,
 	Statechart_BLEconnected,
 	Statechart_BLEdisconnected,
-	Statechart_TouchIRQ,
+	Statechart_Touch1IRQ,
+	Statechart_Touch2IRQ,
+	Statechart_Touch3IRQ,
 	Statechart_KBDstrokeSent,
-	Statechart_URLstringDone,
 	Statechart_RC5match,
-	Statechart_brailleCharSent,
 	Statechart_brailleStringDone,
 	Statechart_GYROtilt,
 	Statechart_morseStringDone,
@@ -105,10 +105,12 @@ typedef enum  {
 	Statechart_Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_time_event_0,
 	Statechart_Statechart_main_region_sendGreetingText_r1_gracePeriod_time_event_0,
 	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_0,
-	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_time_event_0,
+	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_time_event_0,
+	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_time_event_0,
+	Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_time_event_0,
 	Statechart_Statechart_main_region_wait4RC5match_time_event_0,
 	Statechart_Statechart_main_region_wait4GyroTilt_time_event_0,
-	Statechart_Statechart_main_region_morseFinalURL_r1_sendMorseChar_time_event_0
+	Statechart_Statechart_main_region_morseRC5Hint_r1_sendMorseChar_time_event_0
 } StatechartEventID;
 
 /*
@@ -116,8 +118,6 @@ typedef enum  {
  */
 typedef struct {
 	StatechartEventID name;
-	sc_boolean has_value;
-	statechart_event_value value;
 } statechart_event;
 
 /*
@@ -142,16 +142,22 @@ typedef enum
 	Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent,
 	Statechart_main_region_sendGreetingText_r1_gracePeriod,
 	Statechart_main_region_sendRC5URLTextWithTouch,
-	Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke,
-	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URLKeyStrokeSent,
-	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURLtouch,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent,
+	Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch,
 	Statechart_main_region_wait4RC5match,
 	Statechart_main_region_sendBrailleText,
 	Statechart_main_region_sendBrailleText_r1_sendBrailleChar,
 	Statechart_main_region_wait4GyroTilt,
-	Statechart_main_region_morseFinalURL,
-	Statechart_main_region_morseFinalURL_r1_sendMorseChar,
-	Statechart_main_region_morseFinalURL_r1_prepareNextChar,
+	Statechart_main_region_morseRC5Hint,
+	Statechart_main_region_morseRC5Hint_r1_sendMorseChar,
+	Statechart_main_region_morseRC5Hint_r1_prepareNextChar,
 	Statechart_main_region_showFinalLaufschrift,
 	Statechart_main_region_showFinalLaufschrift_r1_showLaufschrift
 } StatechartStates;
@@ -161,7 +167,12 @@ typedef enum
 struct StatechartInternal
 {
 	sc_integer generalTimeout;
+	sc_integer greetingWaitTime;
+	sc_integer strokeCharWaitTimeMS;
 	sc_integer greetingIndex;
+	sc_integer url1Index;
+	sc_integer url2Index;
+	sc_integer url3Index;
 	sc_integer morseIndex;
 };
 
@@ -172,12 +183,11 @@ struct StatechartIface
 {
 	sc_boolean BLEconnected_raised;
 	sc_boolean BLEdisconnected_raised;
-	sc_boolean TouchIRQ_raised;
+	sc_boolean Touch1IRQ_raised;
+	sc_boolean Touch2IRQ_raised;
+	sc_boolean Touch3IRQ_raised;
 	sc_boolean KBDstrokeSent_raised;
-	sc_boolean URLstringDone_raised;
-	sc_integer URLstringDone_value;
 	sc_boolean RC5match_raised;
-	sc_boolean brailleCharSent_raised;
 	sc_boolean brailleStringDone_raised;
 	sc_boolean GYROtilt_raised;
 	sc_boolean morseStringDone_raised;
@@ -193,10 +203,12 @@ struct StatechartTimeEvents
 	sc_boolean statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised;
 	sc_boolean statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised;
 	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_tev0_raised;
-	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_r1_sendURLKeyStroke_tev0_raised;
+	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised;
+	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised;
+	sc_boolean statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised;
 	sc_boolean statechart_main_region_wait4RC5match_tev0_raised;
 	sc_boolean statechart_main_region_wait4GyroTilt_tev0_raised;
-	sc_boolean statechart_main_region_morseFinalURL_r1_sendMorseChar_tev0_raised;
+	sc_boolean statechart_main_region_morseRC5Hint_r1_sendMorseChar_tev0_raised;
 };
 
 
@@ -240,16 +252,16 @@ extern void statechart_raise_time_event(Statechart* handle, sc_eventid evid);
 extern void statechart_raise_bLEconnected(Statechart* handle);
 /*! Raises the in event 'BLEdisconnected' that is defined in the default interface scope. */ 
 extern void statechart_raise_bLEdisconnected(Statechart* handle);
-/*! Raises the in event 'TouchIRQ' that is defined in the default interface scope. */ 
-extern void statechart_raise_touchIRQ(Statechart* handle);
+/*! Raises the in event 'Touch1IRQ' that is defined in the default interface scope. */ 
+extern void statechart_raise_touch1IRQ(Statechart* handle);
+/*! Raises the in event 'Touch2IRQ' that is defined in the default interface scope. */ 
+extern void statechart_raise_touch2IRQ(Statechart* handle);
+/*! Raises the in event 'Touch3IRQ' that is defined in the default interface scope. */ 
+extern void statechart_raise_touch3IRQ(Statechart* handle);
 /*! Raises the in event 'KBDstrokeSent' that is defined in the default interface scope. */ 
 extern void statechart_raise_kBDstrokeSent(Statechart* handle);
-/*! Raises the in event 'URLstringDone' that is defined in the default interface scope. */ 
-extern void statechart_raise_uRLstringDone(Statechart* handle, sc_integer value);
 /*! Raises the in event 'RC5match' that is defined in the default interface scope. */ 
 extern void statechart_raise_rC5match(Statechart* handle);
-/*! Raises the in event 'brailleCharSent' that is defined in the default interface scope. */ 
-extern void statechart_raise_brailleCharSent(Statechart* handle);
 /*! Raises the in event 'brailleStringDone' that is defined in the default interface scope. */ 
 extern void statechart_raise_brailleStringDone(Statechart* handle);
 /*! Raises the in event 'GYROtilt' that is defined in the default interface scope. */ 
