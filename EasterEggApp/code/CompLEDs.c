@@ -150,6 +150,8 @@ void LED_showText( char *szString )
 			{
 				_renderGlyph( c_next, FONT_WIDTH - (n - _CHARACTER_GAP) , 0 );
 			}
+			/* Dispatch all events in Kernel queue */
+			Kernel_Schedule();
 			TLC5955drv_refresh();
 			DELAY_MS( _CHAR_ANIMATION_DELAY_MS );
 			if ( n == 0 ) DELAY_MS( _CHAR_READING_DELAY_MS );

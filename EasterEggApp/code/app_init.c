@@ -131,6 +131,8 @@ void App_Initialize(void)
     RC5_init();
     TLC5955drv_init();
 
+    NVIC_DisableIRQ(DIO1_IRQn);
+
     /* Stop masking interrupts */
     __set_PRIMASK(PRIMASK_ENABLE_INTERRUPTS);
     __set_FAULTMASK(FAULTMASK_ENABLE_INTERRUPTS);

@@ -8,7 +8,7 @@
 #include "app.h"
 #include "CompMorse.h"
 
-#define _DIT_LENGTH_MS        ( 200 )                 // '1' coded in "font"
+#define _DIT_LENGTH_MS        ( 150 )                 // '1' coded in "font"
 #define _DAH_LENGTH_MS        ( 3 * _DIT_LENGTH_MS )  // '3' coded in "font"
 #define _INTERSYMBOL_DELAY_MS ( 1 * _DIT_LENGTH_MS )
 #define _INTERCHAR_DELAY_MS   ( 3 * _DIT_LENGTH_MS )
@@ -88,8 +88,7 @@ static void _sendMorse( const char *pszDitsDahs )
 
 void compMorse_showChar( char c )
 {
-//    PRINTF("%s(%s)\r\n", __func__, pszText);
-
+    PRINTF("%s('%c')\r\n", __func__, c);
 	switch (c)
 	{
 		case ' ':
@@ -243,6 +242,8 @@ void compMorse_showText( char *pszText )
 
 	while ( *pszText != '\0' )
 	{
+        /* Dispatch all events in Kernel queue */
+        Kernel_Schedule();
 		compMorse_showChar( *pszText++ );
 	}
 }

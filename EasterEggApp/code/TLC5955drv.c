@@ -254,13 +254,8 @@ int32_t TLC5955drv_refresh( void )
 	while ( !SPItransferDone )
 	{
 	    DELAY_US( 300 );
-	    /* Dispatch all events in Kernel queue */
-	    Kernel_Schedule();
 	}
 	SPItransferDone = 0;
-
-	/* Dispatch all events in Kernel queue */
-	Kernel_Schedule();
 
 	// copy working MOSI buffer into shadow for DMA transfer
 	memcpy( m_u8DataShiftStreamMOSI_DMA,

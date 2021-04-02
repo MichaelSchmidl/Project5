@@ -114,6 +114,7 @@ typedef enum  {
 	Statechart_Statechart_main_region_sendBrailleText_r1_wait4BrailleCharRead_time_event_0,
 	Statechart_Statechart_main_region_wait4GyroTilt_time_event_0,
 	Statechart_Statechart_main_region_morseRC5Hint_r1_wait4MoseCharRead_time_event_0,
+	Statechart_Statechart_main_region_showFinalLaufschrift_time_event_0,
 	Statechart_Statechart_main_region_showFinalLaufschrift_r1_showLaufschrift_time_event_0,
 	Statechart_Statechart_main_region_showFinalLaufschrift_r1_waitAndRepeat_time_event_0
 } StatechartEventID;
@@ -175,7 +176,7 @@ struct StatechartInternal
 {
 	sc_integer generalTimeout;
 	sc_integer greetingWaitTime;
-	sc_integer strokeCharWaitTimeMS;
+	sc_integer finalShutdownTimeout;
 	sc_integer greetingIndex;
 	sc_integer url1Index;
 	sc_integer url2Index;
@@ -219,6 +220,7 @@ struct StatechartTimeEvents
 	sc_boolean statechart_main_region_sendBrailleText_r1_wait4BrailleCharRead_tev0_raised;
 	sc_boolean statechart_main_region_wait4GyroTilt_tev0_raised;
 	sc_boolean statechart_main_region_morseRC5Hint_r1_wait4MoseCharRead_tev0_raised;
+	sc_boolean statechart_main_region_showFinalLaufschrift_tev0_raised;
 	sc_boolean statechart_main_region_showFinalLaufschrift_r1_showLaufschrift_tev0_raised;
 	sc_boolean statechart_main_region_showFinalLaufschrift_r1_waitAndRepeat_tev0_raised;
 };

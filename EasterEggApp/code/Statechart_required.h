@@ -28,6 +28,7 @@ This state machine makes use of operations declared in the state machines interf
 	- statechart_sendURLstroke
 	- statechart_shutDownSystem
 	- statechart_showLaufschrift
+	- statechart_setWatchEvent
 are defined.
 
 These functions will be called during a 'run to completion step' (runCycle) of the statechart. 
@@ -46,6 +47,7 @@ extern sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_in
 extern void statechart_sendURLstroke( Statechart* handle);
 extern void statechart_shutDownSystem( Statechart* handle);
 extern void statechart_showLaufschrift( Statechart* handle);
+extern void statechart_setWatchEvent( Statechart* handle, const sc_integer which);
 
 
 /*!

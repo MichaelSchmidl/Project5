@@ -73,7 +73,7 @@ int main(void)
 
     SystemCoreClockUpdate();
 
-	Sys_Watchdog_Set_Timeout(WATCHDOG_TIMEOUT_4194M3); // expire every 69min
+	Sys_Watchdog_Set_Timeout(WATCHDOG_TIMEOUT_16M4); // expire every 16sec
 
     /* Start Update when button is pressed at startup */
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;

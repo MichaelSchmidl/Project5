@@ -17,12 +17,12 @@
 
 #define _BRAILLE_READING_DELAY_MS   ( 500 )
 
-#define _BRAILLE_OL         _LED_H42
-#define _BRAILLE_OR         _LED_H22
-#define _BRAILLE_ML         _LED_H44
-#define _BRAILLE_MR         _LED_H24
-#define _BRAILLE_UL         _LED_H46
-#define _BRAILLE_UR         _LED_H26
+#define _BRAILLE_OL         _LED_H55
+#define _BRAILLE_OR         _LED_H53
+#define _BRAILLE_ML         _LED_H35
+#define _BRAILLE_MR         _LED_H33
+#define _BRAILLE_UL         _LED_H15
+#define _BRAILLE_UR         _LED_H13
 
 static const tlcPort _brailleLeds[6] =
 {
@@ -240,6 +240,7 @@ void compBraille_renderGlyph( char c )
 
 void compBraille_showChar( char c )
 {
+	PRINTF("%s('%c')\r\n", __func__, c);
 	LED_renderGlyph( ' '  ); // clear all dots
 	if ( isdigit( c ) )
 	{

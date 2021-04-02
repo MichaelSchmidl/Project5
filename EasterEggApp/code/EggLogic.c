@@ -29,8 +29,10 @@ static sc_timer_service_t timer_service;
 const char szBrailleText[] = "bild drehen ";
 uint8_t bBrailleCharDone = 0;
 
-const char szMorseText[] = "starte Plattenspieler mit Release Candidate 5";
+const char szMorseText[] = "starte Plattenspieler Release Candidate 5";
 uint8_t bMorseCharDone = 0;
+
+static uint8_t gWatchEvent = 0; // 0=none, 1=Touch, 2=GYRO, 3=RC5
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -61,10 +63,10 @@ static const struct usb_hid_keystroke URL1_keystrokes[] =
     { KEY_DOT,       /* . */     KEY_MOD_NONE },
     { KEY_W,         /* w */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
 #endif
 #if 0
-    { KEY_K,         /* k */     KEY_MOD_NONE },
-    { KEY_I,         /* i */     KEY_MOD_NONE },
+	{ KEY_I,         /* i */     KEY_MOD_NONE },
     { KEY_P,         /* p */     KEY_MOD_NONE },
     { KEY_E,         /* e */     KEY_MOD_NONE },
     { KEY_D,         /* d */     KEY_MOD_NONE },
@@ -75,9 +77,14 @@ static const struct usb_hid_keystroke URL1_keystrokes[] =
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_G,         /* g */     KEY_MOD_NONE },
     { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
+    { KEY_W,         /* w */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
 #endif
 #if 0
+    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
+    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_A,         /* a */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
@@ -114,10 +121,10 @@ static const struct usb_hid_keystroke URL2_keystrokes[] =
     { KEY_DOT,       /* . */     KEY_MOD_NONE },
     { KEY_W,         /* w */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
 #endif
 #if 1
-    { KEY_K,         /* k */     KEY_MOD_NONE },
-    { KEY_I,         /* i */     KEY_MOD_NONE },
+	{ KEY_I,         /* i */     KEY_MOD_NONE },
     { KEY_P,         /* p */     KEY_MOD_NONE },
     { KEY_E,         /* e */     KEY_MOD_NONE },
     { KEY_D,         /* d */     KEY_MOD_NONE },
@@ -128,9 +135,14 @@ static const struct usb_hid_keystroke URL2_keystrokes[] =
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_G,         /* g */     KEY_MOD_NONE },
     { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
+    { KEY_W,         /* w */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
 #endif
 #if 0
+    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
+    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_A,         /* a */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
@@ -167,10 +179,10 @@ static const struct usb_hid_keystroke URL3_keystrokes[] =
     { KEY_DOT,       /* . */     KEY_MOD_NONE },
     { KEY_W,         /* w */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
 #endif
 #if 0
-    { KEY_K,         /* k */     KEY_MOD_NONE },
-    { KEY_I,         /* i */     KEY_MOD_NONE },
+	{ KEY_I,         /* i */     KEY_MOD_NONE },
     { KEY_P,         /* p */     KEY_MOD_NONE },
     { KEY_E,         /* e */     KEY_MOD_NONE },
     { KEY_D,         /* d */     KEY_MOD_NONE },
@@ -181,9 +193,14 @@ static const struct usb_hid_keystroke URL3_keystrokes[] =
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_G,         /* g */     KEY_MOD_NONE },
     { KEY_7,         /* / */     KEY_MOD_LSHIFT },
-    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
+    { KEY_W,         /* w */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
+    { KEY_K,         /* k */     KEY_MOD_NONE },
+    { KEY_I,         /* i */     KEY_MOD_NONE },
 #endif
 #if 1
+    { KEY_7,         /* / */     KEY_MOD_LSHIFT },
+    { KEY_B,         /* B */     KEY_MOD_LSHIFT },
     { KEY_R,         /* r */     KEY_MOD_NONE },
     { KEY_A,         /* a */     KEY_MOD_NONE },
     { KEY_I,         /* i */     KEY_MOD_NONE },
@@ -308,18 +325,15 @@ static const struct keystroke_definition keystrokeSet[] =
 	},
 	{
 		URL1_keystrokes,
-		1
-		#warning NO sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke)
+		sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke)
 	},
 	{
 		URL2_keystrokes,
-		1
-		#warning NO sizeof(URL2_keystrokes) / sizeof(struct usb_hid_keystroke)
+		sizeof(URL2_keystrokes) / sizeof(struct usb_hid_keystroke)
 	},
 	{
 		URL3_keystrokes,
-		1
-		#warning NO sizeof(URL3_keystrokes) / sizeof(struct usb_hid_keystroke)
+		sizeof(URL3_keystrokes) / sizeof(struct usb_hid_keystroke)
 	}
 };
 
@@ -362,12 +376,6 @@ void statechart_unset_timer(Statechart* handle, const sc_eventid evid){
 void EGG_doneWithSendingKeyStroke( void )
 {
 	statechart_raise_kBDstrokeSent( &eggStatechart );
-}
-
-
-void statechart_toggleDebugLED(Statechart* handle)
-{
-//    Sys_GPIO_Toggle(RECOVERY_FOTA_DEBUG_DIO); // toggle debug LED
 }
 
 
@@ -449,7 +457,17 @@ void EggLogic_RC5match( void )
 
 void statechart_showLaufschrift( Statechart* handle)
 {
-	LED_showText(" * P5 lebt!  ");
+	LED_showText(" www.mkail.de/ciao  ");
+}
+
+
+void statechart_setWatchEvent(Statechart* handle, const sc_integer which )
+{
+	gWatchEvent = which;
+	if ( 3 == which )
+	{
+	    NVIC_EnableIRQ(DIO1_IRQn);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -463,37 +481,43 @@ void EggLogic_updateGyroAndTouchInfo( void )
 	}
 
     static GRYRO_Orientation_t lastGyroState = 0xFF;
-	GRYRO_Orientation_t gyro = GYRO_getOrientation();
-	if ( gyro != lastGyroState )
-	{
-		PRINTF("GYRO %d\r\n", (int)gyro);
-		if ( LANDSCAPE_RIGHT == gyro )
-		statechart_raise_gYROtilt( &eggStatechart );
-	}
-	lastGyroState = gyro;
+    if ( 2 == gWatchEvent )
+    {
+    	GRYRO_Orientation_t gyro = GYRO_getOrientation();
+    	if ( gyro != lastGyroState )
+    	{
+    		PRINTF("GYRO %d\r\n", (int)gyro);
+    		if ( LANDSCAPE_RIGHT == gyro )
+    		statechart_raise_gYROtilt( &eggStatechart );
+    	}
+    	lastGyroState = gyro;
+    }
 
 	static uint8_t lastTouchState = 0;
-	uint8_t touch = PCF8574_read() & 0x07;
-	if ( touch != lastTouchState )
+	if ( 1 == gWatchEvent )
 	{
-		PRINTF("TOUCH %X\r\n", touch);
-		if ( 0 != touch )
+		uint8_t touch = PCF8574_read() & 0x07;
+		if ( touch != lastTouchState )
 		{
-			if ( touch & (1 << 0) )
+			PRINTF("TOUCH %X\r\n", touch);
+			if ( 0 != touch )
 			{
-				statechart_raise_touch1IRQ( &eggStatechart );
-			}
-			if ( touch & (1 << 1) )
-			{
-				statechart_raise_touch2IRQ( &eggStatechart );
-			}
-			if ( touch & (1 << 2) )
-			{
-				statechart_raise_touch3IRQ( &eggStatechart );
+				if ( touch & (1 << 0) )
+				{
+					statechart_raise_touch1IRQ( &eggStatechart );
+				}
+				if ( touch & (1 << 1) )
+				{
+					statechart_raise_touch2IRQ( &eggStatechart );
+				}
+				if ( touch & (1 << 2) )
+				{
+					statechart_raise_touch3IRQ( &eggStatechart );
+				}
 			}
 		}
+		lastTouchState = touch;
 	}
-	lastTouchState = touch;
 }
 
 
