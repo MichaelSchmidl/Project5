@@ -8,7 +8,7 @@
 #include "app.h"
 #include "CompMorse.h"
 
-#define _DIT_LENGTH_MS        ( 350 )                 // '1' coded in "font"
+#define _DIT_LENGTH_MS        ( 200 )                 // '1' coded in "font"
 #define _DAH_LENGTH_MS        ( 3 * _DIT_LENGTH_MS )  // '3' coded in "font"
 #define _INTERSYMBOL_DELAY_MS ( 1 * _DIT_LENGTH_MS )
 #define _INTERCHAR_DELAY_MS   ( 3 * _DIT_LENGTH_MS )
@@ -86,157 +86,163 @@ static void _sendMorse( const char *pszDitsDahs )
 }
 
 
-void compMorse_showText( char *pszText )
+void compMorse_showChar( char c )
 {
-    PRINTF("%s(%s)\r\n", __func__, pszText);
+//    PRINTF("%s(%s)\r\n", __func__, pszText);
 
-	while ( *pszText != '\0' )
+	switch (c)
 	{
-		char c = *pszText++;
-		switch (c)
-		{
-		 	case ' ':
-				LED_renderGlyph( ' '  ); // clear all dots
-				TLC5955drv_refresh();
-				DELAY_MS( _INTERWORD_DELAY_MS );
-				break;
-		 	case '0':
-				_sendMorse( _sz0 );
-				break;
-		 	case '1':
-				_sendMorse( _sz1 );
-				break;
-		 	case '2':
-				_sendMorse( _sz2 );
-				break;
-		 	case '3':
-				_sendMorse( _sz3 );
-				break;
-		 	case '4':
-				_sendMorse( _sz4 );
-				break;
-		 	case '5':
-				_sendMorse( _sz5 );
-				break;
-		 	case '6':
-				_sendMorse( _sz6 );
-				break;
-		 	case '7':
-				_sendMorse( _sz7 );
-				break;
-		 	case '8':
-				_sendMorse( _sz8 );
-				break;
-		 	case '9':
-				_sendMorse( _sz9 );
-				break;
-			case 'A':
-			case 'a':
-				_sendMorse( _szA );
-				break;
-			case 'B':
-			case 'b':
-				_sendMorse( _szB );
-				break;
-			case 'C':
-			case 'c':
-				_sendMorse( _szC );
-				break;
-			case 'D':
-			case 'd':
-				_sendMorse( _szD );
-				break;
-			case 'E':
-			case 'e':
-				_sendMorse( _szE );
-				break;
-			case 'F':
-			case 'f':
-				_sendMorse( _szF );
-				break;
-			case 'G':
-			case 'g':
-				_sendMorse( _szG );
-				break;
-			case 'H':
-			case 'h':
-				_sendMorse( _szH );
-				break;
-			case 'I':
-			case 'i':
-				_sendMorse( _szI );
-				break;
-			case 'J':
-			case 'j':
-				_sendMorse( _szJ );
-				break;
-			case 'K':
-			case 'k':
-				_sendMorse( _szK );
-				break;
-			case 'L':
-			case 'l':
-				_sendMorse( _szL );
-				break;
-			case 'M':
-			case 'm':
-				_sendMorse( _szM );
-				break;
-			case 'N':
-			case 'n':
-				_sendMorse( _szN );
-				break;
-			case 'O':
-			case 'o':
-				_sendMorse( _szO );
-				break;
-			case 'P':
-			case 'p':
-				_sendMorse( _szP );
-				break;
-			case 'Q':
-			case 'q':
-				_sendMorse( _szQ );
-				break;
-			case 'R':
-			case 'r':
-				_sendMorse( _szR );
-				break;
-			case 'S':
-			case 's':
-				_sendMorse( _szS );
-				break;
-			case 'T':
-			case 't':
-				_sendMorse( _szT );
-				break;
-			case 'U':
-			case 'u':
-				_sendMorse( _szU );
-				break;
-			case 'V':
-			case 'v':
-				_sendMorse( _szV );
-				break;
-			case 'W':
-			case 'w':
-				_sendMorse( _szW );
-				break;
-			case 'X':
-			case 'x':
-				_sendMorse( _szX );
-				break;
-			case 'Y':
-			case 'y':
-				_sendMorse( _szY );
-				break;
-			case 'Z':
-			case 'z':
-				_sendMorse( _szZ );
-				break;
-			default:
-				break;
-		}
+		case ' ':
+			LED_renderGlyph( ' '  ); // clear all dots
+			TLC5955drv_refresh();
+			DELAY_MS( _INTERWORD_DELAY_MS );
+			break;
+		case '0':
+			_sendMorse( _sz0 );
+			break;
+		case '1':
+			_sendMorse( _sz1 );
+			break;
+		case '2':
+			_sendMorse( _sz2 );
+			break;
+		case '3':
+			_sendMorse( _sz3 );
+			break;
+		case '4':
+			_sendMorse( _sz4 );
+			break;
+		case '5':
+			_sendMorse( _sz5 );
+			break;
+		case '6':
+			_sendMorse( _sz6 );
+			break;
+		case '7':
+			_sendMorse( _sz7 );
+			break;
+		case '8':
+			_sendMorse( _sz8 );
+			break;
+		case '9':
+			_sendMorse( _sz9 );
+			break;
+		case 'A':
+		case 'a':
+			_sendMorse( _szA );
+			break;
+		case 'B':
+		case 'b':
+			_sendMorse( _szB );
+			break;
+		case 'C':
+		case 'c':
+			_sendMorse( _szC );
+			break;
+		case 'D':
+		case 'd':
+			_sendMorse( _szD );
+			break;
+		case 'E':
+		case 'e':
+			_sendMorse( _szE );
+			break;
+		case 'F':
+		case 'f':
+			_sendMorse( _szF );
+			break;
+		case 'G':
+		case 'g':
+			_sendMorse( _szG );
+			break;
+		case 'H':
+		case 'h':
+			_sendMorse( _szH );
+			break;
+		case 'I':
+		case 'i':
+			_sendMorse( _szI );
+			break;
+		case 'J':
+		case 'j':
+			_sendMorse( _szJ );
+			break;
+		case 'K':
+		case 'k':
+			_sendMorse( _szK );
+			break;
+		case 'L':
+		case 'l':
+			_sendMorse( _szL );
+			break;
+		case 'M':
+		case 'm':
+			_sendMorse( _szM );
+			break;
+		case 'N':
+		case 'n':
+			_sendMorse( _szN );
+			break;
+		case 'O':
+		case 'o':
+			_sendMorse( _szO );
+			break;
+		case 'P':
+		case 'p':
+			_sendMorse( _szP );
+			break;
+		case 'Q':
+		case 'q':
+			_sendMorse( _szQ );
+			break;
+		case 'R':
+		case 'r':
+			_sendMorse( _szR );
+			break;
+		case 'S':
+		case 's':
+			_sendMorse( _szS );
+			break;
+		case 'T':
+		case 't':
+			_sendMorse( _szT );
+			break;
+		case 'U':
+		case 'u':
+			_sendMorse( _szU );
+			break;
+		case 'V':
+		case 'v':
+			_sendMorse( _szV );
+			break;
+		case 'W':
+		case 'w':
+			_sendMorse( _szW );
+			break;
+		case 'X':
+		case 'x':
+			_sendMorse( _szX );
+			break;
+		case 'Y':
+		case 'y':
+			_sendMorse( _szY );
+			break;
+		case 'Z':
+		case 'z':
+			_sendMorse( _szZ );
+			break;
+		default:
+			break;
 	}
 }
 
+
+void compMorse_showText( char *pszText )
+{
+//    PRINTF("%s(%s)\r\n", __func__, pszText);
+
+	while ( *pszText != '\0' )
+	{
+		compMorse_showChar( *pszText++ );
+	}
+}

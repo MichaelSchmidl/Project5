@@ -20,12 +20,14 @@ are defined.
 
 This state machine makes use of operations declared in the state machines interface or internal scopes. Thus the function prototypes:
 	- statechart_sendTLCbraille
+	- statechart_getBrailleTextLength
 	- statechart_sendTLCmorse
+	- statechart_getMorseTextLength
 	- statechart_sendKBDstroke
 	- statechart_getKBDstringLength
 	- statechart_sendURLstroke
 	- statechart_shutDownSystem
-	- statechart_toggleDebugLED
+	- statechart_showLaufschrift
 are defined.
 
 These functions will be called during a 'run to completion step' (runCycle) of the statechart. 
@@ -35,13 +37,15 @@ There are some constraints that have to be considered for the implementation of 
  
 */
 
-extern void statechart_sendTLCbraille( Statechart* handle);
+extern void statechart_sendTLCbraille( Statechart* handle, const sc_integer index);
+extern sc_integer statechart_getBrailleTextLength( Statechart* handle);
 extern void statechart_sendTLCmorse( Statechart* handle, const sc_integer index);
+extern sc_integer statechart_getMorseTextLength( Statechart* handle);
 extern void statechart_sendKBDstroke( Statechart* handle, const sc_integer whichString, const sc_integer index);
 extern sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer whichString);
 extern void statechart_sendURLstroke( Statechart* handle);
 extern void statechart_shutDownSystem( Statechart* handle);
-extern void statechart_toggleDebugLED( Statechart* handle);
+extern void statechart_showLaufschrift( Statechart* handle);
 
 
 /*!

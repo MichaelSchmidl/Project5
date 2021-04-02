@@ -26,7 +26,11 @@ struct Statechart eggStatechart;
 static sc_timer_t timers[MAX_TIMERS];
 static sc_timer_service_t timer_service;
 
-static uint8_t _bLongRunningFunctionActive = 0;
+const char szBrailleText[] = "bild drehen ";
+uint8_t bBrailleCharDone = 0;
+
+const char szMorseText[] = "starte Plattenspieler mit Release Candidate 5";
+uint8_t bMorseCharDone = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -304,15 +308,18 @@ static const struct keystroke_definition keystrokeSet[] =
 	},
 	{
 		URL1_keystrokes,
-		sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke)
+		1
+		#warning NO sizeof(URL1_keystrokes) / sizeof(struct usb_hid_keystroke)
 	},
 	{
 		URL2_keystrokes,
-		sizeof(URL2_keystrokes) / sizeof(struct usb_hid_keystroke)
+		1
+		#warning NO sizeof(URL2_keystrokes) / sizeof(struct usb_hid_keystroke)
 	},
 	{
 		URL3_keystrokes,
-		sizeof(URL3_keystrokes) / sizeof(struct usb_hid_keystroke)
+		1
+		#warning NO sizeof(URL3_keystrokes) / sizeof(struct usb_hid_keystroke)
 	}
 };
 
@@ -398,26 +405,51 @@ sc_integer statechart_getKBDstringLength( Statechart* handle, const sc_integer w
 }
 
 
-void statechart_sendTLCbraille( Statechart* handle)
+sc_integer statechart_getBrailleTextLength( Statechart* handle)
 {
-	_bLongRunningFunctionActive = 1;
-	DELAY_MS( 100 );
-
-	compBraille_showText( "Bild drehen" );
-	_bLongRunningFunctionActive = 0;
-	statechart_raise_brailleStringDone( &eggStatechart );
+//    PRINTF("%s entered\r\n", __func__);
+	return strlen( szBrailleText );
 }
 
 
-void statechart_sendTLCmorse( Statechart* handle, const sc_integer index)
+void statechart_sendTLCbraille( Statechart* handle, const sc_integer i)
 {
-	compMorse_showText( "starte Plattenspieler mit Release Candidate 5" );
+	bBrailleCharDone = 0;
+	if ( i < statechart_getBrailleTextLength( &eggStatechart ))
+	{
+		compBraille_showChar( szBrailleText[i] );
+	}
+	bBrailleCharDone = 1;
+}
+
+
+sc_integer statechart_getMorseTextLength( Statechart* handle)
+{
+	//    PRINTF("%s entered\r\n", __func__);
+		return strlen( szMorseText );
+}
+
+
+void statechart_sendTLCmorse( Statechart* handle, const sc_integer i)
+{
+	bMorseCharDone = 0;
+	if ( i < statechart_getMorseTextLength( &eggStatechart ))
+	{
+		compMorse_showChar( szMorseText[i] );
+	}
+	bMorseCharDone = 1;
 }
 
 
 void EggLogic_RC5match( void )
 {
 	statechart_raise_rC5match( &eggStatechart );
+}
+
+
+void statechart_showLaufschrift( Statechart* handle)
+{
+	LED_showText(" * P5 lebt!  ");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -495,7 +527,7 @@ void EggLogic_timerTick( uint32_t ms )
 {
 	static uint32_t lastBLEconnected = 0;
 //    PRINTF("%s entered with %dms\n", __func__, ms);
-	if ( 0 == _bLongRunningFunctionActive )
+//	if ( 0 == _bLongRunningFunctionActive )
 	{
 	    sc_timer_service_proceed(&timer_service, ms);
 
@@ -521,6 +553,18 @@ void EggLogic_timerTick( uint32_t ms )
 	        	statechart_raise_bLEdisconnected( &eggStatechart );
 	        	lastBLEconnected = 0;
 	    	}
+	    }
+
+	    if ( 1 == bBrailleCharDone )
+	    {
+	    	bBrailleCharDone = 0;
+	    	statechart_raise_brailleCharDone( &eggStatechart );
+	    }
+
+	    if ( 1 == bMorseCharDone )
+	    {
+	    	bMorseCharDone = 0;
+	    	statechart_raise_morseCharDone( &eggStatechart );
 	    }
 
 	    // poll info of GYRO and TOUCHes every 100ms

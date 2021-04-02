@@ -12,6 +12,7 @@
 
 
 void compMorse_showText( char *pszText );
+void compMorse_showChar( char c );
 
 
 #endif /* INCLUDE_COMPMORSE_H_ */

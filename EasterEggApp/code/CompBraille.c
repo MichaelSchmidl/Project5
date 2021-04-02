@@ -238,28 +238,33 @@ void compBraille_renderGlyph( char c )
 }
 
 
+void compBraille_showChar( char c )
+{
+	LED_renderGlyph( ' '  ); // clear all dots
+	if ( isdigit( c ) )
+	{
+		compBraille_renderGlyph( '#' );
+		TLC5955drv_refresh();
+		DELAY_MS( _BRAILLE_READING_DELAY_MS );
+	}
+	else if ( isupper( c ) )
+	{
+		compBraille_renderGlyph( '$' );
+		TLC5955drv_refresh();
+		DELAY_MS( _BRAILLE_READING_DELAY_MS );
+	}
+	compBraille_renderGlyph( c );
+	TLC5955drv_refresh();
+}
+
+
 void compBraille_showText( char *pszText )
 {
 //    PRINTF("%s(%s)\r\n", __func__, pszText);
 
 	while( *pszText != '\0' )
 	{
-		char c = *pszText++;
-		LED_renderGlyph( ' '  ); // clear all dots
-		if ( isdigit( c ) )
-		{
-			compBraille_renderGlyph( '#' );
-			TLC5955drv_refresh();
-			DELAY_MS( _BRAILLE_READING_DELAY_MS );
-		}
-		else if ( isupper( c ) )
-		{
-			compBraille_renderGlyph( '$' );
-			TLC5955drv_refresh();
-			DELAY_MS( _BRAILLE_READING_DELAY_MS );
-		}
-		compBraille_renderGlyph( c );
-		TLC5955drv_refresh();
+		compBraille_showChar( *pszText++ );
 		DELAY_MS( _BRAILLE_READING_DELAY_MS );
 	}
 }
