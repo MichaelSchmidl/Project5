@@ -23,11 +23,11 @@
 #define tHIGH_US  7
 
 // macros for I2C bitbanging
-#define SCL_0       DIO->CFG[SCL_DIO_NUM] = DIO_MODE_GPIO_OUT_0
-#define SCL_H       DIO->CFG[SCL_DIO_NUM] = DIO_MODE_INPUT  | DIO_STRONG_PULL_UP | DIO_LPF_DISABLE | DIO_2X_DRIVE
+#define SCL_0       DIO->DATA &= ~( 1 << SCL_DIO_NUM ); DIO->DIR |= ( 1 << SCL_DIO_NUM )
+#define SCL_H       DIO->DIR &= ~( 1 << SCL_DIO_NUM )
 #define Is_SCL_high DIO_DATA->ALIAS[SCL_DIO_NUM] == 1
-#define SDA_0       DIO->CFG[SDA_DIO_NUM] = DIO_MODE_GPIO_OUT_0
-#define SDA_H       DIO->CFG[SDA_DIO_NUM] = DIO_MODE_INPUT  | DIO_STRONG_PULL_UP | DIO_LPF_DISABLE | DIO_2X_DRIVE
+#define SDA_0       DIO->DATA &= ~( 1 << SDA_DIO_NUM ); DIO->DIR |= ( 1 << SDA_DIO_NUM )
+#define SDA_H       DIO->DIR &= ~( 1 << SDA_DIO_NUM )
 #define Is_SDA_high DIO_DATA->ALIAS[SDA_DIO_NUM] == 1
 
 /*!
