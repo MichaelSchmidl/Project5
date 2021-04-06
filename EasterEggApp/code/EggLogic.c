@@ -269,39 +269,6 @@ static const struct usb_hid_keystroke GREETINGS_keystrokes[] =
 	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
 	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
 
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
-	{ KEY_CAPSLOCK,  /*    */    KEY_MOD_NONE },
-	{ KEY_CAPSLOCK,  /*   */     KEY_MOD_NONE },
-
     { KEY_ESC,       /*    */    KEY_MOD_NONE },
 };
 
@@ -341,7 +308,7 @@ static const struct keystroke_definition keystrokeSet[] =
 static void _sendKeystroke(const uint8_t key, const uint8_t mod_id)
 {
 //	app_env.key_pushed = true;
-	app_env.key_state = KEY_REL; // next we have to send KEY RELEASE - done in ble_hogd.c function Hogpd_ReportUpdRsp()
+	app_env.key_state = KEY_PUSH; // next we have to send KEY RELEASE - done in ble_hogd.c function Hogpd_ReportUpdRsp()
 	Hogpd_ReportUpdReq( ble_env[0].conidx,
 					    key,
 					    mod_id);
@@ -457,7 +424,7 @@ void EggLogic_RC5match( void )
 
 void statechart_showLaufschrift( Statechart* handle)
 {
-	LED_showText(" www.mkail.de/ciao  ");
+	LED_showText(" oliverolschewski.markus-kail.de  ");
 }
 
 
@@ -473,7 +440,7 @@ void statechart_setWatchEvent(Statechart* handle, const sc_integer which )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-void EggLogic_updateGyroAndTouchInfo( void )
+static void _updateGyroAndTouchInfo( void )
 {
 	if ( 0 != RC5_doWeHaveAmatch() )
 	{
@@ -592,7 +559,7 @@ void EggLogic_timerTick( uint32_t ms )
 	    }
 
 	    // poll info of GYRO and TOUCHes every 100ms
-	    EggLogic_updateGyroAndTouchInfo();
+	    _updateGyroAndTouchInfo();
 
 	    // show statemachine status
 	    _showStateMachineDebugInfo();

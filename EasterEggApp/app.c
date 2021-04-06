@@ -59,22 +59,25 @@ void GPIOirq_EventCallback(uint32_t event)
 }
 
 
+void HardFault_Handler(void)
+{
+	static volatile uint32_t _Continue;
+
+	_Continue = 0u;
+	while ( 0 == _Continue );
+}
+
 
 int main(void)
 {
 	// drive the POWER_ON signal as soon as possible, so the REED contact can open again
     DIO->CFG[POWER_ON_DIO] = DIO_MODE_GPIO_OUT_1;
 
-    /* Ensure all priority bits are assigned as preemption priority bits.
-     * Should not be changed! */
-    NVIC_SetPriorityGrouping(0);
-
     App_Initialize();
 
     SystemCoreClockUpdate();
 
-	Sys_Watchdog_Set_Timeout(WATCHDOG_TIMEOUT_16M4); // expire every 16sec
-
+#if 0
     /* Start Update when button is pressed at startup */
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;
     if (DIO_DATA->ALIAS[RECOVERY_FOTA_DEBUG_DIO] == 0)
@@ -86,6 +89,7 @@ int main(void)
     }
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_GPIO_OUT_0;
 
+#endif
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();

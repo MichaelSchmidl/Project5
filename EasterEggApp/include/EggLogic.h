@@ -12,7 +12,6 @@
 
 void EggLogic_init( void );
 void EggLogic_timerTick( uint32_t ms );
-void EggLogic_updateGyroAndTouchInfo( void );
 
 void EGG_doneWithSendingKeyStroke( void );
 void EggLogic_RC5match( void );

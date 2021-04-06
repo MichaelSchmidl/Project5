@@ -553,10 +553,15 @@ int Hogpd_ReportUpdRsp(ke_msg_id_t const msgid,
         hogpd_support_env.err_cnt++;
     }
 
-    if (app_env.key_state == KEY_REL)
+    if (app_env.key_state == KEY_PUSH)
     {
         Hogpd_ReportUpdReq(ble_env[device_indx].conidx, HOGPD_KEY_NONE,
                            HOGPD_KEY_NONE);
+        app_env.key_state = KEY_REL;
+    }
+    if (app_env.key_state == KEY_REL)
+    {
+        app_env.key_state = KEY_IDLE;
         EGG_doneWithSendingKeyStroke();
     }
 

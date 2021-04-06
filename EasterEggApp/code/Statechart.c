@@ -19,6 +19,7 @@ static void enact_main_region_wait4BLE(Statechart* handle);
 static void enact_main_region_autoShutdown(Statechart* handle);
 static void enact_main_region_sendGreetingText(Statechart* handle);
 static void enact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle);
+static void enact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle);
 static void enact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void enact_main_region_sendRC5URLTextWithTouch(Statechart* handle);
 static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
@@ -37,12 +38,9 @@ static void enact_main_region_showFinalLaufschrift_r1_showLaufschrift(Statechart
 static void enact_main_region_showFinalLaufschrift_r1_waitAndRepeat(Statechart* handle);
 static void exact_main_region_wait4BLE(Statechart* handle);
 static void exact_main_region_sendGreetingText(Statechart* handle);
-static void exact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle);
+static void exact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle);
 static void exact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void exact_main_region_sendRC5URLTextWithTouch(Statechart* handle);
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle);
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle);
 static void exact_main_region_wait4RC5match(Statechart* handle);
 static void exact_main_region_sendBrailleText_r1_wait4BrailleCharRead(Statechart* handle);
 static void exact_main_region_wait4GyroTilt(Statechart* handle);
@@ -54,17 +52,14 @@ static void enseq_main_region_wait4BLE_default(Statechart* handle);
 static void enseq_main_region_autoShutdown_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke_default(Statechart* handle);
-static void enseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_default(Statechart* handle);
+static void enseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_default(Statechart* handle);
 static void enseq_main_region_sendGreetingText_r1_gracePeriod_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(Statechart* handle);
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(Statechart* handle);
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_default(Statechart* handle);
 static void enseq_main_region_wait4RC5match_default(Statechart* handle);
 static void enseq_main_region_sendBrailleText_default(Statechart* handle);
@@ -87,17 +82,14 @@ static void exseq_main_region_wait4BLE(Statechart* handle);
 static void exseq_main_region_autoShutdown(Statechart* handle);
 static void exseq_main_region_sendGreetingText(Statechart* handle);
 static void exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle);
-static void exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(Statechart* handle);
+static void exseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle);
 static void exseq_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle);
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(Statechart* handle);
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch(Statechart* handle);
 static void exseq_main_region_wait4RC5match(Statechart* handle);
 static void exseq_main_region_sendBrailleText(Statechart* handle);
@@ -139,8 +131,8 @@ static sc_integer main_region_sendGreetingText_react(Statechart* handle, const s
 /*! The reactions of state sendGreetingKeyStroke. */
 static sc_integer main_region_sendGreetingText_r1_sendGreetingKeyStroke_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state waitForGreetingKeystrokeSent. */
-static sc_integer main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
+/*! The reactions of state waitBeforeSendingNextGreetingKeystroke. */
+static sc_integer main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state gracePeriod. */
 static sc_integer main_region_sendGreetingText_r1_gracePeriod_react(Statechart* handle, const sc_integer transitioned_before);
@@ -151,26 +143,17 @@ static sc_integer main_region_sendRC5URLTextWithTouch_react(Statechart* handle, 
 /*! The reactions of state sendURL1Part. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state wait4URL1KeyStrokeSent. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
-
 /*! The reactions of state wait4NextURL1touch. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state sendURL2Part. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(Statechart* handle, const sc_integer transitioned_before);
 
-/*! The reactions of state wait4URL2KeyStrokeSent. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
-
 /*! The reactions of state wait4NextURL2touch. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state sendURL3Part. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(Statechart* handle, const sc_integer transitioned_before);
-
-/*! The reactions of state wait4URL3KeyStrokeSent. */
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before);
 
 /*! The reactions of state wait4NextURL3touch. */
 static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_react(Statechart* handle, const sc_integer transitioned_before);
@@ -339,8 +322,8 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_SENDGREETINGKEYSTROKE] == Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke
 			);
 			break;
-		case Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_WAITFORGREETINGKEYSTROKESENT] == Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent
+		case Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke :
+			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDGREETINGTEXT_R1_WAITBEFORESENDINGNEXTGREETINGKEYSTROKE] == Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke
 			);
 			break;
 		case Statechart_main_region_sendGreetingText_r1_gracePeriod :
@@ -355,10 +338,6 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL1PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part
 			);
 			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL1KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent
-			);
-			break;
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL1TOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch
 			);
@@ -367,20 +346,12 @@ sc_boolean statechart_is_state_active(const Statechart* handle, StatechartStates
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL2PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part
 			);
 			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL2KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent
-			);
-			break;
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4NEXTURL2TOUCH] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch
 			);
 			break;
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
 			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_SENDURL3PART] == Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part
-			);
-			break;
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_STATECHART_MAIN_REGION_SENDRC5URLTEXTWITHTOUCH_R1_WAIT4URL3KEYSTROKESENT] == Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent
 			);
 			break;
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
@@ -452,12 +423,9 @@ static void clear_in_events(Statechart* handle)
 	handle->iface.morseCharDone_raised = bool_false;
 	handle->timeEvents.statechart_main_region_wait4BLE_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised = bool_false;
+	handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised = bool_false;
-	handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_sendBrailleText_r1_wait4BrailleCharRead_tev0_raised = bool_false;
 	handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised = bool_false;
@@ -486,9 +454,9 @@ static void micro_step(Statechart* handle)
 			main_region_sendGreetingText_r1_sendGreetingKeyStroke_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent :
+		case Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke :
 		{
-			main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_react(handle, -1);
+			main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_react(handle, -1);
 			break;
 		}
 		case Statechart_main_region_sendGreetingText_r1_gracePeriod :
@@ -501,11 +469,6 @@ static void micro_step(Statechart* handle)
 			main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
-		{
-			main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(handle, -1);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
 			main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_react(handle, -1);
@@ -516,11 +479,6 @@ static void micro_step(Statechart* handle)
 			main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(handle, -1);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
-		{
-			main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(handle, -1);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
 		{
 			main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_react(handle, -1);
@@ -529,11 +487,6 @@ static void micro_step(Statechart* handle)
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
 		{
 			main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(handle, -1);
-			break;
-		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
-		{
-			main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(handle, -1);
 			break;
 		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
@@ -599,7 +552,7 @@ static void run_cycle(Statechart* handle)
 		micro_step(handle);
 		clear_in_events(handle);
 		statechart_dispatch_next_event(handle);
-	} while (((((((((((((((((((((((((handle->iface.BLEconnected_raised == bool_true) || (handle->iface.BLEdisconnected_raised == bool_true)) || (handle->iface.Touch1IRQ_raised == bool_true)) || (handle->iface.Touch2IRQ_raised == bool_true)) || (handle->iface.Touch3IRQ_raised == bool_true)) || (handle->iface.KBDstrokeSent_raised == bool_true)) || (handle->iface.RC5match_raised == bool_true)) || (handle->iface.brailleCharDone_raised == bool_true)) || (handle->iface.GYROtilt_raised == bool_true)) || (handle->iface.morseCharDone_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4BLE_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendBrailleText_r1_wait4BrailleCharRead_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_morseRC5Hint_r1_wait4MoseCharRead_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_r1_showLaufschrift_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_r1_waitAndRepeat_tev0_raised == bool_true));
+	} while ((((((((((((((((((((((handle->iface.BLEconnected_raised == bool_true) || (handle->iface.BLEdisconnected_raised == bool_true)) || (handle->iface.Touch1IRQ_raised == bool_true)) || (handle->iface.Touch2IRQ_raised == bool_true)) || (handle->iface.Touch3IRQ_raised == bool_true)) || (handle->iface.KBDstrokeSent_raised == bool_true)) || (handle->iface.RC5match_raised == bool_true)) || (handle->iface.brailleCharDone_raised == bool_true)) || (handle->iface.GYROtilt_raised == bool_true)) || (handle->iface.morseCharDone_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4BLE_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_sendBrailleText_r1_wait4BrailleCharRead_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_wait4GyroTilt_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_morseRC5Hint_r1_wait4MoseCharRead_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_r1_showLaufschrift_tev0_raised == bool_true)) || (handle->timeEvents.statechart_main_region_showFinalLaufschrift_r1_waitAndRepeat_tev0_raised == bool_true));
 	handle->isExecuting = bool_false;
 }
 
@@ -703,8 +656,14 @@ static void enact_main_region_sendGreetingText(Statechart* handle)
 static void enact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle)
 {
 	/* Entry action for state 'sendGreetingKeyStroke'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised) , 100, bool_false);
 	statechart_sendKBDstroke(handle, 0, handle->internal.greetingIndex++);
+}
+
+/* Entry action for state 'waitBeforeSendingNextGreetingKeystroke'. */
+static void enact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle)
+{
+	/* Entry action for state 'waitBeforeSendingNextGreetingKeystroke'. */
+	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised) , 200, bool_false);
 }
 
 /* Entry action for state 'gracePeriod'. */
@@ -712,6 +671,7 @@ static void enact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle
 {
 	/* Entry action for state 'gracePeriod'. */
 	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) , (handle->internal.greetingWaitTime * 1000), bool_false);
+	handle->internal.greetingIndex = 0;
 }
 
 /* Entry action for state 'sendRC5URLTextWithTouch'. */
@@ -728,7 +688,6 @@ static void enact_main_region_sendRC5URLTextWithTouch(Statechart* handle)
 static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle)
 {
 	/* Entry action for state 'sendURL1Part'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) , 100, bool_false);
 	statechart_sendKBDstroke(handle, 1, handle->internal.url1Index++);
 }
 
@@ -736,7 +695,6 @@ static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart
 static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle)
 {
 	/* Entry action for state 'sendURL2Part'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) , 100, bool_false);
 	statechart_sendKBDstroke(handle, 2, handle->internal.url2Index++);
 }
 
@@ -744,7 +702,6 @@ static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart
 static void enact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
 {
 	/* Entry action for state 'sendURL3Part'. */
-	statechart_set_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) , 100, bool_false);
 	statechart_sendKBDstroke(handle, 3, handle->internal.url3Index++);
 }
 
@@ -844,11 +801,11 @@ static void exact_main_region_sendGreetingText(Statechart* handle)
 	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised) );		
 }
 
-/* Exit action for state 'sendGreetingKeyStroke'. */
-static void exact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statechart* handle)
+/* Exit action for state 'waitBeforeSendingNextGreetingKeystroke'. */
+static void exact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle)
 {
-	/* Exit action for state 'sendGreetingKeyStroke'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised) );		
+	/* Exit action for state 'waitBeforeSendingNextGreetingKeystroke'. */
+	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised) );		
 }
 
 /* Exit action for state 'gracePeriod'. */
@@ -856,7 +813,6 @@ static void exact_main_region_sendGreetingText_r1_gracePeriod(Statechart* handle
 {
 	/* Exit action for state 'gracePeriod'. */
 	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) );		
-	handle->internal.greetingIndex = 0;
 }
 
 /* Exit action for state 'sendRC5URLTextWithTouch'. */
@@ -864,27 +820,6 @@ static void exact_main_region_sendRC5URLTextWithTouch(Statechart* handle)
 {
 	/* Exit action for state 'sendRC5URLTextWithTouch'. */
 	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised) );		
-}
-
-/* Exit action for state 'sendURL1Part'. */
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart* handle)
-{
-	/* Exit action for state 'sendURL1Part'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) );		
-}
-
-/* Exit action for state 'sendURL2Part'. */
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart* handle)
-{
-	/* Exit action for state 'sendURL2Part'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) );		
-}
-
-/* Exit action for state 'sendURL3Part'. */
-static void exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
-{
-	/* Exit action for state 'sendURL3Part'. */
-	statechart_unset_timer(handle, (sc_eventid) &(handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) );		
 }
 
 /* Exit action for state 'wait4RC5match'. */
@@ -968,11 +903,12 @@ static void enseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke_default(
 	handle->stateConfVector[0] = Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke;
 }
 
-/* 'default' enter sequence for state waitForGreetingKeystrokeSent */
-static void enseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_default(Statechart* handle)
+/* 'default' enter sequence for state waitBeforeSendingNextGreetingKeystroke */
+static void enseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_default(Statechart* handle)
 {
-	/* 'default' enter sequence for state waitForGreetingKeystrokeSent */
-	handle->stateConfVector[0] = Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent;
+	/* 'default' enter sequence for state waitBeforeSendingNextGreetingKeystroke */
+	enact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(handle);
+	handle->stateConfVector[0] = Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke;
 }
 
 /* 'default' enter sequence for state gracePeriod */
@@ -999,13 +935,6 @@ static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_default(St
 	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part;
 }
 
-/* 'default' enter sequence for state wait4URL1KeyStrokeSent */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(Statechart* handle)
-{
-	/* 'default' enter sequence for state wait4URL1KeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent;
-}
-
 /* 'default' enter sequence for state wait4NextURL1touch */
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(Statechart* handle)
 {
@@ -1021,13 +950,6 @@ static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_default(St
 	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part;
 }
 
-/* 'default' enter sequence for state wait4URL2KeyStrokeSent */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(Statechart* handle)
-{
-	/* 'default' enter sequence for state wait4URL2KeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent;
-}
-
 /* 'default' enter sequence for state wait4NextURL2touch */
 static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(Statechart* handle)
 {
@@ -1041,13 +963,6 @@ static void enseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_default(St
 	/* 'default' enter sequence for state sendURL3Part */
 	enact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
 	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part;
-}
-
-/* 'default' enter sequence for state wait4URL3KeyStrokeSent */
-static void enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(Statechart* handle)
-{
-	/* 'default' enter sequence for state wait4URL3KeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent;
 }
 
 /* 'default' enter sequence for state wait4NextURL3touch */
@@ -1215,14 +1130,14 @@ static void exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(Statecha
 {
 	/* Default exit sequence for state sendGreetingKeyStroke */
 	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_sendGreetingText_r1_sendGreetingKeyStroke(handle);
 }
 
-/* Default exit sequence for state waitForGreetingKeystrokeSent */
-static void exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(Statechart* handle)
+/* Default exit sequence for state waitBeforeSendingNextGreetingKeystroke */
+static void exseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(Statechart* handle)
 {
-	/* Default exit sequence for state waitForGreetingKeystrokeSent */
+	/* Default exit sequence for state waitBeforeSendingNextGreetingKeystroke */
 	handle->stateConfVector[0] = Statechart_last_state;
+	exact_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(handle);
 }
 
 /* Default exit sequence for state gracePeriod */
@@ -1246,14 +1161,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(Statechart
 {
 	/* Default exit sequence for state sendURL1Part */
 	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
-}
-
-/* Default exit sequence for state wait4URL1KeyStrokeSent */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(Statechart* handle)
-{
-	/* Default exit sequence for state wait4URL1KeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_last_state;
 }
 
 /* Default exit sequence for state wait4NextURL1touch */
@@ -1268,14 +1175,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(Statechart
 {
 	/* Default exit sequence for state sendURL2Part */
 	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
-}
-
-/* Default exit sequence for state wait4URL2KeyStrokeSent */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(Statechart* handle)
-{
-	/* Default exit sequence for state wait4URL2KeyStrokeSent */
-	handle->stateConfVector[0] = Statechart_last_state;
 }
 
 /* Default exit sequence for state wait4NextURL2touch */
@@ -1289,14 +1188,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(Stat
 static void exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(Statechart* handle)
 {
 	/* Default exit sequence for state sendURL3Part */
-	handle->stateConfVector[0] = Statechart_last_state;
-	exact_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
-}
-
-/* Default exit sequence for state wait4URL3KeyStrokeSent */
-static void exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(Statechart* handle)
-{
-	/* Default exit sequence for state wait4URL3KeyStrokeSent */
 	handle->stateConfVector[0] = Statechart_last_state;
 }
 
@@ -1414,9 +1305,9 @@ static void exseq_main_region(Statechart* handle)
 			exact_main_region_sendGreetingText(handle);
 			break;
 		}
-		case Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent :
+		case Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke :
 		{
-			exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(handle);
+			exseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(handle);
 			exact_main_region_sendGreetingText(handle);
 			break;
 		}
@@ -1432,12 +1323,6 @@ static void exseq_main_region(Statechart* handle)
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
-			exact_main_region_sendRC5URLTextWithTouch(handle);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
@@ -1450,12 +1335,6 @@ static void exseq_main_region(Statechart* handle)
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
-			exact_main_region_sendRC5URLTextWithTouch(handle);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
@@ -1465,12 +1344,6 @@ static void exseq_main_region(Statechart* handle)
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
-			exact_main_region_sendRC5URLTextWithTouch(handle);
-			break;
-		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
 			exact_main_region_sendRC5URLTextWithTouch(handle);
 			break;
 		}
@@ -1538,9 +1411,9 @@ static void exseq_main_region_sendGreetingText_r1(Statechart* handle)
 			exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(handle);
 			break;
 		}
-		case Statechart_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent :
+		case Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke :
 		{
-			exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(handle);
+			exseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(handle);
 			break;
 		}
 		case Statechart_main_region_sendGreetingText_r1_gracePeriod :
@@ -1564,11 +1437,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1(Statechart* handle)
 			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch(handle);
@@ -1579,11 +1447,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1(Statechart* handle)
 			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
 			break;
 		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
-			break;
-		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch(handle);
@@ -1592,11 +1455,6 @@ static void exseq_main_region_sendRC5URLTextWithTouch_r1(Statechart* handle)
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part :
 		{
 			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
-			break;
-		}
-		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent :
-		{
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
 			break;
 		}
 		case Statechart_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch :
@@ -1814,13 +1672,22 @@ static sc_integer main_region_sendGreetingText_r1_sendGreetingKeyStroke_react(St
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised == bool_true)
+		if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.greetingIndex) < (statechart_getKBDstringLength(handle, 0))) == bool_true))
 		{ 
 			exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(handle);
-			enseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_default(handle);
+			enseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_default(handle);
 			main_region_sendGreetingText_react(handle, 0);
 			transitioned_after = 0;
-		} 
+		}  else
+		{
+			if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.greetingIndex) >= (statechart_getKBDstringLength(handle, 0))) == bool_true))
+			{ 
+				exseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke(handle);
+				enseq_main_region_sendGreetingText_r1_gracePeriod_default(handle);
+				main_region_sendGreetingText_react(handle, 0);
+				transitioned_after = 0;
+			} 
+		}
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
@@ -1828,28 +1695,19 @@ static sc_integer main_region_sendGreetingText_r1_sendGreetingKeyStroke_react(St
 	} return transitioned_after;
 }
 
-static sc_integer main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
+static sc_integer main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_react(Statechart* handle, const sc_integer transitioned_before)
 {
-	/* The reactions of state waitForGreetingKeystrokeSent. */
+	/* The reactions of state waitBeforeSendingNextGreetingKeystroke. */
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.greetingIndex) < (statechart_getKBDstringLength(handle, 0))) == bool_true))
+		if (handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised == bool_true)
 		{ 
-			exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(handle);
+			exseq_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke(handle);
 			enseq_main_region_sendGreetingText_r1_sendGreetingKeyStroke_default(handle);
 			main_region_sendGreetingText_react(handle, 0);
 			transitioned_after = 0;
-		}  else
-		{
-			if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.greetingIndex) >= (statechart_getKBDstringLength(handle, 0))) == bool_true))
-			{ 
-				exseq_main_region_sendGreetingText_r1_waitForGreetingKeystrokeSent(handle);
-				enseq_main_region_sendGreetingText_r1_gracePeriod_default(handle);
-				main_region_sendGreetingText_react(handle, 0);
-				transitioned_after = 0;
-			} 
-		}
+		} 
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 
@@ -1903,29 +1761,9 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_react(Stat
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised == bool_true)
-		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_default(handle);
-			main_region_sendRC5URLTextWithTouch_react(handle, 0);
-			transitioned_after = 0;
-		} 
-	} /* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
-	} return transitioned_after;
-}
-
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
-{
-	/* The reactions of state wait4URL1KeyStrokeSent. */
- 			sc_integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
 		if (handle->iface.KBDstrokeSent_raised == bool_true)
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL1KeyStrokeSent(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part(handle);
 			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL1touch_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
@@ -1972,29 +1810,9 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_react(Stat
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised == bool_true)
-		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_default(handle);
-			main_region_sendRC5URLTextWithTouch_react(handle, 0);
-			transitioned_after = 0;
-		} 
-	} /* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
-	} return transitioned_after;
-}
-
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
-{
-	/* The reactions of state wait4URL2KeyStrokeSent. */
- 			sc_integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
 		if (handle->iface.KBDstrokeSent_raised == bool_true)
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL2KeyStrokeSent(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part(handle);
 			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL2touch_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
@@ -2041,29 +1859,9 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_react(Stat
  			sc_integer transitioned_after = transitioned_before;
 	if ((transitioned_after) < (0))
 	{ 
-		if (handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised == bool_true)
-		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
-			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_default(handle);
-			main_region_sendRC5URLTextWithTouch_react(handle, 0);
-			transitioned_after = 0;
-		} 
-	} /* If no transition was taken then execute local reactions */
-	if ((transitioned_after) == (transitioned_before))
-	{ 
-		transitioned_after = main_region_sendRC5URLTextWithTouch_react(handle, transitioned_before);
-	} return transitioned_after;
-}
-
-static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_react(Statechart* handle, const sc_integer transitioned_before)
-{
-	/* The reactions of state wait4URL3KeyStrokeSent. */
- 			sc_integer transitioned_after = transitioned_before;
-	if ((transitioned_after) < (0))
-	{ 
 		if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.url3Index) < (statechart_getKBDstringLength(handle, 3))) == bool_true))
 		{ 
-			exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+			exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
 			enseq_main_region_sendRC5URLTextWithTouch_r1_wait4NextURL3touch_default(handle);
 			main_region_sendRC5URLTextWithTouch_react(handle, 0);
 			transitioned_after = 0;
@@ -2071,7 +1869,7 @@ static sc_integer main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent_
 		{
 			if (((handle->iface.KBDstrokeSent_raised) == bool_true) && (((handle->internal.url3Index) >= (statechart_getKBDstringLength(handle, 3))) == bool_true))
 			{ 
-				exseq_main_region_sendRC5URLTextWithTouch_r1_wait4URL3KeyStrokeSent(handle);
+				exseq_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part(handle);
 				react_main_region_sendRC5URLTextWithTouch_r1_DONE_WITH_URL(handle);
 				transitioned_after = 0;
 			} 
@@ -2470,9 +2268,9 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 			handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised = bool_true;
 			break;
 		}
-		case Statechart_Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_time_event_0:
+		case Statechart_Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_time_event_0:
 		{
-			handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised = bool_true;
+			handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised = bool_true;
 			break;
 		}
 		case Statechart_Statechart_main_region_sendGreetingText_r1_gracePeriod_time_event_0:
@@ -2483,21 +2281,6 @@ static void statechart_dispatch_event(Statechart* handle, const statechart_event
 		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_0:
 		{
 			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised = bool_true;
-			break;
-		}
-		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_time_event_0:
-		{
-			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised = bool_true;
-			break;
-		}
-		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_time_event_0:
-		{
-			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised = bool_true;
-			break;
-		}
-		case Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_time_event_0:
-		{
-			handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised = bool_true;
 			break;
 		}
 		case Statechart_Statechart_main_region_wait4RC5match_time_event_0:
@@ -2565,23 +2348,14 @@ static StatechartEventID statechart_get_timed_event_name(Statechart* handle, sc_
 	if(evid == &handle->timeEvents.statechart_main_region_sendGreetingText_tev0_raised) {
 		return Statechart_Statechart_main_region_sendGreetingText_time_event_0;
 	}
-	if(evid == &handle->timeEvents.statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_tev0_raised) {
-		return Statechart_Statechart_main_region_sendGreetingText_r1_sendGreetingKeyStroke_time_event_0;
+	if(evid == &handle->timeEvents.statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_tev0_raised) {
+		return Statechart_Statechart_main_region_sendGreetingText_r1_waitBeforeSendingNextGreetingKeystroke_time_event_0;
 	}
 	if(evid == &handle->timeEvents.statechart_main_region_sendGreetingText_r1_gracePeriod_tev0_raised) {
 		return Statechart_Statechart_main_region_sendGreetingText_r1_gracePeriod_time_event_0;
 	}
 	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_tev0_raised) {
 		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_time_event_0;
-	}
-	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_tev0_raised) {
-		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL1Part_time_event_0;
-	}
-	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_tev0_raised) {
-		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL2Part_time_event_0;
-	}
-	if(evid == &handle->timeEvents.statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_tev0_raised) {
-		return Statechart_Statechart_main_region_sendRC5URLTextWithTouch_r1_sendURL3Part_time_event_0;
 	}
 	if(evid == &handle->timeEvents.statechart_main_region_wait4RC5match_tev0_raised) {
 		return Statechart_Statechart_main_region_wait4RC5match_time_event_0;

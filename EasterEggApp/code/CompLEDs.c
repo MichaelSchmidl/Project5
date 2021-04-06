@@ -152,6 +152,8 @@ void LED_showText( char *szString )
 			}
 			/* Dispatch all events in Kernel queue */
 			Kernel_Schedule();
+	        /* Refresh the watchdog timer */
+	        Sys_Watchdog_Refresh();
 			TLC5955drv_refresh();
 			DELAY_MS( _CHAR_ANIMATION_DELAY_MS );
 			if ( n == 0 ) DELAY_MS( _CHAR_READING_DELAY_MS );

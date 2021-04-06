@@ -2104,7 +2104,7 @@
 //   <i> Defines the io mode
 //   <i> Default: DISABLED
 #ifndef RTE_GPIO12_IOMODE_DEFAULT
- #define RTE_GPIO12_IOMODE_DEFAULT   0x001
+ #define RTE_GPIO12_IOMODE_DEFAULT   0x002
 #endif
 // </e>
 // <e>GPIO 13 configure
