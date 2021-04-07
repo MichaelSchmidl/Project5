@@ -2,8 +2,8 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: EasterErrBootloader
- * RTE configuration: EasterErrBootloader.rteconfig
+ * Project: EasterEggBootloader
+ * RTE configuration: EasterEggBootloader.rteconfig
 */
 #ifndef RTE_COMPONENTS_H
 #define RTE_COMPONENTS_H

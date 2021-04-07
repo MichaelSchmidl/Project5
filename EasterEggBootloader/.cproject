@@ -340,7 +340,7 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="com.arm.cmsis.project">
-		<rteConfig name="EasterErrBootloader.rteconfig"/>
+		<rteConfig name="EasterEggBootloader.rteconfig"/>
 		<toolChainAdapter id="com.arm.cmsis.pack.build.gnuarmeclipse.toolChainAdapter" name="Cross ARM GCC Toolchain Adapter"/>
 		<device Dclock="48000000" Dcore="Cortex-M3" DcoreVersion="r2p1" Dendian="Little-endian" Dfamily="RSL10 Series" Dfpu="NO_FPU" Dmpu="NO_MPU" Dname="RSL10" Dvendor="ONSemiconductor:141" Pname=""/>
 		<files>
