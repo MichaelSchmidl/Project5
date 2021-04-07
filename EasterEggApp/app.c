@@ -22,7 +22,6 @@
 #include "RC5receiver.h"
 #include "EggLogic.h"
 
-
 DRIVER_GPIO_t *gpio;
 
 /* ----------------------------------------------------------------------------
@@ -77,7 +76,6 @@ int main(void)
 
     SystemCoreClockUpdate();
 
-#if 0
     /* Start Update when button is pressed at startup */
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_INPUT  | DIO_WEAK_PULL_UP | DIO_LPF_DISABLE | DIO_6X_DRIVE;
     if (DIO_DATA->ALIAS[RECOVERY_FOTA_DEBUG_DIO] == 0)
@@ -89,7 +87,6 @@ int main(void)
     }
     DIO->CFG[RECOVERY_FOTA_DEBUG_DIO] = DIO_MODE_GPIO_OUT_0;
 
-#endif
     /* Debug/trace initialization. In order to enable UART or RTT trace,
      *  configure the 'RSL10_DEBUG' macro in app_trace.h */
     TRACE_INIT();

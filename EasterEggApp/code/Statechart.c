@@ -1747,7 +1747,16 @@ static sc_integer main_region_sendRC5URLTextWithTouch_react(Statechart* handle, 
 			enseq_main_region_autoShutdown_default(handle);
 			react(handle, 0);
 			transitioned_after = 0;
-		} 
+		}  else
+		{
+			if (handle->iface.BLEdisconnected_raised == bool_true)
+			{ 
+				exseq_main_region_sendRC5URLTextWithTouch(handle);
+				enseq_main_region_autoShutdown_default(handle);
+				react(handle, 0);
+				transitioned_after = 0;
+			} 
+		}
 	} /* If no transition was taken then execute local reactions */
 	if ((transitioned_after) == (transitioned_before))
 	{ 

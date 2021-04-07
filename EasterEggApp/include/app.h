@@ -68,10 +68,10 @@ extern "C"
 /* ----------------------------------------------------------------------------
 * Application Version
 * ------------------------------------------------------------------------- */
-#define VER_ID                  "EEAPP "
-#define VER_MAJOR               0
+#define VER_ID                  "P5APP "
+#define VER_MAJOR               1
 #define VER_MINOR               0
-#define VER_REVISION            4
+#define VER_REVISION            0
 
 /* ----------------------------------------------------------------------------
  * Defines

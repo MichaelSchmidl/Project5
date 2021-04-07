@@ -276,8 +276,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="RTE/RTOS/FreeRTOSConfig.h|RTE/Utility/.DS_Store|RTE/.DS_Store|model|RTE/Device/RSL10/msg_handler.h|RTE/Device/RSL10/msg_handler.c|RTE/Device/RSL10/ble_l2c.h|RTE/Device/RSL10/ble_l2c.c|RTE/Device/RSL10/ble_gatt.h|RTE/Device/RSL10/ble_gatt.c|RTE/Device/RSL10/ble_gap.h|RTE/Device/RSL10/ble_gap.c|RTE/Device/RSL10/ble_diss.h|RTE/Device/RSL10/ble_diss.c|RTE/Device/RSL10/ble_dfus.h|RTE/Device/RSL10/ble_dfus.c|RTE/Device/RSL10/ble_bass.h|RTE/Device/RSL10/ble_bass.c|RTE/Device/RSL10/rsl10_protocol.c|code/app_cs.c|code/app_batt.c|profiles|profiles/dis|profiles/bas|profiles/tip|profiles/scpp|profiles/rscp|profiles/prox|profiles/pasp|profiles/lan|profiles/htp|profiles/hrp|profiles/hogp|profiles/glp|profiles/find|profiles/cscp|profiles/cpp|profiles/blp|profiles/anp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="model"/>
+						<entry excluding="RTE/Device/RSL10/msg_handler.h|RTE/Device/RSL10/msg_handler.c|RTE/Device/RSL10/ble_l2c.h|RTE/Device/RSL10/ble_l2c.c|RTE/Device/RSL10/ble_gatt.h|RTE/Device/RSL10/ble_gatt.c|RTE/Device/RSL10/ble_gap.h|RTE/Device/RSL10/ble_gap.c|RTE/Device/RSL10/ble_diss.h|RTE/Device/RSL10/ble_diss.c|RTE/Device/RSL10/ble_dfus.h|RTE/Device/RSL10/ble_dfus.c|RTE/Device/RSL10/ble_bass.h|RTE/Device/RSL10/ble_bass.c|RTE/RTOS/FreeRTOSConfig.h|RTE/Utility/.DS_Store|RTE/.DS_Store|model|RTE/Device/RSL10/rsl10_protocol.c|code/app_cs.c|code/app_batt.c|profiles|profiles/dis|profiles/bas|profiles/tip|profiles/scpp|profiles/rscp|profiles/prox|profiles/pasp|profiles/lan|profiles/htp|profiles/hrp|profiles/hogp|profiles/glp|profiles/find|profiles/cscp|profiles/cpp|profiles/blp|profiles/anp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
