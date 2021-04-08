@@ -66,8 +66,9 @@
         <outgoingTransitions xmi:id="_yP-mAG63EeuvXds0qZLUsw" specification="after generalTimeout s" target="_iMbuoGfMEeulU6gEW-Vf0A"/>
         <outgoingTransitions xmi:id="_OQpbcG64EeuvXds0qZLUsw" specification="RC5match" target="_SsTnEG67EeuvXds0qZLUsw"/>
       </vertices>
-      <vertices xsi:type="sgraph:State" xmi:id="_Kt6UgG64EeuvXds0qZLUsw" specification="entry / brailleIndex = 0" name="sendBrailleText" incomingTransitions="_YlvccG63EeuvXds0qZLUsw">
+      <vertices xsi:type="sgraph:State" xmi:id="_Kt6UgG64EeuvXds0qZLUsw" specification="entry / brailleIndex = 0" name="sendBrailleText" incomingTransitions="_YlvccG63EeuvXds0qZLUsw _cgwg4JiCEeuOVc7lNm_leg">
         <outgoingTransitions xmi:id="_wEfT8G65EeuvXds0qZLUsw" specification="brailleCharDone&#xD;&#xA;[brailleIndex >= getBrailleTextLength()]" target="_18BkgG64EeuvXds0qZLUsw"/>
+        <outgoingTransitions xmi:id="_luD98JiCEeuOVc7lNm_leg" specification="GYROtilt" target="_nkGAMG65EeuvXds0qZLUsw"/>
         <regions xmi:id="_Kt6Ug264EeuvXds0qZLUsw" name="r1">
           <vertices xsi:type="sgraph:Entry" xmi:id="_bW8jUG64EeuvXds0qZLUsw">
             <outgoingTransitions xmi:id="_hevA8G64EeuvXds0qZLUsw" specification="" target="_c7W8YG64EeuvXds0qZLUsw"/>
@@ -83,8 +84,9 @@
       <vertices xsi:type="sgraph:State" xmi:id="_18BkgG64EeuvXds0qZLUsw" specification="entry / setWatchEvent(2)" name="wait4GyroTilt" incomingTransitions="_wEfT8G65EeuvXds0qZLUsw">
         <outgoingTransitions xmi:id="_YhY2AG65EeuvXds0qZLUsw" specification="after generalTimeout s" target="_iMbuoGfMEeulU6gEW-Vf0A"/>
         <outgoingTransitions xmi:id="_6ISwoG64EeuvXds0qZLUsw" specification="GYROtilt" target="_nkGAMG65EeuvXds0qZLUsw"/>
+        <outgoingTransitions xmi:id="_cgwg4JiCEeuOVc7lNm_leg" specification="after 20 s" target="_Kt6UgG64EeuvXds0qZLUsw"/>
       </vertices>
-      <vertices xsi:type="sgraph:State" xmi:id="_nkGAMG65EeuvXds0qZLUsw" specification="entry / morseIndex = 0" name="morseRC5Hint" incomingTransitions="_6ISwoG64EeuvXds0qZLUsw">
+      <vertices xsi:type="sgraph:State" xmi:id="_nkGAMG65EeuvXds0qZLUsw" specification="entry / morseIndex = 0" name="morseRC5Hint" incomingTransitions="_6ISwoG64EeuvXds0qZLUsw _luD98JiCEeuOVc7lNm_leg">
         <outgoingTransitions xmi:id="_FjqZwI8QEeueD4dAdoxl2Q" specification="morseCharDone&#xD;&#xA;[morseIndex >= getMorseTextLength()]" target="_9m6CAG63EeuvXds0qZLUsw"/>
         <regions xmi:id="_nkGnQG65EeuvXds0qZLUsw" name="r1">
           <vertices xsi:type="sgraph:Entry" xmi:id="_9cWF4G65EeuvXds0qZLUsw">
@@ -1123,6 +1125,28 @@
       <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_ww3GcpelEeu0foIP33-4sA" points="[45, 1, -111, 576]$[339, 1, 183, 576]$[339, -574, 183, 1]$[191, -574, 35, 1]"/>
       <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_ww6JwJelEeu0foIP33-4sA" id="(0.9160447761194029,0.012444444444444444)"/>
       <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_ww6JwZelEeu0foIP33-4sA" id="(0.8167539267015707,0.8472222222222222)"/>
+    </edges>
+    <edges xmi:id="_chC0wJiCEeuOVc7lNm_leg" type="Transition" element="_cgwg4JiCEeuOVc7lNm_leg" source="_18DZsG64EeuvXds0qZLUsw" target="_Kt67kG64EeuvXds0qZLUsw">
+      <children xsi:type="notation:DecorationNode" xmi:id="_chDb0JiCEeuOVc7lNm_leg" type="TransitionExpression">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_chDb0ZiCEeuOVc7lNm_leg"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_chDb0piCEeuOVc7lNm_leg" x="-67" y="37"/>
+      </children>
+      <styles xsi:type="notation:ConnectorStyle" xmi:id="_chC0wZiCEeuOVc7lNm_leg" routing="Rectilinear" lineColor="4210752"/>
+      <styles xsi:type="notation:FontStyle" xmi:id="_chC0w5iCEeuOVc7lNm_leg" fontName="Verdana"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_chC0wpiCEeuOVc7lNm_leg" points="[-25, 19, -39, 446]$[-101, 19, -115, 446]$[-101, -132, -115, 295]$[-25, -132, -39, 295]"/>
+      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_chF4EJiCEeuOVc7lNm_leg" id="(0.13513513513513514,0.1320754716981132)"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_chF4EZiCEeuOVc7lNm_leg" id="(0.11304347826086956,0.04155124653739612)"/>
+    </edges>
+    <edges xmi:id="_luFMEJiCEeuOVc7lNm_leg" type="Transition" element="_luD98JiCEeuOVc7lNm_leg" source="_Kt67kG64EeuvXds0qZLUsw" target="_nkGnQW65EeuvXds0qZLUsw">
+      <children xsi:type="notation:DecorationNode" xmi:id="_luFzIJiCEeuOVc7lNm_leg" type="TransitionExpression">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_luFzIZiCEeuOVc7lNm_leg"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_luFzIpiCEeuOVc7lNm_leg" x="252" y="-36"/>
+      </children>
+      <styles xsi:type="notation:ConnectorStyle" xmi:id="_luFMEZiCEeuOVc7lNm_leg" routing="Rectilinear" lineColor="4210752"/>
+      <styles xsi:type="notation:FontStyle" xmi:id="_luFME5iCEeuOVc7lNm_leg" fontName="Verdana"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_luFMEpiCEeuOVc7lNm_leg" points="[-311, -179, -305, -391]$[-417, -179, -411, -391]$[-417, 343, -411, 131]$[-311, 343, -305, 131]"/>
+      <sourceAnchor xsi:type="notation:IdentityAnchor" xmi:id="_luHoUJiCEeuOVc7lNm_leg" id="(0.9014492753623189,0.9944598337950139)"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_luHoUZiCEeuOVc7lNm_leg" id="(0.9186746987951807,0.08280254777070063)"/>
     </edges>
   </notation:Diagram>
 </xmi:XMI>

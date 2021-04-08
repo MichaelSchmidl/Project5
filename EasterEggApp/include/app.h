@@ -71,7 +71,7 @@ extern "C"
 #define VER_ID                  "P5APP "
 #define VER_MAJOR               1
 #define VER_MINOR               0
-#define VER_REVISION            0
+#define VER_REVISION            2
 
 /* ----------------------------------------------------------------------------
  * Defines
