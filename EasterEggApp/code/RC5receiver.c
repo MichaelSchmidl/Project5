@@ -10,7 +10,7 @@
 #include "EggLogic.h"
 
 #define RC5_COMMAND 53 //<! PLAY
-#if 0
+#if 1
    #define RC5_DEVICE 21 //!< PLATTENSPIELER
 #else
    #warning RC5_EXPECTED_CODE is for RC400E PLAY so far
@@ -58,20 +58,18 @@ static void RC5_sampleFunc( void )
     }
     if ( MAX_RC5_SAMPLES < RC5_sampleCounter )
     {
-//    	if ( 0 != RC5_val ) // keine Ahnung warum I2C da Pulse erzeugt am Pin
-    	{
-        	PRINTF("RC5=%04X ",  RC5_val & RC5_MASK);
-        	// we have now our RC5 data
-        	if ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) )
-        	{
-            	PRINTF("match\r\n");
-            	_match = 1;
-        	}
-        	else
-        	{
-            	PRINTF("\r\n");
-        	}
-    	}
+		PRINTF("RC5=%04X ",  RC5_val & RC5_MASK);
+		// we have now our RC5 data
+		if ( ( RC5_EXPECTED_CODE == (RC5_val & RC5_MASK) ) ||
+		     ( 0x31B5 == (RC5_val & RC5_MASK) ) ) // LOEWE PLAY
+		{
+			PRINTF("match\r\n");
+			_match = 1;
+		}
+		else
+		{
+			PRINTF("\r\n");
+		}
 
     	// restart sampling
 		Sys_Timers_Stop( SELECT_TIMER0 );
