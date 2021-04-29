@@ -24,6 +24,9 @@
 
 DRIVER_GPIO_t *gpio;
 
+// Prototype for HardFault Handler defined in STARTUP assembly code
+void HardFault_Handler(void);
+
 /* ----------------------------------------------------------------------------
  * Application Version
  * ------------------------------------------------------------------------- */

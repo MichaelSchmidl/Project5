@@ -26,13 +26,21 @@ struct Statechart eggStatechart;
 static sc_timer_t timers[MAX_TIMERS];
 static sc_timer_service_t timer_service;
 
-const char szBrailleText[] = "bild drehen ";
+const char szBrailleText[] = "starte Plattenspieler Release Candidate 5";
 uint8_t bBrailleCharDone = 0;
 
-const char szMorseText[] = "starte Plattenspieler Release Candidate 5";
+const char szMorseText[] = "bild drehen ";
 uint8_t bMorseCharDone = 0;
 
-static uint8_t gWatchEvent = 0; // 0=none, 1=Touch, 2=GYRO, 3=RC5
+const char szFinalURLtext[] = " oliverolschewski.markus-kail.de  ";
+
+typedef enum {
+	eWatchEventNONE = 0,
+	eWatchEventTOUCH = 1,
+	eWatchEventGYRO = 2,
+	eWatchEventRC5 = 3
+}eWatchEvent_t;
+static eWatchEvent_t gWatchEvent = eWatchEventNONE;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -424,14 +432,14 @@ void EggLogic_RC5match( void )
 
 void statechart_showLaufschrift( Statechart* handle)
 {
-	LED_showText(" oliverolschewski.markus-kail.de  ");
+	LED_showText( szFinalURLtext );
 }
 
 
 void statechart_setWatchEvent(Statechart* handle, const sc_integer which )
 {
-	gWatchEvent = which;
-	if ( 3 == which )
+	gWatchEvent = (eWatchEvent_t)which;
+	if ( eWatchEventRC5 == which )
 	{
 	    NVIC_EnableIRQ(DIO1_IRQn);
 	}
@@ -448,7 +456,7 @@ static void _updateGyroAndTouchInfo( void )
 	}
 
     static GRYRO_Orientation_t lastGyroState = 0xFF;
-    if ( 2 == gWatchEvent )
+    if ( eWatchEventGYRO == gWatchEvent )
     {
     	GRYRO_Orientation_t gyro = GYRO_getOrientation();
     	if ( gyro != lastGyroState )
@@ -461,7 +469,7 @@ static void _updateGyroAndTouchInfo( void )
     }
 
 	static uint8_t lastTouchState = 0;
-	if ( 1 == gWatchEvent )
+	if ( eWatchEventTOUCH == gWatchEvent )
 	{
 		uint8_t touch = PCF8574_read() & 0x07;
 		if ( touch != lastTouchState )

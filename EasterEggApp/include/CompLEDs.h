@@ -73,7 +73,7 @@
 void LED_setBLEconnectedIndicator( uint16_t On );
 void LED_setBLEADVIndicator( uint16_t On );
 void LED_renderGlyph( char c );
-void LED_showText( char *szString );
+void LED_showText( const char *szString );
 void LED_setDbgLed( tlcPort which, uint16_t brightness );
 void LED_setGYROIndicator( GRYRO_Orientation_t orientation );
 

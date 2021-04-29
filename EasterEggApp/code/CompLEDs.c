@@ -127,7 +127,7 @@ static void _renderGlyph( char c, int xPos, int glyphShiftLeft );
  *
  **************************************************************************************************************************************************************/
 #define _CHARACTER_GAP 1
-void LED_showText( char *szString )
+void LED_showText( const char *szString )
 {
     PRINTF("%s(%s)\r\n", __func__, szString);
 
