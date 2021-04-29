@@ -76,7 +76,7 @@
           <vertices xsi:type="sgraph:State" xmi:id="_2n5wQJOdEeuOKNU4UBqkig" name="wait4BrailleCharRead" incomingTransitions="_8qPtMJOdEeuOKNU4UBqkig">
             <outgoingTransitions xmi:id="_6RUG8JOdEeuOKNU4UBqkig" specification="after 1000 ms" target="_c7W8YG64EeuvXds0qZLUsw"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_18BkgG64EeuvXds0qZLUsw" specification="entry / setWatchEvent(2)" name="wait4GyroTilt" incomingTransitions="_wEfT8G65EeuvXds0qZLUsw">
+          <vertices xsi:type="sgraph:State" xmi:id="_18BkgG64EeuvXds0qZLUsw" specification="entry / setWatchEvent(3)" name="wait4RC5" incomingTransitions="_wEfT8G65EeuvXds0qZLUsw">
             <outgoingTransitions xmi:id="_cgwg4JiCEeuOVc7lNm_leg" specification="after 30 s /&#xD;&#xA;brailleIndex = 0" target="_c7W8YG64EeuvXds0qZLUsw"/>
           </vertices>
         </regions>
@@ -95,7 +95,7 @@
           <vertices xsi:type="sgraph:State" xmi:id="_QuGDYG66EeuvXds0qZLUsw" name="wait4MoseCharRead" incomingTransitions="_U4ZgoG66EeuvXds0qZLUsw">
             <outgoingTransitions xmi:id="_u0R-YG67EeuvXds0qZLUsw" specification="after 500 ms" target="_-QHsMG65EeuvXds0qZLUsw"/>
           </vertices>
-          <vertices xsi:type="sgraph:State" xmi:id="_NcJY4Kg-EeuiAIzEOK9a7Q" specification="entry / setWatchEvent(3)" name="wait4RC5" incomingTransitions="_06GJ8Kg-Eeuu6KTJ5MUPxQ">
+          <vertices xsi:type="sgraph:State" xmi:id="_NcJY4Kg-EeuiAIzEOK9a7Q" specification="entry / setWatchEvent(2)" name="wait4Tilt" incomingTransitions="_06GJ8Kg-Eeuu6KTJ5MUPxQ">
             <outgoingTransitions xmi:id="_ILTU4Kg_Eeuu6KTJ5MUPxQ" specification="after 30 s / &#xD;&#xA;morseIndex = 0" target="_-QHsMG65EeuvXds0qZLUsw"/>
           </vertices>
         </regions>

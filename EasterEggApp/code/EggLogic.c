@@ -26,10 +26,10 @@ struct Statechart eggStatechart;
 static sc_timer_t timers[MAX_TIMERS];
 static sc_timer_service_t timer_service;
 
-const char szBrailleText[] = "starte Plattenspieler Release Candidate 5";
+const char szBrailleText[] = "starte Plattenspieler Release Candidate 5 ";
 uint8_t bBrailleCharDone = 0;
 
-const char szMorseText[] = "bild drehen ";
+const char szMorseText[] = "bild drehen";
 uint8_t bMorseCharDone = 0;
 
 const char szFinalURLtext[] = " oliverolschewski.markus-kail.de  ";
