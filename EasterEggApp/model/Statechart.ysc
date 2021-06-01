@@ -30,7 +30,7 @@
           </vertices>
         </regions>
       </vertices>
-      <vertices xsi:type="sgraph:State" xmi:id="_vkDAMGsSEeuGt7yWPobuvA" specification="entry / &#xD;&#xA;url1Index = 0; &#xD;&#xA;url2Index = 0;&#xD;&#xA;url3Index = 0" name="sendRC5URLTextWithTouch" incomingTransitions="_zYDn4GsTEeuGt7yWPobuvA">
+      <vertices xsi:type="sgraph:State" xmi:id="_vkDAMGsSEeuGt7yWPobuvA" specification="entry / &#xD;&#xA;url1Index = 0; &#xD;&#xA;url2Index = 0;&#xD;&#xA;url3Index = 0" name="sendBrailleURLTextWithTouch" incomingTransitions="_zYDn4GsTEeuGt7yWPobuvA">
         <outgoingTransitions xmi:id="_BiOnkGsUEeuGt7yWPobuvA" specification="after generalTimeout s" target="_iMbuoGfMEeulU6gEW-Vf0A"/>
         <outgoingTransitions xmi:id="_YlvccG63EeuvXds0qZLUsw" specification="# DONE_WITH_URL >" target="_nkGAMG65EeuvXds0qZLUsw"/>
         <outgoingTransitions xmi:id="_wwujkJelEeu0foIP33-4sA" specification="BLEdisconnected" target="_iMbuoGfMEeulU6gEW-Vf0A"/>
